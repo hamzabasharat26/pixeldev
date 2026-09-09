@@ -20,7 +20,10 @@ export function Marquee({
 }) {
   return (
     <div
-      className={cn("marquee-root group overflow-hidden", className)}
+      className={cn(
+        "marquee-root group overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]",
+        className,
+      )}
       role="marquee"
       aria-label={ariaLabel}
     >

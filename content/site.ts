@@ -43,14 +43,26 @@ export const site = {
   ],
 
   /**
-   * Proof band — outcomes we can point to. Reframed around real work rather
-   * than invented percentages.
-   * TODO(owner): confirm the RallyLens / MagicQC figures before launch.
+   * Proof band — claims we can defend today. Each maps to something visible in
+   * the RallyLens / MagicQC case studies.
+   * TODO(owner): add a real before/after outcome (e.g. "+40% inquiries") once a
+   * client will let you publish it.
    */
   proof: [
-    { value: "<40ms", label: "per-frame latency in the RallyLens tracking pipeline" },
-    { value: "7 POMs", label: "measured live per garment in MagicQC, against brand tolerances" },
-    { value: "1 team", label: "owns design, build and deployment on every project" },
+    {
+      value: "1 camera",
+      label:
+        "RallyLens tracks ball speed, bounces and wall-target accuracy from a single phone-grade camera",
+    },
+    {
+      value: "7 POMs",
+      label:
+        "measured against each brand's tolerance table, live on the MagicQC line",
+    },
+    {
+      value: "1 team",
+      label: "owns design, build and deployment on every project we take",
+    },
   ],
 
   social: {

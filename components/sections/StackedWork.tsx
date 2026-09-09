@@ -126,7 +126,9 @@ function AnimatedStack({ projects }: { projects: Project[] }) {
 export function StackedWork({ projects }: { projects: Project[] }) {
   const reduce = useReducedMotion();
   const desktop = useIsDesktop();
-  const animated = desktop && !reduce;
+  // The deck only earns its scroll distance with 3+ cards; below that, a plain
+  // stack reads better. Add a third featured project and the deck turns on.
+  const animated = desktop && !reduce && projects.length >= 3;
 
   return (
     <section className="on-dark section-y">
@@ -143,7 +145,7 @@ export function StackedWork({ projects }: { projects: Project[] }) {
       {animated ? (
         <AnimatedStack projects={projects} />
       ) : (
-        <div className="container-page mt-8 flex flex-col gap-8">
+        <div className="container-page mt-8 flex flex-col gap-6">
           {projects.map((project) => (
             <CardBody key={project.slug} project={project} />
           ))}
