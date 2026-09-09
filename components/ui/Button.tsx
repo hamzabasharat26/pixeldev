@@ -5,8 +5,9 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "secondary" | "ghostLight" | "ghostDark";
 type Size = "md" | "lg";
 
+// Focus ring comes from the global :focus-visible rule in globals.css.
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[10px] font-medium transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 disabled:opacity-50 disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-2 rounded-[10px] font-medium transition-colors duration-200 disabled:opacity-50 disabled:pointer-events-none";
 
 const variants: Record<Variant, string> = {
   // Amber fill takes navy text, never white (brief §4.1).

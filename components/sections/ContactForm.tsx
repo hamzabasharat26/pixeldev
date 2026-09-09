@@ -134,7 +134,7 @@ export function ContactForm() {
             onChange={(e) =>
               setValues((s) => ({ ...s, message: e.target.value }))
             }
-            className="rounded-md border border-grey-300 px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700"
+            className="rounded-md border border-grey-300 px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy"
           />
           {errFor("message") && (
             <p id={`${messageId}-err`} className="text-sm text-error">
@@ -210,7 +210,7 @@ function Field({
         aria-describedby={error ? `${id}-err` : undefined}
         onBlur={onBlur}
         onChange={onChange ? (e) => onChange(e.target.value) : undefined}
-        className="rounded-md border border-grey-300 px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700"
+        className="rounded-md border border-grey-300 px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy"
       />
       {error && (
         <p id={`${id}-err`} className="text-sm text-error">
@@ -240,7 +240,7 @@ function SelectField({
         id={id}
         name={name}
         defaultValue=""
-        className="rounded-md border border-grey-300 bg-white px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700"
+        className="rounded-md border border-grey-300 bg-white px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy"
       >
         <option value="" disabled>
           Select…
