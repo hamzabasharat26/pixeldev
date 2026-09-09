@@ -1,69 +1,157 @@
-import Image from "next/image";
+import Hero from "@/components/Hero";
+import WorkStrip from "@/components/WorkStrip";
+import ProcessSection from "@/components/ProcessSection";
+import FAQ from "@/components/FAQ";
+import ContactBlock from "@/components/ContactBlock";
+import MetricCounter from "@/components/MetricCounter";
+import Reveal from "@/components/Reveal";
+import Link from "next/link";
+import { projects } from "@/content/projects";
+import ClipPlayer from "@/components/ClipPlayer";
+import ClientLogos from "@/components/ClientLogos";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
+
+const featuredDeployed = projects.find(p => p.featured && p.deployed) || projects[0];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <Hero />
+      <ClientLogos />
+      
+      {/* Trust Strip */}
+      <section className="max-w-layout py-12 border-t border-line">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <Reveal delay={0.1} variant="flip">
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-1">
+                <MetricCounter endValue={12} />
+              </div>
+              <span className="text-sm text-muted mt-2">Projects shipped and still running</span>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2} variant="flip">
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-1">
+                <MetricCounter endValue={4} />
+              </div>
+              <span className="text-sm text-muted mt-2">Systems currently in production</span>
+            </div>
+          </Reveal>
+          <Reveal delay={0.3} variant="flip">
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-1">
+                <MetricCounter endValue={2} />
+                <span className="metric text-2xl">hr</span>
+              </div>
+              <span className="text-sm text-muted mt-2">Average first reply time</span>
+            </div>
+          </Reveal>
+          <Reveal delay={0.4} variant="flip">
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-1">
+                <MetricCounter endValue={3} />
+              </div>
+              <span className="text-sm text-muted mt-2">Client timezones supported</span>
+            </div>
+          </Reveal>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <WorkStrip />
+
+      {/* Services */}
+      <section className="max-w-layout py-24">
+        <Reveal variant="scale">
+          <h2 className="mb-12">What we build</h2>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Service 1: Computer Vision */}
+          <Reveal delay={0.1} variant="scale">
+            <div className="bg-white p-8 rounded border border-line h-full flex flex-col group hover:shadow-xl hover:border-signal/50 transition-all duration-300">
+              <h3 className="mb-2 group-hover:text-signal transition-colors">Computer Vision</h3>
+              <p className="font-semibold mb-4">Software that sees like you do.</p>
+              <p className="text-ink/80 mb-6 flex-grow">
+                We build models to detect defects on fast-moving assembly lines, count items accurately, and measure dimensions without physical contact. Using YOLO architectures and PyTorch, optimized with TensorRT to run smoothly on edge devices like Jetson Orin.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-8">
+                <span className="mono-tag bg-paper px-2 py-1 rounded">PyTorch</span>
+                <span className="mono-tag bg-paper px-2 py-1 rounded">TensorRT</span>
+                <span className="mono-tag bg-paper px-2 py-1 rounded">OpenCV</span>
+              </div>
+              <Link href="/work?filter=Manufacturing" className="text-signal font-semibold hover:underline underline-offset-4 w-fit mt-auto">
+                See vision projects
+              </Link>
+            </div>
+          </Reveal>
+          
+          {/* Service 2: Web Platforms & Automation */}
+          <Reveal delay={0.2} variant="scale">
+            <div className="bg-white p-8 rounded border border-line h-full flex flex-col group hover:shadow-xl hover:border-signal/50 transition-all duration-300">
+              <h3 className="mb-2 group-hover:text-signal transition-colors">Web Platforms & Automation</h3>
+              <p className="font-semibold mb-4">Dashboards that make sense of the data.</p>
+              <p className="text-ink/80 mb-6 flex-grow">
+                We build secure, real-time web applications to monitor your factory floor, aggregate data across multiple edge nodes, and trigger alerts. Built with Next.js and WebSockets for low-latency streaming of video and metrics directly to your browser.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-8">
+                <span className="mono-tag bg-paper px-2 py-1 rounded">Next.js</span>
+                <span className="mono-tag bg-paper px-2 py-1 rounded">WebSockets</span>
+                <span className="mono-tag bg-paper px-2 py-1 rounded">PostgreSQL</span>
+              </div>
+              <Link href="/work" className="text-signal font-semibold hover:underline underline-offset-4 w-fit mt-auto">
+                See platform projects
+              </Link>
+            </div>
+          </Reveal>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <TestimonialCarousel />
+
+      <ProcessSection />
+
+      {/* Featured Case Study */}
+      <section className="max-w-layout py-24">
+        <Reveal>
+          <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 border-b border-line pb-4">
+            <div>
+              <span className="mono-tag text-signal mb-2 block">FEATURED_DEPLOYMENT</span>
+              <h2>{featuredDeployed.name}</h2>
+            </div>
+            <Link href={`/work/${featuredDeployed.slug}`} className="bg-line/30 text-ink px-4 py-2 rounded hover:bg-line/50 transition-colors font-semibold text-sm whitespace-nowrap">
+              Read case study
+            </Link>
+          </div>
+        </Reveal>
+        
+        <Reveal delay={0.1} variant="scale">
+          <div className="bg-white border border-line p-2 rounded hover:shadow-2xl transition-shadow duration-500">
+            <div className="aspect-video relative rounded overflow-hidden">
+              <ClipPlayer clip={featuredDeployed.clip} poster={featuredDeployed.poster} />
+            </div>
+            <div className="p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+              <div className="max-w-xl">
+                <p className="text-lg text-ink/90 font-medium mb-2">{featuredDeployed.line}</p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  <span className="mono-tag bg-paper px-2 py-1 rounded">{featuredDeployed.industry}</span>
+                  <span className="mono-tag bg-paper px-2 py-1 rounded">{featuredDeployed.duration}</span>
+                </div>
+              </div>
+              <div className="border-l-4 border-signal pl-6">
+                <div className="text-4xl md:text-5xl font-bricolage font-bold text-signal mb-1">
+                  {featuredDeployed.metric}
+                </div>
+                <div className="text-sm text-muted uppercase tracking-wider font-semibold">
+                  Result achieved
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
+      <FAQ />
+      <ContactBlock />
+    </>
   );
 }
