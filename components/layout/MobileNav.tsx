@@ -1,3 +1,4 @@
+import { useLenis } from "lenis/react";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { primaryNav, site } from "@/content/site";
@@ -16,12 +17,15 @@ export function MobileNav({
   onClose: () => void;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const lenis = useLenis();
 
   useEffect(() => {
     if (!open) return;
 
     const previouslyFocused = document.activeElement as HTMLElement | null;
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    lenis?.stop();
 
     const panel = panelRef.current;
     const focusables = panel?.querySelectorAll<HTMLElement>(
@@ -49,10 +53,12 @@ export function MobileNav({
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+      lenis?.start();
       previouslyFocused?.focus?.();
     };
-  }, [open, onClose]);
+  }, [open, onClose, lenis]);
 
   return (
     <div

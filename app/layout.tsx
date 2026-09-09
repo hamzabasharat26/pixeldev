@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
+  // Per-page canonicals are set by each page's own metadata (lib/seo.pageMetadata).
 };
 
 export const viewport: Viewport = {

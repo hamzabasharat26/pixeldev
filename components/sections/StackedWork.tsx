@@ -33,8 +33,9 @@ function CardBody({ project }: { project: Project }) {
         poster={project.media.poster}
         webm={project.media.webm}
         mp4={project.media.mp4}
-        alt={`${project.title} — ${project.summary}`}
+        alt={`${project.title}: ${project.summary}`}
         aspect="16 / 10"
+        sizes="(min-width: 768px) 512px, 100vw"
       />
 
       <div>

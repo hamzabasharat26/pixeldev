@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { primaryNav, site } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { LinkButton } from "@/components/ui/Button";
@@ -25,7 +25,7 @@ export function Header() {
   // no effect / no setState-in-effect.
   const [menuOpenAt, setMenuOpenAt] = useState<string | null>(null);
   const menuOpen = menuOpenAt === pathname;
-  const closeMenu = () => setMenuOpenAt(null);
+  const closeMenu = useCallback(() => setMenuOpenAt(null), []);
   const toggleMenu = () =>
     setMenuOpenAt((cur) => (cur === pathname ? null : pathname));
 

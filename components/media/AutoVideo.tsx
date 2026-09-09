@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -7,19 +8,21 @@ type AutoVideoProps = {
   poster: string;
   webm?: string;
   mp4?: string;
-  /** Decorative alt for the poster fallback. */
+  /** Alt text for the still image. */
   alt: string;
-  /** e.g. "16 / 9" — required to reserve space and prevent layout shift. */
+  /** e.g. "16 / 9" — reserves space and prevents layout shift. */
   aspect: string;
+  /** next/image sizes hint for the still. */
+  sizes?: string;
   className?: string;
   rounded?: boolean;
-  /** Above-the-fold media — load the poster eagerly for LCP. */
+  /** Above-the-fold media — load the still eagerly for LCP. */
   priority?: boolean;
 };
 
 /**
- * Muted looping background video. Plays only while on screen; falls back to the
- * poster image entirely under prefers-reduced-motion.
+ * Muted looping background video where one is supplied; otherwise an optimized
+ * still. Video plays only while on screen and never under prefers-reduced-motion.
  */
 export function AutoVideo({
   poster,
@@ -27,6 +30,7 @@ export function AutoVideo({
   mp4,
   alt,
   aspect,
+  sizes = "100vw",
   className,
   rounded = true,
   priority = false,
@@ -46,14 +50,10 @@ export function AutoVideo({
   useEffect(() => {
     const el = ref.current;
     if (!el || reduce || !hasVideo) return;
-
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          el.play().catch(() => {});
-        } else {
-          el.pause();
-        }
+        if (entry.isIntersecting) el.play().catch(() => {});
+        else el.pause();
       },
       { threshold: 0.25 },
     );
@@ -67,36 +67,34 @@ export function AutoVideo({
     className,
   );
 
-  if (reduce || !hasVideo) {
-    return (
-      <div className={box} style={{ aspectRatio: aspect }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={poster}
-          alt={alt}
-          className="h-full w-full object-cover"
-          loading={priority ? "eager" : "lazy"}
-          fetchPriority={priority ? "high" : "auto"}
-        />
-      </div>
-    );
-  }
+  const showVideo = hasVideo && !reduce;
 
   return (
     <div className={box} style={{ aspectRatio: aspect }}>
-      <video
-        ref={ref}
-        poster={poster}
-        muted
-        loop
-        playsInline
-        preload="none"
-        aria-hidden="true"
-        className="h-full w-full object-cover"
-      >
-        {webm && <source src={webm} type="video/webm" />}
-        {mp4 && <source src={mp4} type="video/mp4" />}
-      </video>
+      {showVideo ? (
+        <video
+          ref={ref}
+          poster={poster}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          className="h-full w-full object-cover"
+        >
+          {webm && <source src={webm} type="video/webm" />}
+          {mp4 && <source src={mp4} type="video/mp4" />}
+        </video>
+      ) : (
+        <Image
+          src={poster}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover"
+        />
+      )}
     </div>
   );
 }

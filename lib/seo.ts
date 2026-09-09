@@ -30,7 +30,8 @@ export function pageMetadata({
   const url = `${SITE_ORIGIN}${canonical === "/" ? "" : canonical}`;
 
   return {
-    title,
+    // Omit entirely when not given, so the layout's title.default survives.
+    ...(title ? { title } : {}),
     description,
     alternates: { canonical },
     openGraph: {
@@ -61,7 +62,8 @@ export function organizationJsonLd() {
     url: SITE_ORIGIN,
     email: site.email,
     telephone: "+92304070719",
-    logo: `${SITE_ORIGIN}/opengraph-image`,
+    logo: `${SITE_ORIGIN}/icon.svg`,
+    image: `${SITE_ORIGIN}/opengraph-image`,
     description: site.positioning,
     address: {
       "@type": "PostalAddress",

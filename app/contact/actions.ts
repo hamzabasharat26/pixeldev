@@ -70,6 +70,7 @@ export async function submitContact(
   const company = clipLine(formData.get("company"), 160);
   const budget = clipLine(formData.get("budget"), 40);
   const service = clipLine(formData.get("service"), 60);
+  const consent = formData.get("consent") === "on";
 
   const fieldErrors: ContactState["fieldErrors"] = {};
   if (!name) fieldErrors.name = "Please enter your name.";
@@ -79,6 +80,12 @@ export async function submitContact(
     fieldErrors.message = "Please tell us a little about the project.";
   if (Object.keys(fieldErrors).length > 0) {
     return { status: "error", fieldErrors };
+  }
+  if (!consent) {
+    return {
+      status: "error",
+      message: "Please tick the box to agree we can contact you about this enquiry.",
+    };
   }
 
   const safeBudget = isBudget(budget) ? budget : "Not specified";

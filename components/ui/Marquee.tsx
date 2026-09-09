@@ -26,13 +26,18 @@ export function Marquee({
       )}
     >
       <ul
-        className="marquee-track m-0 list-none gap-12 p-0"
+        className="marquee-track m-0 list-none p-0"
         data-direction={direction}
         style={{ ["--marquee-duration" as string]: `${durationSeconds}s` }}
         aria-label={ariaLabel}
       >
-        <li className="flex shrink-0 items-center gap-12">{children}</li>
-        <li className="flex shrink-0 items-center gap-12" aria-hidden="true">
+        {/* Two identical copies, each carrying its own trailing gap, so the
+            -50% translate wraps seamlessly. */}
+        <li className="flex shrink-0 items-center gap-12 pe-12">{children}</li>
+        <li
+          className="flex shrink-0 items-center gap-12 pe-12"
+          aria-hidden="true"
+        >
           {children}
         </li>
       </ul>

@@ -216,11 +216,17 @@ export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);
 }
 
-export const projectCategories: ("All" | ProjectCategory)[] = [
-  "All",
+/** Filter options for /work — "All" plus every category actually in use. */
+const CATEGORY_ORDER: ProjectCategory[] = [
   "Web",
   "Mobile",
   "AI",
   "Computer Vision",
   "E-commerce",
+  "UI/UX",
+];
+
+export const projectCategories: ("All" | ProjectCategory)[] = [
+  "All",
+  ...CATEGORY_ORDER.filter((c) => projects.some((p) => p.category === c)),
 ];

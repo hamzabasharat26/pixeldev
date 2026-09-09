@@ -24,13 +24,16 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  return pageMetadata({
+  const meta = pageMetadata({
     title: project.title,
     description: `${project.summary} ${project.outcome.value} ${project.outcome.label}.`,
     path: `/work/${slug}`,
     ogImage: project.media.cover,
     ogType: "article",
   });
+  // Placeholder entries are previewable at their URL but must not be indexed.
+  if (project.placeholder) meta.robots = { index: false, follow: false };
+  return meta;
 }
 
 const SECTIONS = [
@@ -110,8 +113,9 @@ export default async function CaseStudyPage({
             poster={project.media.poster}
             webm={project.media.webm}
             mp4={project.media.mp4}
-            alt={`${project.title} — ${project.summary}`}
+            alt={`${project.title}: ${project.summary}`}
             aspect="16 / 9"
+            sizes="(min-width: 1280px) 1216px, 100vw"
             priority
           />
         </div>

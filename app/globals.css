@@ -94,16 +94,25 @@
     color: var(--color-navy);
   }
 
-  :focus-visible {
-    outline: 2px solid var(--color-amber);
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
-
   a {
     color: inherit;
     text-decoration: none;
   }
+}
+
+/* Focus ring — unlayered so it wins over utilities. amber-700 clears 3:1
+   non-text contrast on the light ground, on navy, and on the dark surfaces
+   (the 2px outline-offset keeps it off amber-filled buttons). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-amber-700);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 /* ============================================================

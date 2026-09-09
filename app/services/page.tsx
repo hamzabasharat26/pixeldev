@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { services } from "@/content/services";
-import { faqs } from "@/content/faq";
-import { faqJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
+import { pageMetadata, serviceJsonLd } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { LinkButton } from "@/components/ui/Button";
@@ -24,16 +23,13 @@ export default function ServicesPage() {
   return (
     <>
       <JsonLd
-        data={[
-          ...serviceJsonLd(
-            services.map((s) => ({
-              title: s.title,
-              summary: s.summary,
-              slug: s.slug,
-            })),
-          ),
-          faqJsonLd(faqs),
-        ]}
+        data={serviceJsonLd(
+          services.map((s) => ({
+            title: s.title,
+            summary: s.summary,
+            slug: s.slug,
+          })),
+        )}
       />
 
       <PageHero
