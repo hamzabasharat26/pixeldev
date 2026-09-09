@@ -1,7 +1,9 @@
 # Pixel Dev Solutions — Website Rebuild Design Spec
 
 Date: 2026-09-09
-Status: approved (build in progress)
+Status: built. All 6 phases complete + a code-review pass. `npm run build`
+and `npm run lint` clean; axe-core WCAG 2.1 A/AA reports 0 violations on every
+page. Remaining owner tasks are listed in `HANDOVER.md` and `README.md`.
 Source of truth for scope: `CLAUDE_CODE_BRIEF.md` + `WEBSITE_CONTENT.md` (pasted by owner).
 This doc records only the **reconciliation decisions** on top of that brief — where
 reality (existing repo, supplied assets, new facts) diverges from the written brief.
