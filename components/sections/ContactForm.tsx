@@ -4,24 +4,8 @@ import { useActionState, useId, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { site } from "@/content/site";
 import { submitContact, type ContactState } from "@/app/contact/actions";
+import { BUDGETS, SERVICES } from "@/app/contact/options";
 import { Button } from "@/components/ui/Button";
-
-const BUDGETS = [
-  "Under $2,000",
-  "$2,000–$5,000",
-  "$5,000–$15,000",
-  "$15,000+",
-  "Not sure yet",
-];
-const SERVICES = [
-  "Web Development",
-  "Mobile App",
-  "AI & Automation",
-  "Computer Vision",
-  "UI/UX Design",
-  "Cloud & DevOps",
-  "Something else",
-];
 
 const initial: ContactState = { status: "idle" };
 
@@ -244,7 +228,7 @@ function SelectField({
 }: {
   name: string;
   label: string;
-  options: string[];
+  options: readonly string[];
 }) {
   const id = useId();
   return (

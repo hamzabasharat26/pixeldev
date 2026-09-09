@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 
-export const METADATA_BASE = new URL(site.url);
+/** content/site.ts is the default; NEXT_PUBLIC_SITE_URL overrides it per env. */
+export const SITE_ORIGIN = (
+  process.env.NEXT_PUBLIC_SITE_URL || site.url
+).replace(/\/$/, "");
+
+export const METADATA_BASE = new URL(SITE_ORIGIN);
 
 type PageMetaInput = {
   title?: string;
@@ -22,7 +27,7 @@ export function pageMetadata({
   ogType = "website",
 }: PageMetaInput): Metadata {
   const canonical = path === "/" ? "/" : path.replace(/\/$/, "");
-  const url = `${site.url}${canonical === "/" ? "" : canonical}`;
+  const url = `${SITE_ORIGIN}${canonical === "/" ? "" : canonical}`;
 
   return {
     title,
@@ -53,10 +58,10 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: site.name,
-    url: site.url,
+    url: SITE_ORIGIN,
     email: site.email,
     telephone: "+92304070719",
-    logo: `${site.url}/opengraph-image`,
+    logo: `${SITE_ORIGIN}/opengraph-image`,
     description: site.positioning,
     address: {
       "@type": "PostalAddress",
@@ -73,7 +78,7 @@ export function websiteJsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: site.name,
-    url: site.url,
+    url: SITE_ORIGIN,
   };
 }
 
@@ -85,8 +90,8 @@ export function serviceJsonLd(
     "@type": "Service",
     serviceType: s.title,
     description: s.summary,
-    provider: { "@type": "Organization", name: site.name, url: site.url },
-    url: `${site.url}/services#${s.slug}`,
+    provider: { "@type": "Organization", name: site.name, url: SITE_ORIGIN },
+    url: `${SITE_ORIGIN}/services#${s.slug}`,
   }));
 }
 
@@ -103,9 +108,9 @@ export function creativeWorkJsonLd(project: {
     name: project.title,
     abstract: project.summary,
     dateCreated: String(project.year),
-    image: `${site.url}${project.cover}`,
-    url: `${site.url}/work/${project.slug}`,
-    creator: { "@type": "Organization", name: site.name, url: site.url },
+    image: `${SITE_ORIGIN}${project.cover}`,
+    url: `${SITE_ORIGIN}/work/${project.slug}`,
+    creator: { "@type": "Organization", name: site.name, url: SITE_ORIGIN },
   };
 }
 
@@ -117,7 +122,7 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: `${site.url}${item.path}`,
+      item: `${SITE_ORIGIN}${item.path}`,
     })),
   };
 }

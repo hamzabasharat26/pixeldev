@@ -36,7 +36,7 @@ export function ProjectCard({
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <div className="text-data flex items-center gap-2 text-xs text-grey-500">
+        <div className="text-data flex items-center gap-2 text-xs text-grey-400">
           <span className="text-amber-300">{project.category}</span>
           <span aria-hidden="true">·</span>
           <span>{project.year}</span>
@@ -48,7 +48,9 @@ export function ProjectCard({
         </p>
 
         <p className="text-data mt-4 text-sm text-grey-300">
-          <span className="font-semibold text-amber">{project.outcome.value}</span>{" "}
+          <span className="font-semibold text-amber-300">
+            {project.outcome.value}
+          </span>{" "}
           {project.outcome.label}
         </p>
 

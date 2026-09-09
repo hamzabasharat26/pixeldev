@@ -3,7 +3,12 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { site } from "@/content/site";
-import { METADATA_BASE, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
+import {
+  METADATA_BASE,
+  SITE_ORIGIN,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { Header } from "@/components/layout/Header";
@@ -54,7 +59,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: site.name,
     locale: "en_US",
-    url: site.url,
+    url: SITE_ORIGIN,
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },

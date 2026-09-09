@@ -81,7 +81,7 @@ export default async function CaseStudyPage({
 
           <h1 className="text-h1 mt-6 max-w-3xl text-navy">{project.title}</h1>
           <p className="text-body-lg mt-4 max-w-2xl text-grey-700">
-            <span className="font-semibold text-amber-700">
+            <span className="font-semibold text-navy">
               {project.outcome.value}
             </span>{" "}
             {project.outcome.label}.
@@ -112,6 +112,7 @@ export default async function CaseStudyPage({
             mp4={project.media.mp4}
             alt={`${project.title} — ${project.summary}`}
             aspect="16 / 9"
+            priority
           />
         </div>
       </article>

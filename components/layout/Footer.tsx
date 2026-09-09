@@ -13,7 +13,7 @@ export function Footer() {
 
         {(["Services", "Company"] as const).map((col) => (
           <nav key={col} aria-label={col} className="flex flex-col gap-3">
-            <p className="text-eyebrow text-grey-500">{col}</p>
+            <p className="text-eyebrow text-grey-400">{col}</p>
             {footerNav[col].map((item) => (
               <Link
                 key={item.href}
@@ -27,7 +27,7 @@ export function Footer() {
         ))}
 
         <div className="flex flex-col gap-3">
-          <p className="text-eyebrow text-grey-500">Get in touch</p>
+          <p className="text-eyebrow text-grey-400">Get in touch</p>
           <a
             href={`mailto:${site.email}`}
             className="text-sm text-grey-300 hover:text-white"
@@ -57,7 +57,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-surface-border">
-        <div className="container-page flex flex-col gap-3 py-6 text-xs text-grey-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-3 py-6 text-xs text-grey-400 sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} {site.name}. All rights reserved.</p>
           <nav aria-label="Legal" className="flex gap-5">
             {footerNav.Legal.map((item) => (

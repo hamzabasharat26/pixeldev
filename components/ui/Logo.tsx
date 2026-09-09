@@ -38,16 +38,16 @@ export function Logo({
   className,
 }: LogoProps) {
   const wordColor = variant === "dark" ? "text-navy" : "text-grey-50";
+  // Brand amber fails contrast as small text on white; use the text-safe amber
+  // for the light-background lockup (brief §4.1).
+  const accent = variant === "dark" ? "text-amber-700" : "text-amber";
 
   return (
     <span className={cn("inline-flex items-center gap-2.5", wordColor, className)}>
       <LogoMark className="h-7 w-7 shrink-0" />
       <span className="flex flex-col leading-none">
-        <span
-          className="font-display text-[1.35rem] font-bold tracking-tight"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          Pixel<span className="text-amber">Dev</span>
+        <span className="font-display text-[1.35rem] font-bold tracking-tight">
+          Pixel<span className={accent}>Dev</span>
         </span>
         {withSolutions && (
           <span className="text-eyebrow mt-1 text-[0.6rem] tracking-[0.3em] opacity-70">

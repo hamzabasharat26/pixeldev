@@ -51,7 +51,7 @@ function CardBody({ project }: { project: Project }) {
 
         <h3 className="text-h3 mt-5 text-grey-50">
           {project.title}
-          <span className="text-data ml-3 align-middle text-sm font-normal text-grey-500">
+          <span className="text-data ml-3 align-middle text-sm font-normal text-grey-400">
             {project.year}
           </span>
         </h3>

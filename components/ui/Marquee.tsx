@@ -24,21 +24,18 @@ export function Marquee({
         "marquee-root group overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]",
         className,
       )}
-      role="marquee"
-      aria-label={ariaLabel}
     >
-      <div
-        className="marquee-track gap-12"
+      <ul
+        className="marquee-track m-0 list-none gap-12 p-0"
         data-direction={direction}
         style={{ ["--marquee-duration" as string]: `${durationSeconds}s` }}
+        aria-label={ariaLabel}
       >
-        <div className="flex shrink-0 items-center gap-12" aria-hidden={false}>
+        <li className="flex shrink-0 items-center gap-12">{children}</li>
+        <li className="flex shrink-0 items-center gap-12" aria-hidden="true">
           {children}
-        </div>
-        <div className="flex shrink-0 items-center gap-12" aria-hidden="true">
-          {children}
-        </div>
-      </div>
+        </li>
+      </ul>
     </div>
   );
 }

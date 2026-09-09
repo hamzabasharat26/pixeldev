@@ -23,7 +23,7 @@ export function ProcessSteps() {
                 aria-hidden="true"
                 className="absolute -top-[3px] left-0 hidden h-[7px] w-[7px] rounded-full bg-amber md:block"
               />
-              <span className="text-data block text-sm text-amber-700">
+              <span className="text-data block text-sm font-semibold text-navy-600">
                 {step.n}
               </span>
               <h3 className="text-h4 mt-2 text-navy">{step.title}</h3>

@@ -52,13 +52,13 @@ export const projects: Project[] = [
       label: "shot, bounce & speed tracking from a single camera",
     },
     summary:
-      "One camera, broadcast-style tracking — ball speed, rallies, bounces and wall-target accuracy for racket-sport coaching.",
+      "One camera, broadcast-style tracking: ball speed, rallies, bounces and wall-target accuracy for racket-sport coaching.",
     challenge:
-      "Coaches review sessions by eye. Improvement is hard to quantify, and a busy court holds a coach and several students at once — a fast, small ball, players occluding each other, and wall drills where “on target” is a judgment call. The studio wanted per-player, per-shot data from an ordinary camera on a tripod, not a fixed multi-camera rig or wearables on every player.",
+      "Coaches review sessions by eye, so improvement is hard to quantify. A busy court makes it harder: a coach and several students at once, a fast small ball, players blocking each other, and wall drills where \"on target\" is a judgment call. The studio wanted per-player, per-shot data from an ordinary camera on a tripod, not a fixed multi-camera rig or wearables on every player.",
     solution:
       "RallyLens detects and pose-tracks every player, colours them by role, and follows the ball frame to frame as a trajectory spline. A camera-homography step maps the court and the wall targets into real-world coordinates, so bounces and wall hits report distance to target in centimetres and ball speed comes from calibrated displacement. An event timeline marks every bounce, contact and on-target hit; a bird’s-eye minimap shows court position. It runs on recorded clips and exports a per-player shot log.",
     results:
-      "Every session becomes a timeline of shots, bounces and wall-target distances instead of a memory. Coaches compare students on the same numbers, and wall-drill accuracy is measured in centimetres rather than argued about. The studio is rolling it into regular coaching reviews.",
+      "Every session becomes a timeline of shots, bounces and wall-target distances instead of a memory. Coaches compare students on the same numbers, and wall-drill accuracy is measured in centimetres rather than argued about. The studio is folding it into regular coaching reviews.",
     metrics: [
       { value: "cm", label: "wall-target accuracy, measured not judged" },
       { value: "1 cam", label: "no rig, no wearables" },
@@ -88,11 +88,11 @@ export const projects: Project[] = [
     summary:
       "A QC station that measures garment points-of-measure against each brand’s tolerance table, live on the line.",
     challenge:
-      "Garment QC ran on a tape measure and a stack of paper spec sheets. Every brand — adidas, Zara, Puma, Reebok — has its own list of points of measure and its own tolerance per size, and operators reconciled all of it by hand. Mistakes shipped, and the QC manager only found out when a customer complained.",
+      "Garment QC ran on a tape measure and a stack of paper spec sheets. Every brand (adidas, Zara, Puma, Reebok) has its own list of points of measure and its own tolerance per size, and operators reconciled all of it by hand. Mistakes shipped, and the QC manager only found out when a customer complained.",
     solution:
       "A desktop capture app paired with a web dashboard. The operator picks the brand, article type, style and size; the station loads that brand’s points of measure with the tolerance for that size. Each measurement is captured, compared to spec, and marked pass or fail in centimetres at the point of measure. Garment colour and size drive the tolerance set. “Next Piece” and “Next Article” keep the line moving, and every result syncs to the web app with the operator and table attached.",
     results:
-      "Operators no longer look up specs — the station already knows them. Pass and fail are logged per operator and per table, and the QC manager watches results come in on the web app instead of collecting clipboards at the end of the shift.",
+      "Operators no longer look up specs, because the station already knows them. Pass and fail are logged per operator and per table, and the QC manager watches results come in on the web app instead of collecting clipboards at the end of the shift.",
     metrics: [
       { value: "per operator", label: "every measurement tied to a person and a table" },
       { value: "8+ brands", label: "each with its own POM list and tolerances" },

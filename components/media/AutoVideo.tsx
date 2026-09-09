@@ -13,6 +13,8 @@ type AutoVideoProps = {
   aspect: string;
   className?: string;
   rounded?: boolean;
+  /** Above-the-fold media — load the poster eagerly for LCP. */
+  priority?: boolean;
 };
 
 /**
@@ -27,6 +29,7 @@ export function AutoVideo({
   aspect,
   className,
   rounded = true,
+  priority = false,
 }: AutoVideoProps) {
   const ref = useRef<HTMLVideoElement>(null);
   const [reduce, setReduce] = useState(true);
@@ -72,7 +75,8 @@ export function AutoVideo({
           src={poster}
           alt={alt}
           className="h-full w-full object-cover"
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
         />
       </div>
     );
