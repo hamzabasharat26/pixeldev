@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Placeholder project image">
+  <rect width="1600" height="1000" fill="#101b30"/>
+  <rect x="1" y="1" width="1598" height="998" fill="none" stroke="#243349" stroke-width="2"/>
+  <g fill="none" stroke="#1b3a6b" stroke-width="2">
+    <path d="M0 500H1600M800 0V1000"/>
+  </g>
+  <text x="800" y="470" text-anchor="middle" fill="#e9a13c" font-family="ui-monospace, Menlo, monospace" font-size="42" letter-spacing="8">PLACEHOLDER</text>
+  <text x="800" y="540" text-anchor="middle" fill="#9ca3af" font-family="ui-monospace, Menlo, monospace" font-size="24">replace in content/projects.ts</text>
+</svg>

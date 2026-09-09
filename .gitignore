@@ -43,4 +43,5 @@ next-env.d.ts
 # local QA artifacts
 /.playwright-mcp/
 /phase*.png
+/p[0-9]*.png
 /*-screenshot.png

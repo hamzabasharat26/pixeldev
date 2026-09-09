@@ -68,8 +68,8 @@ export const projects: Project[] = [
     role: "Design + Build",
     timeline: "Ongoing",
     media: {
+      // TODO(owner): drop a 2–6s muted loop.webm/loop.mp4 in public/work/rallylens/
       poster: "/work/rallylens/scene.jpg",
-      mp4: "/clips/padel-8s.mp4",
       cover: "/work/rallylens/dashboard.jpg",
       gallery: ["/work/rallylens/scene.jpg", "/work/rallylens/dashboard.jpg"],
     },
@@ -102,8 +102,8 @@ export const projects: Project[] = [
     role: "Design + Build",
     timeline: "Ongoing",
     media: {
+      // TODO(owner): drop a 2–6s muted loop.webm/loop.mp4 in public/work/magicqc/
       poster: "/work/magicqc/desktop.png",
-      mp4: "/clips/magic-8s.mp4",
       cover: "/work/magicqc/web.png",
       gallery: ["/work/magicqc/desktop.png", "/work/magicqc/web.png"],
     },
@@ -141,10 +141,9 @@ export const projects: Project[] = [
     role: "Design + Build",
     timeline: "0 weeks",
     media: {
-      poster: "/posters/dock-poster.jpg",
-      mp4: "/clips/dock-8s.mp4",
-      cover: "/posters/dock-poster.jpg",
-      gallery: ["/posters/dock-poster.jpg"],
+      poster: "/work/_placeholder.svg",
+      cover: "/work/_placeholder.svg",
+      gallery: ["/work/_placeholder.svg"],
     },
   },
   {
@@ -173,10 +172,9 @@ export const projects: Project[] = [
     role: "Design + Build",
     timeline: "0 weeks",
     media: {
-      poster: "/posters/passenger-poster.jpg",
-      mp4: "/clips/passenger-8s.mp4",
-      cover: "/posters/passenger-poster.jpg",
-      gallery: ["/posters/passenger-poster.jpg"],
+      poster: "/work/_placeholder.svg",
+      cover: "/work/_placeholder.svg",
+      gallery: ["/work/_placeholder.svg"],
     },
   },
   {
@@ -205,10 +203,9 @@ export const projects: Project[] = [
     role: "Design + Build",
     timeline: "0 weeks",
     media: {
-      poster: "/posters/theft-poster.jpg",
-      mp4: "/clips/theft-8s.mp4",
-      cover: "/posters/theft-poster.jpg",
-      gallery: ["/posters/theft-poster.jpg"],
+      poster: "/work/_placeholder.svg",
+      cover: "/work/_placeholder.svg",
+      gallery: ["/work/_placeholder.svg"],
     },
   },
 ];
