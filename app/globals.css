@@ -27,8 +27,8 @@
   /* ---- Brand: amber ---- */
   --color-amber: #e9a13c; /* ACCENT — unchanged */
   --color-amber-300: #f4c57f; /* gradient partner, hover glow */
-  --color-amber-600: #b9791f; /* text-safe amber on ivory */
-  --color-amber-700: #8f5a15; /* text-safe amber, small */
+  --color-amber-600: #a56a15; /* text-safe amber on ivory — AA 4.5:1 */
+  --color-amber-700: #8a5713; /* text-safe amber, small / dense */
   --color-amber-glow: rgb(233 161 60 / 0.15); /* blurred orb / corner wash */
 
   /* ---- Clay — the Anthropic-family warm secondary. Icon chips, serif accent
@@ -372,13 +372,14 @@ summary:focus-visible,
    state — content is never hidden.
    ============================================================ */
 
+/* Transform only — never opacity. A fade would drop text below its contrast
+   ratio mid-animation (real users see it, axe flags it). A gentle rise reads
+   as a reveal without ever touching legibility. */
 @keyframes reveal-rise {
   from {
-    opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(22px);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }
@@ -388,7 +389,7 @@ summary:focus-visible,
     .reveal {
       animation: reveal-rise linear both;
       animation-timeline: view();
-      animation-range: entry 2% cover 22%;
+      animation-range: entry 0% cover 14%;
     }
   }
 }

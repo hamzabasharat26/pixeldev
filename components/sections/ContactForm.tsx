@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useId, useState } from "react";
+import { useActionState, useEffect, useId, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { site } from "@/content/site";
 import { submitContact, type ContactState } from "@/app/contact/actions";
@@ -8,6 +8,24 @@ import { BUDGETS, SERVICES } from "@/app/contact/options";
 import { Button } from "@/components/ui/Button";
 
 const initial: ContactState = { status: "idle" };
+
+/** One small amber burst on a successful send. Skipped under reduced motion. */
+function celebrate() {
+  if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+  import("canvas-confetti")
+    .then(({ default: confetti }) => {
+      confetti({
+        particleCount: 70,
+        spread: 68,
+        startVelocity: 32,
+        scalar: 0.9,
+        origin: { y: 0.7 },
+        colors: ["#e9a13c", "#f4c57f", "#c15f3c", "#12294b"],
+        disableForReducedMotion: true,
+      });
+    })
+    .catch(() => {});
+}
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -23,6 +41,14 @@ export function ContactForm() {
   const nameId = useId();
   const emailId = useId();
   const messageId = useId();
+  const celebrated = useRef(false);
+
+  useEffect(() => {
+    if (state.status === "success" && !celebrated.current) {
+      celebrated.current = true;
+      celebrate();
+    }
+  }, [state.status]);
 
   // Lightweight client-side check so obvious mistakes don't round-trip.
   const [touched, setTouched] = useState<Record<string, boolean>>({});

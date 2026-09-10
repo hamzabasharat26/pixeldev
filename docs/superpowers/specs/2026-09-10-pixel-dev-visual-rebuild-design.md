@@ -1,7 +1,12 @@
 # Pixel Dev Solutions — Visual-Layer Rebuild Design Spec
 
 Date: 2026-09-10
-Status: **approved with changes 2026-09-10 — proceeding to implementation plan**
+Status: **built. Phases A–F complete.** `npm run build` / `lint` / `typecheck`
+clean; A11y / SEO 100, BP 96 (a Vercel-only analytics 404 locally), LCP ~0.75s,
+CLS 0 on the homepage trace. Remaining owner tasks: `HANDOVER.md` + `README.md`
+("Before launch"). Palette evolved past the spec's §5 toward an
+Anthropic-influenced ivory system + a `clay` secondary — the navy + amber brand
+is unchanged; see `app/globals.css` for the shipped tokens.
 Companion: `DESIGN_RESEARCH.md` (reference-site teardown), `design-refs/*.jpeg`
 Supersedes the visual sections of `docs/superpowers/specs/2026-09-09-pixel-dev-website-design.md`.
 That doc's architecture, routing, SEO, a11y and content-integrity rules **still stand** — this

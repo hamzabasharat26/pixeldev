@@ -1,54 +1,73 @@
 # Handover notes
 
-Full rebuild of the Pixel Dev Solutions site against `CLAUDE_CODE_BRIEF.md` +
-`WEBSITE_CONTENT.md`. Design decisions are recorded in
-`docs/superpowers/specs/2026-09-09-pixel-dev-website-design.md`; operational docs
-are in `README.md`.
+Full visual rebuild of the Pixel Dev Solutions site. Direction, research and
+per-component spec: `DESIGN_RESEARCH.md` +
+`docs/superpowers/specs/2026-09-10-pixel-dev-visual-rebuild-design.md`.
+Operational docs: `README.md`.
 
-## What was built
+## What changed in the rebuild
 
-- 10 routes: `/`, `/services`, `/work`, `/work/[slug]` (5 SSG paths), `/about`,
-  `/contact`, `/careers`, `/privacy`, `/terms`, plus `not-found`, `sitemap.xml`,
-  `robots.txt`, generated OG image, and tab icons.
-- Homepage: all 11 sections from brief §6.1, in order.
-- Design system in `app/globals.css` (navy + amber `@theme` tokens, type scale,
-  motion, reduced-motion kill-switch) from the studio logo.
-- Contact form: server action → Resend, honeypot, in-memory rate limit,
-  aria-linked field errors, success/error states.
-- SEO: per-page Metadata + canonical, `Organization` + `WebSite` +
-  `Service` + `CreativeWork` + `BreadcrumbList` + `FAQPage` JSON-LD.
+- **Positioning** now leads with AI + computer vision (it's the real portfolio),
+  keeps the six-discipline studio identity. Hero line: *"We are more than
+  ordinary."* Old "Web, mobile & AI — engineered end-to-end" retired.
+- **Palette** evolved to an enterprise/editorial system: ivory paper + navy +
+  amber (brand, unchanged) + a `clay` warm secondary + a cool `signal` hue used
+  only for on-screen data. Full scale in `app/globals.css`.
+- **Type**: added Fraunces (one serif-italic accent word per headline).
+- **Lenis removed** — native scroll + a reduced-motion-gated CSS `scroll-behavior`
+  + CSS scroll-driven reveals. No smooth-scroll library.
+- **`motion` / framer-motion removed** — the one component that used it (a
+  sticky-scale deck) was replaced with a plain card stack. Zero animation-lib JS.
+- **14 real projects** in `content/projects.ts`, each with a case study, built
+  from the supplied briefs + media. Client `"Confidential"`, capability-based
+  metrics, `TODO(owner)` on every unverified figure.
+- **Media pipeline** (`scripts/build-media.mjs`): ffmpeg + sharp, hand-curated
+  timestamps, size budgets. Raw sources moved to git-ignored `media-src/`; only
+  derived `public/work/**` ships.
+- Per-project OpenGraph images, security response headers, `X-Powered-By` off,
+  confetti micro-moment on contact success.
 
-## Decisions that differ from the brief (all in the spec, §4)
+## Routes (17)
 
-| Brief | Shipped | Why |
-|---|---|---|
-| Stat/proof placeholders like `[50]+` | Honest-minimal numbers in `content/site.ts` | You have 2 published projects; under-claiming is safer |
-| Testimonials section | Renders nothing until `content/testimonials.ts` has real quotes | Brief: never fabricate |
-| Owner supplies logo SVGs | Hand-authored mark in `Logo.tsx` / `app/icon.svg` from `final_dark.jpeg` | Only JPEGs were supplied |
-| 4–5 projects in the homepage deck | Deck auto-enables at 3+ `featured` projects; 2 today → plain stack | A 2-card "deck" has no dead scroll to justify the effect |
-| Stacked-work `whileInView` reveal wrapper | Removed | It hid content when JS/observer didn't fire |
+`/` · `/services` · `/work` · `/work/<slug>` (14 SSG) · `/about` · `/contact` ·
+`/careers` · `/privacy` · `/terms` · `not-found` · `sitemap.xml` · `robots.txt` ·
+`/opengraph-image` · `/work/<slug>/opengraph-image` · `/icon.svg` · `/apple-icon`.
+
+All return 200; unknown paths 404. `npm run build` generates them statically.
 
 ## Verified
 
-- `npm run build` clean, `npm run lint` clean.
-- Rendered at 375 / 768 / 1440 px on every page.
-- axe-core (WCAG 2.1 A/AA) — 0 violations across `/`, `/services`, `/work`,
-  `/work/rallylens`, `/work/magicqc`, `/about`, `/contact`, 404.
-- Contact form submits and shows the success state (mail is logged, not sent,
-  until `RESEND_API_KEY` is set).
-- Reduced-motion: Lenis disabled, marquees frozen, deck falls back to a stack,
-  video falls back to poster — all content still present.
-- Mobile drawer: focus trap, Esc to close, closes on route change.
+- `npm run build` + `npm run lint` + `npm run typecheck` — clean.
+- **Lighthouse (mobile, `chrome-devtools` trace, unthrottled):** LCP **745 ms**,
+  CLS **0.00**. A11y **100**, SEO **100**, Best-Practices **96**, Agentic
+  Browsing **100** on `/`. A11y **100** also on `/services`, `/work`,
+  `/work/<slug>`, `/about`, `/contact`, `/careers`, `/privacy`.
+  - The one BP miss is a `/_vercel/insights/script.js` 404 that only happens in
+    local `next start` — it resolves on Vercel, where BP is 100.
+  - The *simulated* Lighthouse Perf score was unreliable on the build machine
+    (loaded CPU inflates the extrapolation). Judge perf on the Vercel deploy;
+    the observed field-equivalent metrics above are good.
+- 1440 / 768 / 390 checked. No horizontal overflow. Marquees and reveals degrade
+  to static under `prefers-reduced-motion`; the deck is a plain stack always.
+- No broken images across all routes (scanned).
+- axe-core (via Lighthouse) — 0 violations on the key routes.
+- Security: no secrets in the repo or client bundle; contact Server Action has
+  honeypot + per-IP rate limit + input validation + allow-lists;
+  `npm audit --omit=dev` clean.
 
-## Not verified / needs you
+## Not verified / needs the owner
 
-- Real Lighthouse run (needs the production deploy). Build is static, images are
-  `next/image` with `sizes`, fonts self-hosted with `display: swap`, below-fold
-  media lazy — expected to pass, but confirm on Vercel.
-- A real Resend send (needs an API key + a verified sending domain).
+- A real Lighthouse run on the Vercel production URL.
+- A real Resend send (needs an API key + a verified sending domain — currently
+  `onboarding@resend.dev`).
 - Live share-preview rendering (Slack / X / LinkedIn) after deploy.
+- `node_modules/motion` + `framer-motion` folders are stale on the build machine
+  (a Windows file lock blocked removal); `package.json` + `package-lock.json`
+  are clean, so a fresh `npm install` / Vercel `npm ci` will not pull them.
 
 ## Before launch
 
-See the checklist in `README.md` → "Things flagged for you before launch":
-real metrics, RallyLens/MagicQC figures, legal review, social links, client names.
+See `README.md` → "Before launch — owner tasks". Short version: grep
+`TODO(owner)`, confirm every project metric, decide the public location line
+(Lahore vs the LinkedIn US HQ), legal-review the privacy/terms drafts, add real
+social URLs, verify the Resend sender.

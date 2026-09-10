@@ -31,7 +31,7 @@ export default function AboutPage() {
 
       <section className="section bg-paper">
         <div className="container-wide grid gap-8 lg:grid-cols-[200px_1fr] lg:gap-16">
-          <Eyebrow>Our story</Eyebrow>
+          <Eyebrow as="h2">Our story</Eyebrow>
           <Reveal className="max-w-[64ch] space-y-5 text-[1.08rem] leading-relaxed text-ink">
             {aboutStory.map((para) => (
               <p key={para.slice(0, 24)}>{para}</p>
@@ -42,7 +42,7 @@ export default function AboutPage() {
 
       <section className="section--band section">
         <div className="container-wide">
-          <Eyebrow>What we hold to</Eyebrow>
+          <Eyebrow as="h2">What we hold to</Eyebrow>
           <div className="mt-8 grid gap-5 sm:grid-cols-2">
             {values.map((value) => (
               <Reveal

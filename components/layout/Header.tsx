@@ -9,8 +9,9 @@ import { LinkButton } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { MobileNav } from "./MobileNav";
 
-/** Routes whose first section opens on a dark surface. */
-const DARK_HERO_ROUTES = ["/", "/work"];
+/** The only routes whose hero opens on the light paper ground. Everything
+ *  else opens on a dark (navy) hero. */
+const LIGHT_HERO_ROUTES = ["/contact", "/privacy", "/terms"];
 
 /**
  * Floating pill header. Translucent + blurred, sits over the hero it opens on,
@@ -19,7 +20,7 @@ const DARK_HERO_ROUTES = ["/", "/work"];
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const overDarkHero = DARK_HERO_ROUTES.includes(pathname) && !scrolled;
+  const overDarkHero = !LIGHT_HERO_ROUTES.includes(pathname) && !scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);

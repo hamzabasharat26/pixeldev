@@ -102,7 +102,7 @@ export const footerNav = {
   Services: [
     { label: "Computer Vision", href: "/services#vision" },
     { label: "AI & Automation", href: "/services#ai" },
-    { label: "Web Development", href: "/services#web" },
+    { label: "Web Platforms", href: "/services#web" },
     { label: "Mobile Apps", href: "/services#mobile" },
     { label: "UI/UX Design", href: "/services#uiux" },
     { label: "Cloud & DevOps", href: "/services#cloud" },

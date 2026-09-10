@@ -15,6 +15,7 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
   return (
     <section className="on-dark bg-navy-ink pb-20 pt-8 md:pt-10">
       <div className="container-wide">
+        <h2 className="sr-only">All projects</h2>
         <div
           role="group"
           aria-label="Filter projects by category"

@@ -43,13 +43,15 @@ export function HeroMedia() {
         ref={layerRef}
         className="absolute inset-0 origin-top will-change-transform"
       >
+        {/* Pre-optimised by the media pipeline — skip the Next optimiser
+            (double work + a cold-start delay on the LCP image). */}
         <Image
           src="/services/hero-bg-1920.webp"
           alt=""
           fill
           priority
+          unoptimized
           sizes="100vw"
-          quality={75}
           className="object-cover"
         />
         {/* robot render bleeding off the right edge, desktop only */}
@@ -58,7 +60,7 @@ export function HeroMedia() {
           alt=""
           width={760}
           height={988}
-          quality={72}
+          unoptimized
           className="pointer-events-none absolute -right-16 top-1/2 hidden max-h-[720px] w-auto -translate-y-1/2 opacity-40 [mask-image:linear-gradient(100deg,transparent,#000_60%)] lg:block xl:-right-4"
           style={{ height: "82%" }}
         />
