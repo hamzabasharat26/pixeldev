@@ -9,22 +9,25 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <section className="flex min-h-[80vh] items-center bg-grey-50 pt-24">
-      <div className="container-page">
-        <Eyebrow>Error 404</Eyebrow>
-        <h1 className="text-h1 mt-5 max-w-xl text-navy">
+    <section className="on-dark relative isolate flex min-h-[78vh] items-center overflow-hidden bg-navy-ink pt-24">
+      <div
+        aria-hidden="true"
+        className="glow-orb -right-24 -top-16 h-80 w-80 text-amber opacity-[0.12]"
+      />
+      <div className="container-wide relative">
+        <Eyebrow tone="light">Error 404</Eyebrow>
+        <h1 className="text-h1 mt-5 max-w-xl text-d-text">
           This page doesn&apos;t exist.
         </h1>
-        <p className="text-body-lg mt-4 max-w-md text-grey-700">
-          The link may be broken, or the page may have moved. Here&apos;s a way
-          back.
+        <p className="mt-4 max-w-md text-lg leading-relaxed text-d-muted">
+          The link may be broken, or the page moved. Here&apos;s the way back.
         </p>
-        <div className="mt-9 flex flex-wrap gap-4">
+        <div className="mt-9 flex flex-wrap gap-3">
           <LinkButton href="/" size="lg">
             Back home
           </LinkButton>
-          <LinkButton href="/work" size="lg" variant="ghostLight">
-            See our work
+          <LinkButton href="/work" size="lg" variant="ghostDark">
+            See the work
           </LinkButton>
         </div>
       </div>

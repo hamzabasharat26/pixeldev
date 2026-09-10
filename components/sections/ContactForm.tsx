@@ -44,9 +44,9 @@ export function ContactForm() {
 
   if (state.status === "success") {
     return (
-      <div className="rounded-[16px] border border-grey-200 bg-white p-8">
-        <p className="text-h4 text-navy">Thanks — your message is in.</p>
-        <p className="mt-3 text-grey-700">
+      <div className="rounded-[var(--radius-card)] border border-line bg-surface p-8">
+        <p className="text-h4 text-ink">Thanks — your message is in.</p>
+        <p className="mt-3 text-muted">
           We&apos;ll get back to you within 24 hours.
         </p>
       </div>
@@ -57,7 +57,7 @@ export function ContactForm() {
     <form
       action={formAction}
       noValidate
-      className="rounded-[16px] border border-grey-200 bg-white p-6 md:p-8"
+      className="rounded-[var(--radius-card)] border border-line bg-surface p-6 shadow-e1 md:p-8"
     >
       {/* honeypot */}
       <div aria-hidden="true" className="absolute left-[-9999px]">
@@ -119,7 +119,7 @@ export function ContactForm() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor={messageId} className="text-sm font-medium text-navy">
+          <label htmlFor={messageId} className="text-sm font-medium text-ink">
             Message <span className="text-error">*</span>
           </label>
           <textarea
@@ -134,7 +134,7 @@ export function ContactForm() {
             onChange={(e) =>
               setValues((s) => ({ ...s, message: e.target.value }))
             }
-            className="rounded-md border border-grey-300 px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy"
+            className="rounded-md border border-line-2 bg-surface px-3.5 py-2.5 text-[0.95rem] text-ink outline-none transition-colors focus-visible:border-amber-600"
           />
           {errFor("message") && (
             <p id={`${messageId}-err`} className="text-sm text-error">
@@ -143,7 +143,7 @@ export function ContactForm() {
           )}
         </div>
 
-        <label className="flex items-start gap-3 text-sm text-grey-700">
+        <label className="flex items-start gap-3 text-sm text-muted">
           <input
             type="checkbox"
             name="consent"
@@ -157,11 +157,11 @@ export function ContactForm() {
 
         <SubmitButton />
 
-        <p className="text-xs text-grey-500">
+        <p className="text-xs text-faint">
           Prefer email?{" "}
           <a
             href={`mailto:${site.email}`}
-            className="text-navy underline decoration-amber/60 underline-offset-2"
+            className="text-amber-700 underline decoration-amber-600/50 underline-offset-2"
           >
             {site.email}
           </a>
@@ -196,7 +196,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-navy">
+      <label htmlFor={id} className="text-sm font-medium text-ink">
         {label} {required && <span className="text-error">*</span>}
       </label>
       <input
@@ -210,7 +210,7 @@ function Field({
         aria-describedby={error ? `${id}-err` : undefined}
         onBlur={onBlur}
         onChange={onChange ? (e) => onChange(e.target.value) : undefined}
-        className="rounded-md border border-grey-300 px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy"
+        className="rounded-md border border-line-2 bg-surface px-3.5 py-2.5 text-[0.95rem] text-ink outline-none transition-colors focus-visible:border-amber-600"
       />
       {error && (
         <p id={`${id}-err`} className="text-sm text-error">
@@ -233,14 +233,14 @@ function SelectField({
   const id = useId();
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-navy">
+      <label htmlFor={id} className="text-sm font-medium text-ink">
         {label}
       </label>
       <select
         id={id}
         name={name}
         defaultValue=""
-        className="rounded-md border border-grey-300 bg-white px-3.5 py-2.5 text-[0.95rem] outline-none focus-visible:border-navy"
+        className="rounded-md border border-line-2 bg-surface px-3.5 py-2.5 text-[0.95rem] text-ink outline-none transition-colors focus-visible:border-amber-600"
       >
         <option value="" disabled>
           Select…

@@ -62,15 +62,21 @@ export function AutoVideo({
   }, [reduce, hasVideo]);
 
   const box = cn(
-    "relative w-full overflow-hidden bg-surface-elevated",
-    rounded && "rounded-[12px]",
+    "relative w-full overflow-hidden bg-d-surface-2",
+    rounded && "rounded-[var(--radius-frame)]",
     className,
   );
 
   const showVideo = hasVideo && !reduce;
 
   return (
-    <div className={box} style={{ aspectRatio: aspect }}>
+    <div
+      className={box}
+      style={{ aspectRatio: aspect }}
+      // When the loop plays the <video> is decorative and the poster <Image>
+      // (which carries the alt) isn't rendered — put the description on the box.
+      {...(showVideo ? { role: "img" as const, "aria-label": alt } : {})}
+    >
       {showVideo ? (
         <video
           ref={ref}

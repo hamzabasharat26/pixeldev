@@ -16,7 +16,7 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHero eyebrow="Legal" title="Privacy Policy" />
-      <section className="section-y bg-grey-50 pt-0">
+      <section className="section bg-paper pt-0">
         <div className="container-page">
           <Prose>
             <p>

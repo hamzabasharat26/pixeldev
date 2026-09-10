@@ -16,7 +16,7 @@ export default function TermsPage() {
   return (
     <>
       <PageHero eyebrow="Legal" title="Terms of Service" />
-      <section className="section-y bg-grey-50 pt-0">
+      <section className="section bg-paper pt-0">
         <div className="container-page">
           <Prose>
             <p>

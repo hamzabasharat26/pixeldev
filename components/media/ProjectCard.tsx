@@ -15,51 +15,47 @@ export function ProjectCard({
     <Link
       href={`/work/${project.slug}`}
       className={cn(
-        "group flex flex-col overflow-hidden rounded-[16px] border border-surface-border bg-surface-raised transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-amber/50",
+        "group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-d-line bg-[linear-gradient(180deg,var(--color-d-surface-2),var(--color-navy-900))] transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-amber/45",
         className,
       )}
     >
-      <div className="relative">
+      <div className="relative border-b border-d-line">
         <AutoVideo
           poster={project.media.poster}
           webm={project.media.webm}
           mp4={project.media.mp4}
-          alt={`${project.title}: ${project.summary}`}
+          alt={`${project.title} — ${project.outcome.label}`}
           aspect="16 / 10"
-          sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
+          sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw"
           rounded={false}
         />
-        {project.placeholder && (
-          <span className="text-eyebrow absolute left-3 top-3 rounded bg-navy px-2 py-1 text-[0.6rem] text-amber-300">
-            Placeholder
-          </span>
-        )}
+        <span className="text-eyebrow absolute left-3 top-3 rounded-full bg-navy-ink/80 px-2.5 py-1 text-[0.6rem] text-amber-300 backdrop-blur-sm">
+          {project.category}
+        </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
-        <div className="text-data flex items-center gap-2 text-xs text-grey-400">
-          <span className="text-amber-300">{project.category}</span>
-          <span aria-hidden="true">·</span>
-          <span>{project.year}</span>
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-center justify-between">
+          <h3 className="text-h4 text-d-text">{project.title}</h3>
+          <span className="text-data text-xs text-d-muted">{project.year}</span>
         </div>
-
-        <h3 className="text-h4 mt-2 text-grey-50">{project.title}</h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-grey-400">
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-d-muted">
           {project.summary}
         </p>
 
-        <p className="text-data mt-4 text-sm text-grey-300">
-          <span className="font-semibold text-amber-300">
+        <p className="text-data mt-4 text-sm text-d-muted">
+          <span
+            className={cn(
+              "font-semibold",
+              project.metricsAccent === "signal" ? "text-signal" : "text-amber-300",
+            )}
+          >
             {project.outcome.value}
           </span>{" "}
           {project.outcome.label}
         </p>
 
-        <TagRow
-          items={project.tech.slice(0, 4)}
-          tone="light"
-          className="mt-4"
-        />
+        <TagRow items={project.tech.slice(0, 4)} tone="light" className="mt-4" />
       </div>
     </Link>
   );

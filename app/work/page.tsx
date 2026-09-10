@@ -6,9 +6,9 @@ import { WorkGrid } from "@/components/sections/WorkGrid";
 import { CtaBand } from "@/components/sections/CtaBand";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Our Work",
+  title: "Work",
   description:
-    "Selected software projects with measurable outcomes across web, mobile, AI, and computer vision.",
+    "Computer vision, AI and full-stack systems Pixel Dev Solutions has designed, built and put into production — detection, tracking, quality control, RAG, OCR and more.",
   path: "/work",
 });
 
@@ -18,8 +18,12 @@ export default function WorkPage() {
       <PageHero
         tone="dark"
         eyebrow="Selected work"
-        title="Work we've shipped."
-        intro="Real products, in production, with results we can point to."
+        title={
+          <>
+            Systems we&apos;ve shipped, <em>in production</em>.
+          </>
+        }
+        intro="Real projects, real footage. Client names are held back; the capability is what's on show."
       />
       <WorkGrid projects={projects} />
       <CtaBand />

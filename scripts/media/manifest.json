@@ -134,14 +134,6 @@
       }
     },
     {
-      "slug": "hornet-ai",
-      "sourceType": "stills",
-      "stills": {
-        "cover": "media-src/clips/Honey_PT_detect/P1.jpg",
-        "01": "media-src/clips/Honey_PT_detect/P1.jpg"
-      }
-    },
-    {
       "slug": "nexus-rag-assistant",
       "sourceType": "stills",
       "stills": {

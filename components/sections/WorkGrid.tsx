@@ -10,13 +10,11 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
   const [active, setActive] = useState<"All" | ProjectCategory>("All");
 
   const shown =
-    active === "All"
-      ? projects
-      : projects.filter((p) => p.category === active);
+    active === "All" ? projects : projects.filter((p) => p.category === active);
 
   return (
-    <section className="bg-surface-base pb-24 pt-10 md:pt-12">
-      <div className="container-page">
+    <section className="on-dark bg-navy-ink pb-20 pt-8 md:pt-10">
+      <div className="container-wide">
         <div
           role="group"
           aria-label="Filter projects by category"
@@ -32,7 +30,7 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
                 "text-eyebrow rounded-full border px-3.5 py-2 transition-colors",
                 active === cat
                   ? "border-amber bg-amber text-navy"
-                  : "border-surface-border text-grey-400 hover:border-grey-500 hover:text-grey-200",
+                  : "border-d-line text-d-muted hover:border-d-text/40 hover:text-d-text",
               )}
             >
               {cat}
@@ -41,9 +39,9 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
         </div>
 
         {shown.length === 0 ? (
-          <p className="mt-16 text-grey-400">No projects in this category yet.</p>
+          <p className="mt-16 text-d-muted">No projects in this category yet.</p>
         ) : (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {shown.map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
