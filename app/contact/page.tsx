@@ -7,7 +7,7 @@ import { ContactForm } from "@/components/sections/ContactForm";
 export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
-    "Tell us what you're building. We reply within 24 hours with honest thoughts on scope, timeline and cost — even if the answer is that we're not the right fit.",
+    "Tell us what you're building. We reply within 24 hours with honest thoughts on scope, timeline and cost, even if the answer is that we're not the right fit.",
   path: "/contact",
 });
 
@@ -32,7 +32,7 @@ export default function ContactPage() {
           </h1>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted">
             A few sentences on the project is plenty. We reply within 24 hours
-            with honest thoughts on scope, timeline and cost — even if the answer
+            with honest thoughts on scope, timeline and cost, even if the answer
             is that we&apos;re not the right fit.
           </p>
 

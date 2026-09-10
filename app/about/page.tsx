@@ -11,7 +11,7 @@ import { Reveal } from "@/components/ui/Reveal";
 export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
-    "A small senior team building computer-vision and AI systems — and the full-stack to ship them. Design, code, infrastructure and launch under one roof.",
+    "A small senior team building computer vision and AI systems, plus the full stack to ship them. Design, code, infrastructure and launch under one roof.",
   path: "/about",
 });
 

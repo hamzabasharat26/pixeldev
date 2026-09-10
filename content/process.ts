@@ -17,6 +17,6 @@ export const processSteps = [
   {
     n: "04",
     title: "Ship & Support",
-    body: "We deploy, monitor, and hand over clean documentation. Then we stay available — most clients keep us on for iteration.",
+    body: "We deploy, monitor, and hand over clean documentation. Then we stay available. Most clients keep us on for iteration.",
   },
 ] as const;

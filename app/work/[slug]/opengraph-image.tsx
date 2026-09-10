@@ -19,7 +19,7 @@ export default async function OgImage({
   const project = getProject(slug);
   const title = project?.title ?? "Case study";
   const outcome = project
-    ? `${project.outcome.value} — ${project.outcome.label}`
+    ? `${project.outcome.value}. ${project.outcome.label}`
     : "";
   const category = project?.category ?? "";
 

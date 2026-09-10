@@ -4,7 +4,7 @@ import { site } from "@/content/site";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt =
-  "Pixel Dev Solutions — AI & computer-vision studio, with the full-stack team to ship it.";
+  "Pixel Dev Solutions. An AI and computer vision studio with the full stack team to ship it.";
 
 export default function OpengraphImage() {
   return new ImageResponse(

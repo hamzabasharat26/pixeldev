@@ -39,7 +39,7 @@ export function Header() {
       >
         <Link href="/" className="relative z-10 shrink-0">
           <Logo variant="dark" withSolutions />
-          <span className="sr-only">— home</span>
+          <span className="sr-only"> home</span>
         </Link>
 
         <nav

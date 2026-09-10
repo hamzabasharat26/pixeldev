@@ -9,7 +9,7 @@ export const values = [
   },
   {
     title: "Say the honest thing.",
-    body: "If the idea has a flaw, the budget is unrealistic, or a rule-based script beats a model — you hear it early.",
+    body: "If the idea has a flaw, the budget is unrealistic, or a rule-based script would beat a model, you hear it early.",
   },
   {
     title: "Built to be handed over.",
@@ -19,6 +19,6 @@ export const values = [
 
 export const aboutStory = [
   "We started Pixel Dev Solutions because we kept seeing the same pattern: businesses paying agency prices for work handed down to whoever was cheapest, delivered late, and left undocumented.",
-  "So we built the opposite. A small senior team that owns the whole thing — the model, the code, the infrastructure, the launch. When you talk to us, you're talking to the people building it, not an account manager relaying messages.",
-  "Most of our work is computer vision and applied AI — detection, tracking, quality control, RAG — with the full-stack team to put it in production. Short cycles, a live staging link from week one, and a straight answer if the thing you're asking for won't move your numbers.",
+  "So we built the opposite. A small senior team that owns the whole thing: the model, the code, the infrastructure, the launch. When you talk to us, you're talking to the people building it, not an account manager relaying messages.",
+  "Most of our work is computer vision and applied AI: detection, tracking, quality control and RAG, with the full stack team to put it into production. Short cycles, a live staging link from week one, and a straight answer if the thing you're asking for won't move your numbers.",
 ] as const;

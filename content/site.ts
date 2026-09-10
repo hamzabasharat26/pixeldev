@@ -14,25 +14,38 @@ export const site = {
   domain: "pixeldevsolutions.tech",
   url: "https://pixeldevsolutions.tech",
 
-  /** Lead line — hero sub, meta description base, OG description, JSON-LD. */
+  /**
+   * HOUSE STYLE (applies to every string in this file and every other content
+   * file): no em dashes. Use a comma, a colon, a full stop, or rewrite the
+   * sentence. The client asked for this specifically, and it is the single
+   * fastest way to stop marketing copy reading as machine-written.
+   */
+
+  /** Lead line: hero sub, meta description base, OG description, JSON-LD. */
   positioning:
-    "AI & computer-vision studio — with the full-stack team to ship it.",
+    "An AI and computer vision studio with the full stack team to ship it.",
   /** Hero brand line. "ordinary" renders as <em> (serif italic). */
   tagline: "We are more than ordinary.",
+  /** The commitment line. Closing sections, contact, footer. */
+  promise: "We deliver what we commit.",
 
-  /** app/layout.tsx metadata reads these — do not hardcode there. */
-  metaTitle: "Pixel Dev Solutions — AI & Computer Vision Studio",
-  metaTitleTemplate: "%s · Pixel Dev Solutions",
+  /** app/layout.tsx metadata reads these. Do not hardcode there. */
+  metaTitle: "Pixel Dev Solutions | AI & Computer Vision Studio",
+  metaTitleTemplate: "%s | Pixel Dev Solutions",
+  // Kept under ~155 characters so Google shows it whole instead of cutting it.
   metaDescription:
-    "We build production AI and computer-vision systems — object detection, tracking, quality control, OCR, RAG and LLM apps — plus the web, mobile and cloud stack to run them. A small senior team in Pakistan, working with clients worldwide.",
+    "We build production computer vision and AI systems: detection, tracking, quality control, OCR and RAG assistants, plus the web and cloud stack to run them.",
   keywords: [
-    "computer vision development",
+    "computer vision development company",
     "AI development studio",
-    "object detection",
-    "RAG and LLM applications",
+    "object detection and tracking",
+    "automated visual quality control",
+    "RAG and LLM application development",
+    "OCR and document extraction",
     "machine learning engineering",
-    "Next.js development",
-    "software studio Pakistan",
+    "custom software development",
+    "Next.js development agency",
+    "software house in Lahore Pakistan",
   ],
 
   email: "pixeldevsolutions@gmail.com",
@@ -40,7 +53,7 @@ export const site = {
   phoneHref: "tel:+92304070719",
   whatsapp: "https://wa.me/92304070719",
 
-  locationShort: "Pakistan · Working with clients worldwide",
+  locationShort: "Lahore, Pakistan. Working with clients worldwide.",
   address: {
     line1: "Al Kabir Group Heights",
     line2: "Office 302",
@@ -55,10 +68,10 @@ export const site = {
    * TODO(owner): confirm each figure; raise as the portfolio grows.
    */
   stats: [
-    { value: "10+", label: "AI systems in production" },
-    { value: "1st", label: "IEEE Hackathon — Dock Vision AI" },
-    { value: "3–8 wk", label: "brief to production" },
-    { value: "24h", label: "median reply time" },
+    { value: "10+", label: "AI systems running in production" },
+    { value: "1st", label: "IEEE Hackathon win for Dock Vision AI" },
+    { value: "3-8 wk", label: "from brief to live system" },
+    { value: "24h", label: "median reply to a new enquiry" },
   ],
 
   /**
@@ -69,17 +82,17 @@ export const site = {
     {
       value: "1 camera",
       label:
-        "RallyLens tracks ball speed, bounces and wall-target accuracy from a single phone-grade camera",
+        "RallyLens reads ball speed, bounces and wall-target accuracy from one phone-grade camera. No rig, no wearables.",
     },
     {
       value: "500+ / shift",
       label:
-        "MagicQC measures 500+ garments per shift at 90%+ accuracy against each brand's tolerance table", // source: LinkedIn — owner to confirm
+        "MagicQC measures over 500 garments a shift at 90%+ accuracy, checked against each brand's own tolerance table.", // source: LinkedIn, owner to confirm
     },
     {
       value: "1st place",
       label:
-        "Dock Vision AI won an IEEE Hackathon and went into production",
+        "Dock Vision AI won an IEEE Hackathon, then went straight into production on a live loading bay.",
     },
   ],
 

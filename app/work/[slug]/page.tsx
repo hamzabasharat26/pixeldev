@@ -28,7 +28,7 @@ export async function generateMetadata({
   if (!project) return {};
   const meta = pageMetadata({
     title: project.title,
-    description: `${project.summary} — ${project.outcome.value} ${project.outcome.label}.`,
+    description: `${project.summary} ${project.outcome.value} ${project.outcome.label}.`,
     path: `/work/${slug}`,
     ogType: "article",
   });
@@ -125,7 +125,7 @@ export default async function CaseStudyPage({
             poster={project.media.poster}
             webm={project.media.webm}
             mp4={project.media.mp4}
-            alt={`${project.title} — ${project.summary}`}
+            alt={`${project.title}: ${project.summary}`}
             aspect="16 / 9"
             sizes="(min-width: 1400px) 1336px, 100vw"
             priority
@@ -182,7 +182,7 @@ export default async function CaseStudyPage({
               >
                 <Image
                   src={src}
-                  alt={`${project.title} — screen ${i + 1}`}
+                  alt={`${project.title}, screen ${i + 1}`}
                   width={1600}
                   height={1000}
                   quality={75}

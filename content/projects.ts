@@ -105,7 +105,7 @@ export const projects: Project[] = [
     summary:
       "Detects Asian hornets at a bait station and tells individually marked insects apart, so a single hornet can be followed between visits.",
     challenge:
-      "The yellow-legged Asian hornet (Vespa velutina) is a highly predative non-native species that has spread rapidly across Europe since being introduced in 2004. Tracking its movement means knowing not just that a hornet visited a bait station, but which hornet — the standard field method is to mark individuals with a coloured paint dot and watch for their return, which is slow, manual work.",
+      "The yellow-legged Asian hornet (Vespa velutina) is a highly predative non-native species that has spread rapidly across Europe since being introduced in 2004. Tracking its movement means knowing not just that a hornet visited a bait station, but which hornet. The standard field method is to mark individuals with a coloured paint dot and watch for their return, which is slow, manual work.",
     solution:
       "A detector runs on the bait-station camera and classifies each insect in frame, separating Asian hornets from other visitors. On top of that it reads the coloured paint dot applied to marked individuals, labelling each one by colour so the same hornet can be recognised across visits. It is built to run on edge hardware at the station rather than streaming footage away for processing.",
     results:
@@ -181,18 +181,18 @@ export const projects: Project[] = [
     strip: true,
     outcome: {
       value: "1 camera",
-      label: "broadcast-style shot, bounce and speed tracking — no rig, no wearables",
+      label: "broadcast-style shot, bounce and speed tracking. No rig, no wearables",
     },
     summary:
       "One phone-grade camera turns a racket-sport session into a timeline of every shot, bounce and wall-target hit.",
     challenge:
-      "Coaches review sessions by eye, so progress is a matter of memory. A busy court makes it worse: a coach and several students at once, a fast small ball, players blocking each other, and wall drills where “on target” is a judgment call. The studio wanted per-player, per-shot data from an ordinary camera on a tripod — not a fixed multi-camera rig and not wearables on every player.",
+      "Coaches review sessions by eye, so progress is a matter of memory. A busy court makes it worse: a coach and several students at once, a fast small ball, players blocking each other, and wall drills where “on target” is a judgment call. The studio wanted per-player, per-shot data from an ordinary camera on a tripod, not a fixed multi-camera rig and not wearables on every player.",
     solution:
       "RallyLens detects and pose-tracks every player, colours them by role, and follows the ball frame to frame as a trajectory spline. A camera-homography step maps the court and the wall targets into real-world coordinates, so bounces and wall hits report distance to target in centimetres and ball speed comes from calibrated displacement. An event timeline marks every bounce, contact and on-target hit; a bird’s-eye minimap shows court position. It runs on recorded clips and exports a per-player shot log.",
     results:
       "Every session is now a timeline instead of a memory. Coaches compare students on the same numbers, and wall-drill accuracy is measured in centimetres rather than argued about. The studio is folding it into regular coaching reviews.",
     metrics: [
-      { value: "cm", label: "wall-target accuracy — measured, not judged" },
+      { value: "cm", label: "wall-target accuracy, measured rather than argued about" },
       { value: "km/h", label: "per-shot ball speed with a session peak" },
       { value: "per player", label: "shot, bounce and rally counts, exportable" },
     ],
@@ -216,11 +216,11 @@ export const projects: Project[] = [
       label: "measured to each brand’s tolerance table, logged to the operator",
     },
     summary:
-      "A QC station that already knows every brand’s points of measure and tolerances — the operator just measures.",
+      "A QC station that already knows every brand’s points of measure and tolerances. The operator just measures.",
     challenge:
-      "Garment QC ran on a tape measure and a stack of paper spec sheets. Every brand — adidas, Zara, Puma, Reebok — has its own list of points of measure and its own tolerance per size, and operators reconciled all of it by hand. Mistakes shipped, and the QC manager only found out when a customer complained.",
+      "Garment QC ran on a tape measure and a stack of paper spec sheets. adidas, Zara, Puma and Reebok each bring their own list of points of measure and their own tolerance per size, and operators reconciled all of it by hand. Mistakes shipped, and the QC manager only found out when a customer complained.",
     solution:
-      "A desktop capture app paired with a web dashboard. The operator picks brand, article type, style and size; the station loads that brand’s points of measure with the tolerance for that size. Each measurement is captured, compared to spec, and marked pass or fail in centimetres at the point of measure — garment colour and size drive the tolerance set. “Next Piece” and “Next Article” keep the line moving, and every result syncs to the web app with the operator and table attached.",
+      "A desktop capture app paired with a web dashboard. The operator picks brand, article type, style and size; the station loads that brand’s points of measure with the tolerance for that size. Each measurement is captured, compared to spec, and marked pass or fail in centimetres at the point of measure, with garment colour and size driving the tolerance set. “Next Piece” and “Next Article” keep the line moving, and every result syncs to the web app with the operator and table attached.",
     results:
       "Operators stopped looking up specs, because the station already has them. Pass and fail are logged per operator and per table, and the QC manager watches results arrive on the web app instead of collecting clipboards at the end of a shift. Deployed on a live line at a Karachi garment manufacturer.",
     metrics: [
@@ -257,14 +257,14 @@ export const projects: Project[] = [
     strip: true,
     outcome: {
       value: "1st place",
-      label: "IEEE Hackathon — then taken into production",
+      label: "IEEE Hackathon win, then taken into production",
     },
     summary:
-      "Real-time docking assistance: detect the vehicle, track the approach, log the turnaround — from a fixed camera on the bay.",
+      "Real-time docking assistance: detect the vehicle, track the approach, log the turnaround, all from one fixed camera on the bay.",
     challenge:
-      "Loading-dock turnaround is guesswork. Nobody knows exactly when a truck arrived, how long it sat, or where the bottleneck is — so the numbers that would fix scheduling don’t exist.",
+      "Loading-dock turnaround is guesswork. Nobody knows exactly when a truck arrived, how long it sat, or where the bottleneck is, so the numbers that would fix scheduling simply do not exist.",
     solution:
-      "A live operations dashboard driven by computer vision on the dock camera. It detects and tracks vehicles and forklifts through the bay, marks each state change — arrived, positioned, loading, released — on a live turnaround timeline, and streams an event feed operations can watch in real time. Built for the hackathon, then hardened for a real yard.",
+      "A live operations dashboard driven by computer vision on the dock camera. It detects and tracks vehicles and forklifts through the bay, marks each state change (arrived, positioned, loading, then released) on a live turnaround timeline, and streams an event feed operations can watch in real time. Built for the hackathon, then hardened for a real yard.",
     results:
       "Won first place at an IEEE Hackathon and was commercialised afterwards. Turnaround time stopped being an argument and became a chart.",
     metrics: [
@@ -324,16 +324,16 @@ export const projects: Project[] = [
       label: "every response cites the internal document it came from",
     },
     summary:
-      "A retrieval-grounded assistant that answers from verified internal documents — pricing, tax rules, policies — and shows its sources.",
+      "A retrieval-grounded assistant that answers from verified internal documents covering pricing, tax rules and policies, and shows its sources.",
     challenge:
       "Staff answered the same product, pricing and policy questions from memory and scattered PDFs. Answers drifted, and a wrong one about tax or credit terms is expensive.",
     solution:
-      "A RAG pipeline over the client’s own documents: FAISS vector retrieval, cosine-similarity ranked chunks, and an LLM that only answers from what it retrieved — with the source file and chunk shown next to every response. Runs on-premise on an NVIDIA A100 so nothing leaves the building, with an operator view for architecture, security and latency.",
+      "A RAG pipeline over the client’s own documents: FAISS vector retrieval, cosine-similarity ranked chunks, and an LLM that only answers from what it retrieved, with the source file and chunk shown next to every response. Runs on-premise on an NVIDIA A100 so nothing leaves the building, with an operator view for architecture, security and latency.",
     results:
       "One assistant, one source of truth. Answers are consistent, traceable to a document, and fast enough to use mid-conversation.",
     metrics: [
       { value: "cited", label: "source file + chunk shown for every answer" },
-      { value: "on-prem", label: "runs locally on an NVIDIA A100 — no data leaves" },
+      { value: "on-prem", label: "runs locally on an NVIDIA A100, so no data leaves" },
       { value: "~350 ms", label: "typical retrieval + generation latency" }, // TODO(owner): confirm
     ],
     metricsAccent: "signal",
@@ -356,13 +356,13 @@ export const projects: Project[] = [
       label: "each piece tracked across frames, even when it overlaps",
     },
     summary:
-      "Real-time detection and counting of confectionery on a moving conveyor — each piece assigned an ID and counted exactly once.",
+      "Real-time detection and counting of confectionery on a moving conveyor, with every piece assigned an ID and counted exactly once.",
     challenge:
       "Counting product on a fast conveyor by eye or by weight is approximate. Overlapping pieces and motion blur break naive frame-by-frame counting.",
     solution:
       "A YOLO detector plus a tracker that assigns each piece a persistent ID and follows it across the belt, so a piece that overlaps or is briefly occluded is still counted once. Trained on annotated line footage for the specific product and lighting.",
     results:
-      "An exact, continuous count from a camera over the belt — no scale, no manual tally.",
+      "An exact, continuous count from one camera over the belt. No scale, no manual tally.",
     metrics: [
       { value: "per piece", label: "persistent track ID across frames" },
       { value: "real-time", label: "counts at line speed on the conveyor feed" },
@@ -392,7 +392,7 @@ export const projects: Project[] = [
     challenge:
       "Production counts at the end of a shift are reconstructed from trays and memory. A live number would let the line react.",
     solution:
-      "An overhead GoPro feeds a detector that boxes each cake and a tracker that IDs it, incrementing a live “cakes count” as pieces cross the line — robust to hands, trays and the pieces briefly touching.",
+      "An overhead GoPro feeds a detector that boxes each cake and a tracker that IDs it, incrementing a live “cakes count” as pieces cross the line, holding up against hands, trays and pieces that briefly touch.",
     results:
       "A running count on the line instead of a guess at the end of the day.",
     metrics: [
@@ -420,11 +420,11 @@ export const projects: Project[] = [
       label: "breaks, gaps and weave irregularities called out as the fabric runs",
     },
     summary:
-      "AnomalyCLIP flags defects in tire-cord fabric — breaks, gaps, weave irregularities — from a line camera, as a heatmap.",
+      "AnomalyCLIP flags breaks, gaps and weave irregularities in tire-cord fabric from a line camera, drawn as a live heatmap.",
     challenge:
-      "Tire-cord fabric defects — a broken cord, a gap, an irregular weave — are subtle and easy to miss at line speed. Missing one puts a weak spot into a tyre.",
+      "Tire-cord fabric defects are subtle: a broken cord, a gap, an irregular weave, all easy to miss at line speed. Missing one puts a weak spot into a tyre.",
     solution:
-      "An AnomalyCLIP model trained on the fabric renders a defect heatmap next to the live feed: normal weave stays cool, anomalies light up. It doesn’t need every defect type labelled in advance — it learns what “normal” looks like and flags departures.",
+      "An AnomalyCLIP model trained on the fabric renders a defect heatmap next to the live feed: normal weave stays cool, anomalies light up. It does not need every defect type labelled in advance. It learns what normal looks like, then flags anything that departs from it.",
     results:
       "A second set of eyes on the fabric that never blinks, with a heatmap an operator can act on immediately.",
     metrics: [
@@ -454,14 +454,14 @@ export const projects: Project[] = [
     summary:
       "A Detectron2 instance-segmentation model outlines and classifies vehicle damage from a single photo, with a review UI.",
     challenge:
-      "Damage assessment from photos is slow and inconsistent — two assessors, two answers, and a backlog.",
+      "Damage assessment from photos is slow and inconsistent: two assessors, two answers, and a growing backlog.",
     solution:
       "A Faster R-CNN instance-segmentation model built on Meta’s Detectron2 outlines each damaged region and classifies it (dent, scratch, break). A Streamlit interface lets an assessor upload a photo and get the segmented result with confidence scores for review.",
     results:
       "A consistent first pass on every photo, so assessors spend their time on the edge cases instead of the obvious ones.",
     metrics: [
       { value: "per region", label: "pixel mask + class for each damaged area" },
-      { value: "one photo", label: "no fixed rig — works on a phone photo" },
+      { value: "one photo", label: "no fixed rig, works from a phone photo" },
       { value: "review UI", label: "assessor confirms or corrects, fast" },
     ],
     metricsAccent: "signal",
@@ -484,13 +484,13 @@ export const projects: Project[] = [
       label: "lane lines extracted directly from the LiDAR point cloud",
     },
     summary:
-      "A lane-detection pipeline that works on raw LiDAR point clouds — no camera, robust in the dark and in glare.",
+      "A lane-detection pipeline that works on raw LiDAR point clouds. No camera, and robust in the dark and in glare.",
     challenge:
-      "Camera lane detection fails in the dark, in glare and in bad weather — exactly when a vehicle most needs it. LiDAR keeps working, but its point cloud is sparse and noisy.",
+      "Camera lane detection fails in the dark, in glare and in bad weather, exactly when a vehicle needs it most. LiDAR keeps working, but its point cloud is sparse and noisy.",
     solution:
       "A two-stage pipeline: an intensity-threshold pass pulls the most likely lane-line points out of the point cloud, then a region-of-interest pass tightens the result to the drivable corridor. Output is 3D lane geometry, not a 2D image overlay.",
     results:
-      "Lane geometry that holds up in conditions where a camera gives nothing — usable as a standalone signal or fused with vision.",
+      "Lane geometry that holds up in conditions where a camera gives nothing, usable on its own or fused with vision.",
     metrics: [
       { value: "3D", label: "lane geometry in real-world coordinates" },
       { value: "no camera", label: "works in darkness, glare and weather" },
@@ -523,7 +523,7 @@ export const projects: Project[] = [
     challenge:
       "Sending every part’s image to the cloud for inspection is slow and adds a dependency the line can’t afford. Inspection has to happen at the station.",
     solution:
-      "An ANOMALIB-based model trained on good parts, then optimised and deployed to edge hardware so it inspects each part on-device in the time it takes to place the next one. It flags anything that departs from normal — no need to enumerate defect types.",
+      "An ANOMALIB-based model trained on good parts, then optimised and deployed to edge hardware so it inspects each part on-device in the time it takes to place the next one. It flags anything that departs from normal, so nobody has to enumerate defect types up front.",
     results:
       "Inspection at the station, at line speed, with no network in the loop.",
     metrics: [
@@ -553,7 +553,7 @@ export const projects: Project[] = [
     summary:
       "An OCR and extraction pipeline that turns scanned documents into structured fields, with a review view for low-confidence pulls.",
     challenge:
-      "Key data was locked in scanned documents and PDFs, re-keyed by hand — slow, and every re-key is a chance for an error.",
+      "Key data was locked in scanned documents and PDFs, re-keyed by hand. Slow, and every re-key is another chance to introduce an error.",
     solution:
       "OCR to lift the text, then a field-extraction layer that maps it to the fields that matter, each with a confidence score. A details view surfaces the low-confidence extractions for a human to confirm, so the pipeline is fast where it’s sure and careful where it isn’t.",
     results:
@@ -587,7 +587,7 @@ export const projects: Project[] = [
     challenge:
       "Drivers circle looking for a space and operators have no real-time view of how full the site is or where people are moving.",
     solution:
-      "Detection and tracking on the cameras already installed: each bay is watched for occupied/free, and people are counted through defined lines and zones. It feeds a dashboard — a live occupancy map, zone counts, and trend over the day.",
+      "Detection and tracking on the cameras already installed: each bay is watched for occupied/free, and people are counted through defined lines and zones. It feeds a dashboard with a live occupancy map, zone counts, and the trend across the day.",
     results:
       "A real-time picture of the site from cameras that were only recording before.",
     metrics: [
@@ -615,11 +615,11 @@ export const projects: Project[] = [
       label: "missions planned and validated in Gazebo before they fly",
     },
     summary:
-      "Mission planning and simulation for an autonomous quad — waypoints and behaviour validated in Gazebo, flown through QGroundControl.",
+      "Mission planning and simulation for an autonomous quad, with waypoints and behaviour validated in Gazebo, then flown through QGroundControl.",
     challenge:
       "Testing autonomous flight behaviour on real hardware is slow and risky. A crash costs a week.",
     solution:
-      "A Gazebo simulation of the quad and its environment lets missions — waypoints, altitudes, behaviours — be built and validated in software first, then executed on the real airframe through a QGroundControl link. The loop is: plan, simulate, adjust, fly.",
+      "A Gazebo simulation of the quad and its environment lets missions, including waypoints, altitudes and behaviours, be built and validated in software first, then executed on the real airframe through a QGroundControl link. The loop is: plan, simulate, adjust, fly.",
     results:
       "Mission behaviour is proven in sim before it ever leaves the ground, so field time is spent flying working missions, not debugging them.",
     metrics: [

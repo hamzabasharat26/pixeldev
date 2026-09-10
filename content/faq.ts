@@ -4,12 +4,12 @@ export const faqs: Faq[] = [
   {
     question: "How much does a project cost?",
     answer:
-      "It depends on scope, but most of our work falls between a few thousand dollars for a marketing site and five figures for a full platform. We quote a fixed price after a discovery call — no hourly surprises.",
+      "It depends on scope, but most of our work falls between a few thousand dollars for a marketing site and five figures for a full platform. We quote one fixed price after a discovery call. No hourly billing, and no surprises on the invoice.",
   },
   {
     question: "How long does a project take?",
     answer:
-      "A marketing website is typically 3–5 weeks. A web application or mobile app is usually 8–16 weeks depending on complexity. We give you a firm timeline before we start.",
+      "A marketing website is typically 3 to 5 weeks. A web application or mobile app usually runs 8 to 16 weeks, depending on complexity. We give you a firm timeline before we start.",
   },
   {
     question: "Do you work with clients outside Pakistan?",
@@ -24,7 +24,7 @@ export const faqs: Faq[] = [
   {
     question: "What happens after launch?",
     answer:
-      "We include a support window after every launch to fix anything that surfaces in the real world. After that, you can keep us on a monthly retainer for iteration and maintenance, or take it in-house — your call.",
+      "We include a support window after every launch to fix anything that surfaces in the real world. After that, you can keep us on a monthly retainer for iteration and maintenance, or take it in-house. Entirely your call.",
   },
   {
     question: "Can you work with our existing codebase?",

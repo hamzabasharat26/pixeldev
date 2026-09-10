@@ -17,6 +17,9 @@ export function Footer() {
       <div className="container-page relative grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr_1.2fr] md:py-20">
         <div className="flex flex-col gap-4">
           <Logo variant="light" withSolutions />
+          <p className="text-[0.95rem] font-medium text-amber-300">
+            {site.promise}
+          </p>
           <p className="max-w-xs text-sm leading-relaxed text-d-muted">
             {site.positioning}
           </p>

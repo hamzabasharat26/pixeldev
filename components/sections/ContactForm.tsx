@@ -20,7 +20,9 @@ function celebrate() {
         startVelocity: 32,
         scalar: 0.9,
         origin: { y: 0.7 },
-        colors: ["#c2553a", "#e08063", "#4fc3e8", "#12294b"],
+        // Mustard-brown palette, matching the logo. Kept in sync with
+        // --color-amber-* in globals.css.
+        colors: ["#c88a2e", "#e7a23b", "#8a5f1f", "#0a284a"],
         disableForReducedMotion: true,
       });
     })
@@ -71,7 +73,7 @@ export function ContactForm() {
   if (state.status === "success") {
     return (
       <div className="rounded-[var(--radius-card)] border border-line bg-surface p-8">
-        <p className="text-h4 text-ink">Thanks — your message is in.</p>
+        <p className="text-h4 text-ink">Thanks. Your message is in.</p>
         <p className="mt-3 text-muted">
           We&apos;ll get back to you within 24 hours.
         </p>

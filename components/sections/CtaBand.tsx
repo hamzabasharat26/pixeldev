@@ -9,7 +9,7 @@ type CtaBandProps = {
 
 export function CtaBand({
   heading = "Tell us what you're trying to build.",
-  sub = "We'll come back within 24 hours with honest feedback on scope, timeline, and cost — whether or not we're the right fit.",
+  sub = "We'll come back within 24 hours with honest feedback on scope, timeline and cost, whether or not we turn out to be the right fit.",
 }: CtaBandProps) {
   return (
     <section className="on-dark relative isolate overflow-hidden bg-navy-ink">
@@ -25,7 +25,15 @@ export function CtaBand({
       </div>
 
       <Reveal className="container-page section-y">
-        <h2 className="text-h2 max-w-2xl text-d-text">{heading}</h2>
+        {/* The commitment line, given its own weight before the ask. */}
+        <p className="flex items-center gap-2.5 text-[0.95rem] font-medium text-amber-300">
+          <span
+            aria-hidden="true"
+            className="inline-block h-1.5 w-1.5 rounded-full bg-amber-300"
+          />
+          {site.promise}
+        </p>
+        <h2 className="text-h2 mt-5 max-w-2xl text-d-text">{heading}</h2>
         <p className="text-body-lg mt-5 max-w-xl text-d-muted">{sub}</p>
 
         <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">

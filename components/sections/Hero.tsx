@@ -39,7 +39,7 @@ export function Hero() {
               className="mt-6 max-w-xl text-lg leading-relaxed text-muted"
             >
               {site.positioning} Detection, tracking, quality control, OCR and
-              retrieval-grounded assistants — plus the web, mobile and cloud
+              retrieval-grounded assistants, plus the web, mobile and cloud
               work to put them in front of the people who use them.
             </p>
 

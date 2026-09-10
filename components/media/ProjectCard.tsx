@@ -25,7 +25,7 @@ export function ProjectCard({
           posterSmall={project.media.posterSmall}
           webm={project.media.webm}
           mp4={project.media.mp4}
-          alt={`${project.title} — ${project.outcome.label}`}
+          alt={`${project.title}: ${project.outcome.label}`}
           aspect="16 / 10"
           sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw"
           rounded={false}

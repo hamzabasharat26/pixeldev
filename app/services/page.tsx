@@ -17,7 +17,7 @@ import { CtaBand } from "@/components/sections/CtaBand";
 export const metadata: Metadata = pageMetadata({
   title: "Services",
   description:
-    "Computer vision, AI and automation, web platforms, mobile apps, UI/UX and cloud — six disciplines, delivered end-to-end by one senior team.",
+    "Computer vision, AI and automation, web platforms, mobile apps, UI/UX and cloud. Six disciplines, delivered end to end by one senior team.",
   path: "/services",
 });
 
@@ -41,14 +41,14 @@ export default function ServicesPage() {
             Everything it takes to ship a product.
           </>
         }
-        intro="Six disciplines, one team that owns the whole stack — so the thing you approved is the thing that goes live."
+        intro="Six disciplines, one team that owns the whole stack, so the thing you approved is the thing that goes live."
       />
 
       <section className="section bg-paper">
         <div className="container-wide">
           <Reveal>
             <p className="max-w-3xl text-lg leading-relaxed text-muted">
-              Most problems in software delivery aren&apos;t technical — they&apos;re
+              Most problems in software delivery aren&apos;t technical. They&apos;re
               handoff problems. A design engineering can&apos;t build. A backend
               nobody documented. A launch with no plan for the day after. We keep
               design, development and infrastructure under one roof.

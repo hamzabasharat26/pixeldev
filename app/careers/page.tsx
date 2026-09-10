@@ -8,7 +8,7 @@ import { CtaBand } from "@/components/sections/CtaBand";
 export const metadata: Metadata = pageMetadata({
   title: "Careers",
   description:
-    "We hire senior people and keep the team small. No open roles right now — but we read every good message.",
+    "We hire senior people and keep the team small. No open roles right now, but we read every good message.",
   path: "/careers",
 });
 

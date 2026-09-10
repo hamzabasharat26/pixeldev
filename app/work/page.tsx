@@ -8,7 +8,7 @@ import { CtaBand } from "@/components/sections/CtaBand";
 export const metadata: Metadata = pageMetadata({
   title: "Work",
   description:
-    "Computer vision, AI and full-stack systems Pixel Dev Solutions has designed, built and put into production — detection, tracking, quality control, RAG, OCR and more.",
+    "Computer vision, AI and full-stack systems Pixel Dev Solutions has designed, built and put into production: detection, tracking, quality control, RAG, OCR and more.",
   path: "/work",
 });
 
