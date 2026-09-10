@@ -16,7 +16,7 @@ export function Testimonials() {
           eyebrow="Client voices"
           title={
             <>
-              What happens <em>after</em> we ship.
+              What happens after we ship.
             </>
           }
         />

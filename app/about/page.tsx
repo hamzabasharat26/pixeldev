@@ -23,7 +23,7 @@ export default function AboutPage() {
         eyebrow="About"
         title={
           <>
-            A small team that <em>ships</em>.
+            A small team that ships.
           </>
         }
         intro="Pixel Dev Solutions is for people who need serious engineering without agency overhead."

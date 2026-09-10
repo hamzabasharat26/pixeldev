@@ -22,12 +22,14 @@ export function ProjectCard({
       <div className="relative border-b border-d-line">
         <AutoVideo
           poster={project.media.poster}
+          posterSmall={project.media.posterSmall}
           webm={project.media.webm}
           mp4={project.media.mp4}
           alt={`${project.title} — ${project.outcome.label}`}
           aspect="16 / 10"
           sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw"
           rounded={false}
+          className="det-frame"
         />
         <span className="text-eyebrow absolute left-3 top-3 rounded-full bg-navy-ink/80 px-2.5 py-1 text-[0.6rem] text-amber-300 backdrop-blur-sm">
           {project.category}
@@ -43,11 +45,15 @@ export function ProjectCard({
           {project.summary}
         </p>
 
-        <p className="text-data mt-4 text-sm text-d-muted">
+        {/* Mono is the voice of the measured value only — running it through
+            the whole sentence turns the card into a wall of monospace. */}
+        <p className="mt-4 text-sm leading-relaxed text-d-muted">
           <span
             className={cn(
-              "font-semibold",
-              project.metricsAccent === "signal" ? "text-signal" : "text-amber-300",
+              "text-data font-semibold",
+              project.metricsAccent === "signal"
+                ? "text-signal"
+                : "text-amber-300",
             )}
           >
             {project.outcome.value}

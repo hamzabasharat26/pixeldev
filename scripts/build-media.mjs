@@ -5,6 +5,7 @@
  *   node scripts/build-media.mjs sheets [--only <slug>]   contact sheets → scripts/media/_sheets/
  *   node scripts/build-media.mjs probe                     ffprobe every source
  *   node scripts/build-media.mjs build  [--only <slug>] [--force]
+ *   node scripts/build-media.mjs thumbs [--only <slug>] [--force]  small covers
  *   node scripts/build-media.mjs check                     budgets only, nonzero exit on breach
  *
  * Raw sources live in media-src/ (git-ignored, owner-held). Only the derived
@@ -177,11 +178,51 @@ async function buildOg() {
   record(out, manifest.budgets.ogKB);
 }
 
+/**
+ * Small covers for the hero panel and the work strip.
+ *
+ * Derived from the committed 1600px `cover.webp`, NOT from media-src/ — so it
+ * runs from a clean checkout with no raw footage. The full-width cover is far
+ * too many bytes for a 330–560px slot, and these are served `unoptimized`
+ * (deliberately — it keeps the LCP image off the image-optimiser's critical
+ * path), so the right width has to exist on disk.
+ */
+const THUMB_WIDTH = 800;
+
+async function buildThumbs() {
+  for (const p of pick(manifest.projects)) {
+    // `poster` is the <video poster> attribute, which the browser fetches even
+    // under preload="none" — so it needs a small variant just as much as the
+    // cover does, and next/image never gets a chance to size it down.
+    for (const name of ["cover", "poster"]) {
+      const src = resolve(ROOT, "public/work", p.slug, `${name}.webp`);
+      if (!existsSync(src)) continue;
+      const out = resolve(
+        ROOT,
+        "public/work",
+        p.slug,
+        `${name}-${THUMB_WIDTH}.webp`,
+      );
+      if (fresh(out, src)) continue;
+      await toWebp(src, out, { width: THUMB_WIDTH, quality: 78 });
+      console.log(`  thumb   ${p.slug}/${name}-${THUMB_WIDTH}.webp`);
+      record(out, manifest.budgets.stillKB);
+    }
+  }
+}
+
+async function doThumbs() {
+  console.log("building small covers …\n");
+  await buildThumbs();
+  process.exit(report() ? 1 : 0);
+}
+
 async function doBuild() {
   console.log("building media …\n");
   for (const p of pick(manifest.projects)) await buildProject(p);
   if (!only || manifest.services.some((s) => s.name === only)) await buildServices();
   if (!only) await buildOg();
+  await buildThumbs();
   const breached = report();
   if (breached) {
     console.error(`FAIL: ${breached} file(s) over budget.`);
@@ -207,7 +248,13 @@ async function doCheck() {
   process.exit(report() ? 1 : 0);
 }
 
-const table = { sheets: doSheets, probe: doProbe, build: doBuild, check: doCheck };
+const table = {
+  sheets: doSheets,
+  probe: doProbe,
+  build: doBuild,
+  thumbs: doThumbs,
+  check: doCheck,
+};
 const fn = table[cmd];
 if (!fn) {
   console.error(`unknown command: ${cmd}`);

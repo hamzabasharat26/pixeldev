@@ -18,7 +18,7 @@ export default function OpengraphImage() {
           justifyContent: "space-between",
           padding: "72px",
           background:
-            "radial-gradient(120% 120% at 100% 100%, #b9791f 0%, rgba(185,121,31,0) 42%), linear-gradient(135deg, #070e1c 0%, #0e2044 55%, #12294b 100%)",
+            "radial-gradient(120% 120% at 100% 100%, #6d2f1f 0%, rgba(109,47,31,0) 44%), linear-gradient(135deg, #060b14 0%, #101a2e 55%, #12294b 100%)",
           fontFamily: "sans-serif",
         }}
       >
@@ -27,16 +27,16 @@ export default function OpengraphImage() {
             <path
               d="M13 12 L30 24 L13 36"
               fill="none"
-              stroke="#ffffff"
+              stroke="#e9edf4"
               strokeWidth="6.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-            <rect x="31" y="19" width="10" height="10" rx="2.5" fill="#e9a13c" />
+            <rect x="31" y="19" width="10" height="10" rx="2.5" fill="#c2553a" />
           </svg>
-          <span style={{ color: "#f5f3ec", fontSize: 32, fontWeight: 700 }}>
-            Pixel<span style={{ color: "#e9a13c" }}>Dev</span>
-            <span style={{ color: "#9db0d0", fontWeight: 500 }}>
+          <span style={{ color: "#e9edf4", fontSize: 32, fontWeight: 700 }}>
+            Pixel<span style={{ color: "#e08063" }}>Dev</span>
+            <span style={{ color: "#98a8c0", fontWeight: 500 }}>
               &nbsp;&nbsp;Solutions
             </span>
           </span>
@@ -47,13 +47,13 @@ export default function OpengraphImage() {
             style={{
               width: 88,
               height: 5,
-              background: "#e9a13c",
+              background: "#c2553a",
               marginBottom: 26,
             }}
           />
           <div
             style={{
-              color: "#f5f3ec",
+              color: "#e9edf4",
               fontSize: 64,
               fontWeight: 700,
               lineHeight: 1.08,
@@ -61,11 +61,11 @@ export default function OpengraphImage() {
               maxWidth: 940,
             }}
           >
-            We are more than ordinary.
+            Production AI, not proof of concept.
           </div>
           <div
             style={{
-              color: "#9db0d0",
+              color: "#98a8c0",
               fontSize: 27,
               marginTop: 22,
               maxWidth: 900,

@@ -50,20 +50,38 @@ Layout `<title>`/`description`/`keywords` read from there too. Never hardcode.
 
 ## Design system
 
-`app/globals.css` `@theme`. Brand hues are navy `#12294B` + amber `#E9A13C`
-only. Around them: an ivory paper ground (`--color-paper`), warm ink/muted/faint
-text, a `clay` secondary (`--color-clay`, Anthropic-family — icon chips + serif
-accents), and a single cool `signal` hue (`--color-signal`) used **only** for
-on-screen data / telemetry (project metrics, tracking overlays) — never a
-button, link or heading.
+`app/globals.css` `@theme`. The concept is **"the detector's view"**: the UI
+borrows the vernacular of what this studio's own models render — corner
+brackets (`.det-frame`), telemetry readouts (`.text-readout`), glass HUD panels
+over a dark camera feed.
 
-Type: Space Grotesk (display) + Fraunces italic (one accent word per headline,
-authored as `<em>`) + Inter (body) + JetBrains Mono (eyebrows, `01–04`, tags,
-metric numerals).
+- Navy `#12294B` is the brand hue, unchanged, and reads as the feed.
+- The accent is **rust `--color-amber: #c2553a`**. The key name is legacy —
+  retuning a `@theme` value regenerates every dependent utility, whereas
+  renaming the key silently deletes it with a green build *and* a green lint.
+  The value is the source of truth, not the name.
+- Paper is a warm ground (`--color-paper`) carrying **cool** ink
+  (`--color-ink: #14171c`). The mismatch is deliberate: warm-on-warm is the
+  stock editorial look.
+- `--color-signal: #4fc3e8` is the machine's own mark — measured data and
+  tracking frames **only**. Never a button, link or heading.
 
-Sections alternate an ivory ground and a navy ground, hairline-separated.
+Contrast pairs are hand-checked, and two are load-bearing: `--color-faint` is
+tuned against `--color-paper-2` (the darkest ground it lands on), and the
+primary button's gradient stops are all ≥4.76:1 against its text — axe cannot
+evaluate contrast over a gradient, so lightening a stop needs the maths redone.
+
+Type: Space Grotesk (display) + Fraunces italic (available for an `<em>` accent
+word, used sparingly) + Inter (body) + JetBrains Mono, which is reserved for
+genuinely machine-voiced text — readouts, tags, and **measured figures only**.
+`MetricValue` enforces that last rule: a phrase like "Every piece" gets the
+display face, not a tabular-numeral treatment that implies a reading.
+
+Sections alternate a paper ground and a navy ground, hairline-separated.
 Reveal-on-scroll is a pure-CSS `animation-timeline: view()` (no JS; degrades to
-visible). Marquees are CSS-only, pause on hover, freeze under reduced motion.
+visible) and animates **transform only** — a fade drops text below its contrast
+ratio mid-animation. Marquees are CSS-only, pause on hover, freeze under
+reduced motion.
 
 ## Media pipeline
 
@@ -73,9 +91,18 @@ machine, not deployed). Only the derived, size-budgeted assets under
 
 ```bash
 node scripts/build-media.mjs sheets   # contact sheets → scripts/media/_sheets/, with per-tile timestamps
-node scripts/build-media.mjs build    # (re)generate everything into public/
+node scripts/build-media.mjs build    # (re)generate everything into public/ (includes thumbs)
+node scripts/build-media.mjs thumbs   # just the 800px covers/posters
 node scripts/build-media.mjs check    # budget check only, nonzero exit on breach
 ```
+
+`thumbs` is the one step that reads from `public/` rather than `media-src/`: it
+derives `cover-800.webp` / `poster-800.webp` from the committed 1600px files, so
+it runs on a clean checkout with no raw footage. Those small variants matter
+because the hero panel and work-strip images are served `unoptimized` (keeping
+the LCP image off the image-optimiser's critical path) and a `<video poster>`
+attribute is fetched even under `preload="none"` — in both cases the browser
+gets exactly the file we name, so the right width has to exist on disk.
 
 Timestamps are hand-picked in `scripts/media/manifest.json`. Windows: if ffmpeg
 isn't on PATH, set `FFMPEG_BIN` / `FFPROBE_BIN`.

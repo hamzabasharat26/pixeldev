@@ -39,7 +39,7 @@ export default function ServicesPage() {
         eyebrow="Services"
         title={
           <>
-            Everything it takes to <em>ship</em> a product.
+            Everything it takes to ship a product.
           </>
         }
         intro="Six disciplines, one team that owns the whole stack — so the thing you approved is the thing that goes live."
@@ -66,7 +66,7 @@ export default function ServicesPage() {
                   className="grid scroll-mt-28 gap-10 lg:grid-cols-2 lg:items-center lg:gap-16"
                 >
                   <Reveal className={cn(flip && "lg:order-2")}>
-                    <Eyebrow>{`${service.index} · ${service.title}`}</Eyebrow>
+                    <Eyebrow>{service.title}</Eyebrow>
                     <h2 className="text-h2 mt-4 text-ink">{service.deepTitle}</h2>
                     {service.deepBody.map((para) => (
                       <p
@@ -112,7 +112,7 @@ export default function ServicesPage() {
                           <Check
                             size={18}
                             strokeWidth={2.5}
-                            className="mt-0.5 shrink-0 text-amber"
+                            className="mt-0.5 shrink-0 text-amber-300"
                             aria-hidden="true"
                           />
                           <span>{item}</span>

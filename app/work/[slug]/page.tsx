@@ -10,6 +10,7 @@ import {
 } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { MetricValue } from "@/components/ui/MetricValue";
 import { AutoVideo } from "@/components/media/AutoVideo";
 import { CtaBand } from "@/components/sections/CtaBand";
 
@@ -54,7 +55,7 @@ export default async function CaseStudyPage({
   const liveIndex = live.findIndex((p) => p.slug === slug);
   const next = live[(liveIndex + 1) % live.length];
   const accentClass =
-    project.metricsAccent === "signal" ? "text-signal" : "text-amber";
+    project.metricsAccent === "signal" ? "text-signal" : "text-amber-300";
 
   return (
     <>
@@ -123,6 +124,7 @@ export default async function CaseStudyPage({
             aspect="16 / 9"
             sizes="(min-width: 1400px) 1336px, 100vw"
             priority
+            className="det-frame"
           />
         </div>
       </article>
@@ -150,14 +152,11 @@ export default async function CaseStudyPage({
               <div key={metric.label} className="border-t border-d-line pt-5">
                 <dt className="sr-only">{metric.label}</dt>
                 <dd>
-                  <span
-                    className={cn(
-                      "text-data block text-3xl font-bold md:text-[2.4rem]",
-                      accentClass,
-                    )}
-                  >
-                    {metric.value}
-                  </span>
+                  <MetricValue
+                    value={metric.value}
+                    size="hero"
+                    className={accentClass}
+                  />
                   <span className="mt-2 block max-w-[28ch] text-sm leading-relaxed text-d-muted">
                     {metric.label}
                   </span>
@@ -212,13 +211,12 @@ export default async function CaseStudyPage({
           >
             <span>
               <span className="text-eyebrow text-faint">Next project</span>
-              <span className="text-h4 mt-1 block text-ink">{next.title}</span>
+              <span className="text-h4 mt-1 block text-ink underline-offset-4 group-hover:underline group-hover:decoration-amber-600/50">
+                {next.title}
+              </span>
             </span>
-            <span
-              aria-hidden="true"
-              className="text-2xl text-amber-600 transition-transform group-hover:translate-x-1"
-            >
-              &rarr;
+            <span className="text-readout shrink-0 rounded-md border border-line-2 px-2.5 py-1.5 text-faint transition-colors group-hover:border-amber-600/50 group-hover:text-amber-700">
+              {next.category}
             </span>
           </Link>
         </div>

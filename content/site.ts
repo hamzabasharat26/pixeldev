@@ -89,13 +89,22 @@ export const site = {
   },
 } as const;
 
+export type NavItem = {
+  label: string;
+  href: string;
+  /** Match the path exactly rather than by prefix — otherwise "/" is
+   *  active on every route. */
+  exact?: boolean;
+};
+
 /** Primary navigation (header + mobile drawer). */
-export const primaryNav = [
+export const primaryNav: NavItem[] = [
+  { label: "Home", href: "/", exact: true },
   { label: "Services", href: "/services" },
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-] as const;
+];
 
 /** Footer link columns. Service anchors match /services section ids. */
 export const footerNav = {

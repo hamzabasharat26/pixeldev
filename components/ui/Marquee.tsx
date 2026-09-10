@@ -9,19 +9,22 @@ export function Marquee({
   children,
   direction = "left",
   durationSeconds = 38,
+  gapClassName = "gap-10 pe-10",
   className,
   "aria-label": ariaLabel,
 }: {
   children: ReactNode;
   direction?: "left" | "right";
   durationSeconds?: number;
+  /** Spacing between items and the trailing gap — must match, or the loop jumps. */
+  gapClassName?: string;
   className?: string;
   "aria-label"?: string;
 }) {
   return (
     <div
       className={cn(
-        "marquee-root group overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]",
+        "marquee-root group overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)]",
         className,
       )}
     >
@@ -33,9 +36,11 @@ export function Marquee({
       >
         {/* Two identical copies, each carrying its own trailing gap, so the
             -50% translate wraps seamlessly. */}
-        <li className="flex shrink-0 items-center gap-12 pe-12">{children}</li>
+        <li className={cn("flex shrink-0 items-center", gapClassName)}>
+          {children}
+        </li>
         <li
-          className="flex shrink-0 items-center gap-12 pe-12"
+          className={cn("flex shrink-0 items-center", gapClassName)}
           aria-hidden="true"
         >
           {children}

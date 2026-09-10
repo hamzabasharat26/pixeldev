@@ -59,7 +59,7 @@ export function MobileNav() {
                     className={cn(
                       "border-b border-white/10 py-4 text-h4 transition-colors",
                       active
-                        ? "text-amber"
+                        ? "text-amber-300"
                         : "text-d-text hover:text-amber-300",
                     )}
                   >

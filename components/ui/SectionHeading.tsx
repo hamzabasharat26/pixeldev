@@ -58,19 +58,13 @@ export function SectionHeading({
         <Link
           href={action.href}
           className={cn(
-            "text-eyebrow group inline-flex shrink-0 items-center gap-1.5 pb-1 transition-colors",
+            "shrink-0 pb-1 text-[0.9rem] font-medium underline decoration-1 underline-offset-4 transition-colors",
             tone === "light"
-              ? "text-d-muted hover:text-amber-300"
-              : "text-faint hover:text-amber-600",
+              ? "text-d-muted decoration-white/25 hover:text-d-text hover:decoration-amber/70"
+              : "text-muted decoration-ink/20 hover:text-ink hover:decoration-amber-600/70",
           )}
         >
           {action.label}
-          <span
-            aria-hidden="true"
-            className="transition-transform duration-200 group-hover:translate-x-1"
-          >
-            &rarr;
-          </span>
         </Link>
       )}
     </div>

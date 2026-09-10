@@ -11,7 +11,7 @@ export function FaqAccordion() {
             eyebrow="Questions"
             title={
               <>
-                What clients ask <em>first</em>.
+                What clients ask first.
               </>
             }
             className="lg:flex-col lg:items-start"

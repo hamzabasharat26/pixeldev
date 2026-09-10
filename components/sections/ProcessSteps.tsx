@@ -11,7 +11,7 @@ export function ProcessSteps() {
             eyebrow="How we work"
             title={
               <>
-                A process built around <em>shipping</em>.
+                A process built around shipping.
               </>
             }
             intro="Short cycles, a live staging link from week one, no month-long silences."

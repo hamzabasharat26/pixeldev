@@ -20,7 +20,7 @@ export default function WorkPage() {
         eyebrow="Selected work"
         title={
           <>
-            Systems we&apos;ve shipped, <em>in production</em>.
+            Systems we&apos;ve shipped, in production.
           </>
         }
         intro="Real projects, real footage. Client names are held back; the capability is what's on show."

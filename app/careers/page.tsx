@@ -20,7 +20,7 @@ export default function CareersPage() {
         eyebrow="Careers"
         title={
           <>
-            We keep the team small on <em>purpose</em>.
+            We keep the team small on purpose.
           </>
         }
         intro="Senior people, one group that owns the whole build, no layers in between. That only works if we stay deliberate about who joins."

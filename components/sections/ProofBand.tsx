@@ -1,5 +1,6 @@
 import { site } from "@/content/site";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { MetricValue } from "@/components/ui/MetricValue";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function ProofBand() {
@@ -17,7 +18,7 @@ export function ProofBand() {
       <Reveal className="container-wide section relative">
         <Eyebrow tone="light">Proof</Eyebrow>
         <h2 className="text-h2 mt-4 max-w-xl text-d-text">
-          Proof, not <em>promises</em>.
+          Proof, not promises.
         </h2>
 
         <dl className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
@@ -25,9 +26,11 @@ export function ProofBand() {
             <div key={item.label} className="border-t border-d-line pt-5">
               <dt className="sr-only">{item.label}</dt>
               <dd>
-                <span className="text-data block text-3xl font-bold text-amber md:text-[2.6rem]">
-                  {item.value}
-                </span>
+                <MetricValue
+                  value={item.value}
+                  size="hero"
+                  className="text-amber-300"
+                />
                 <span className="mt-3 block max-w-[26ch] text-sm leading-relaxed text-d-muted">
                   {item.label}
                 </span>

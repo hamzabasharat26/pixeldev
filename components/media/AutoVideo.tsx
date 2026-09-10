@@ -6,6 +6,12 @@ import { cn } from "@/lib/utils";
 
 type AutoVideoProps = {
   poster: string;
+  /**
+   * Small variant for the <video poster> attribute. The browser fetches a
+   * poster even under preload="none", and next/image can't size an attribute
+   * — so without this the full-width still downloads on every card.
+   */
+  posterSmall?: string;
   webm?: string;
   mp4?: string;
   /** Alt text for the still image. */
@@ -26,6 +32,7 @@ type AutoVideoProps = {
  */
 export function AutoVideo({
   poster,
+  posterSmall,
   webm,
   mp4,
   alt,
@@ -80,7 +87,7 @@ export function AutoVideo({
       {showVideo ? (
         <video
           ref={ref}
-          poster={poster}
+          poster={posterSmall ?? poster}
           muted
           loop
           playsInline

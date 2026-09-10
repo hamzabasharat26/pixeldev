@@ -25,7 +25,7 @@ export default function AppleIcon() {
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          <rect x="31" y="19" width="10" height="10" rx="2.5" fill="#e9a13c" />
+          <rect x="31" y="19" width="10" height="10" rx="2.5" fill="#c2553a" />
         </svg>
       </div>
     ),

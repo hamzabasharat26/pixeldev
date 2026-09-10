@@ -2,8 +2,9 @@ import type { ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Small mono section label with an amber tick. Pass `as="h2"` when it's the
- * actual heading for a section (keeps the visual, fixes heading order).
+ * Small section label. Sentence case, mono — quiet enough to sit above a
+ * heading without competing with it. Pass `as="h2"` when it *is* the section's
+ * heading, so heading order stays intact.
  */
 export function Eyebrow({
   children,
@@ -13,7 +14,7 @@ export function Eyebrow({
 }: {
   children: string;
   className?: string;
-  /** "dark" = for light backgrounds, "light" = for dark backgrounds. */
+  /** "dark" = for light grounds, "light" = for dark grounds. */
   tone?: "dark" | "light";
   as?: ElementType;
 }) {
@@ -21,12 +22,11 @@ export function Eyebrow({
   return (
     <Tag
       className={cn(
-        "text-eyebrow inline-flex items-center gap-2.5 font-medium",
+        "text-eyebrow inline-block",
         tone === "dark" ? "text-faint" : "text-d-muted",
         className,
       )}
     >
-      <span className="h-px w-6 bg-amber" aria-hidden="true" />
       {children}
     </Tag>
   );

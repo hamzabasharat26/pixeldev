@@ -20,7 +20,7 @@ function celebrate() {
         startVelocity: 32,
         scalar: 0.9,
         origin: { y: 0.7 },
-        colors: ["#e9a13c", "#f4c57f", "#c15f3c", "#12294b"],
+        colors: ["#c2553a", "#e08063", "#4fc3e8", "#12294b"],
         disableForReducedMotion: true,
       });
     })

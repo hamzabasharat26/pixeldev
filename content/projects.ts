@@ -54,6 +54,10 @@ export type Project = {
     webm?: string;
     mp4?: string;
     cover: string;
+    /** 800px cover for small slots (hero panel, work strip). See below. */
+    coverSmall: string;
+    /** 800px poster for the <video poster> attribute. See below. */
+    posterSmall: string;
     gallery: string[];
   };
   liveUrl?: string;
@@ -68,6 +72,13 @@ const media = (slug: string, video = false) => ({
     ? { webm: `${W(slug)}/loop.webm`, mp4: `${W(slug)}/loop.mp4` }
     : {}),
   cover: `${W(slug)}/cover.webp`,
+  // These images are served `unoptimized`, so the browser gets exactly the
+  // file we name — a 1600px cover in a 330px card is pure waste. Built by
+  // `node scripts/build-media.mjs thumbs`.
+  coverSmall: `${W(slug)}/cover-800.webp`,
+  posterSmall: video
+    ? `${W(slug)}/poster-800.webp`
+    : `${W(slug)}/cover-800.webp`,
   gallery: [`${W(slug)}/01.webp`, `${W(slug)}/02.webp`],
 });
 
@@ -139,6 +150,8 @@ export const projects: Project[] = [
       webm: "/work/magicqc/loop.webm",
       mp4: "/work/magicqc/loop.mp4",
       cover: "/work/magicqc/cover.webp",
+      coverSmall: "/work/magicqc/cover-800.webp",
+      posterSmall: "/work/magicqc/poster-800.webp",
       gallery: [
         "/work/magicqc/web.png",
         "/work/magicqc/desktop.png",
@@ -403,6 +416,9 @@ export const projects: Project[] = [
     media: media("lidar-lane-detection", true),
   },
   {
+    // TODO(owner): the only supplied still for this project is 360x225 — it is
+    // upscaled in the card and on the case study, and looks soft next to the
+    // rest of the grid. Needs a higher-resolution capture of the same output.
     slug: "anomaly-detection",
     title: "Edge Anomaly Detection for Manufacturing",
     client: "Confidential",

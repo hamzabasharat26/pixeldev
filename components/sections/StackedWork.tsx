@@ -13,7 +13,7 @@ export function StackedWork({ projects }: { projects: Project[] }) {
           eyebrow="Selected work"
           title={
             <>
-              Shipped systems, <em>measurable</em> outcomes.
+              Shipped systems, measurable outcomes.
             </>
           }
           intro="A few of the systems we've designed, built and put into production."
@@ -21,9 +21,9 @@ export function StackedWork({ projects }: { projects: Project[] }) {
         />
 
         <div className="mt-10 flex flex-col gap-5">
-          {projects.map((project) => (
+          {projects.map((project, i) => (
             <Reveal key={project.slug}>
-              <WorkCardBody project={project} />
+              <WorkCardBody project={project} flip={i % 2 === 1} />
             </Reveal>
           ))}
         </div>

@@ -7,18 +7,23 @@ type Size = "sm" | "md" | "lg";
 
 // Focus ring comes from the global :focus-visible rule in globals.css.
 const base =
-  "group/btn relative inline-flex select-none items-center justify-center gap-2 rounded-full font-medium tracking-tight transition-[transform,background-color,box-shadow,border-color] duration-200 active:translate-y-px disabled:pointer-events-none disabled:opacity-50";
+  "group/btn relative inline-flex select-none items-center justify-center gap-2 rounded-xl font-medium tracking-tight transition-[transform,background-color,box-shadow,border-color] duration-200 active:translate-y-px disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
-  // Amber fill takes navy text, never white. Vertical gradient + soft amber glow.
+  // Rust fill takes near-white text (the old navy-on-yellow rule doesn't
+  // survive the accent change — navy on rust is 2.4:1). Every stop of the
+  // gradient is measured against --color-surface: the lightest one, #b04a30,
+  // is 5.2:1 and still clears 4.76:1 under the hover brightness lift. axe
+  // cannot evaluate contrast over a gradient, so this is checked by hand —
+  // do not lighten a stop without redoing the maths.
   primary:
-    "bg-[linear-gradient(180deg,var(--color-amber-300),var(--color-amber)_55%,var(--color-amber-600))] text-navy shadow-[0_1px_0_rgb(255_255_255/0.35)_inset,0_6px_20px_-6px_rgb(233_161_60/0.6)] hover:shadow-[0_1px_0_rgb(255_255_255/0.4)_inset,0_10px_28px_-6px_rgb(233_161_60/0.75)] hover:brightness-[1.03]",
+    "bg-[linear-gradient(180deg,#b04a30,var(--color-amber-600)_52%,var(--color-amber-700))] text-surface shadow-[0_1px_0_rgb(255_255_255/0.18)_inset,0_8px_22px_-8px_rgb(194_85_58/0.7)] hover:brightness-[1.05] hover:shadow-[0_1px_0_rgb(255_255_255/0.24)_inset,0_12px_30px_-8px_rgb(194_85_58/0.85)]",
   secondary:
-    "bg-[linear-gradient(180deg,var(--color-navy-600),var(--color-navy))] text-white shadow-[0_1px_0_rgb(255_255_255/0.08)_inset,0_6px_20px_-8px_rgb(7_14_28/0.5)] hover:brightness-110",
+    "bg-[linear-gradient(180deg,var(--color-navy-600),var(--color-navy))] text-d-text shadow-[0_1px_0_rgb(255_255_255/0.08)_inset,0_6px_20px_-8px_rgb(6_11_20/0.6)] hover:brightness-110",
   ghostLight:
-    "border border-line-2 bg-surface/60 text-ink hover:border-amber-600 hover:bg-surface",
+    "border border-line-2 bg-surface/70 text-ink backdrop-blur-sm hover:border-amber-600/60 hover:bg-surface",
   ghostDark:
-    "border border-white/15 bg-white/5 text-d-text hover:border-amber/60 hover:bg-white/10",
+    "glass text-d-text hover:border-amber-300/50 hover:bg-white/10",
 };
 
 const sizes: Record<Size, string> = {
@@ -55,7 +60,9 @@ export function LinkButton({
       {...(newTab ? { target: "_blank", rel: "noreferrer" } : {})}
       {...rest}
     >
-      {children}
+      <span className="relative z-10 inline-flex items-center gap-2">
+        {children}
+      </span>
     </Link>
   );
 }
@@ -76,7 +83,9 @@ export function Button({
 }: ButtonProps) {
   return (
     <button className={styles(variant, size, className)} {...rest}>
-      {children}
+      <span className="relative z-10 inline-flex items-center gap-2">
+        {children}
+      </span>
     </button>
   );
 }

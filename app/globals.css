@@ -2,79 +2,86 @@
 
 /* ============================================================
    Pixel Dev Solutions — design tokens
-   "Instrument panel, warmly lit": navy is the screen, amber is
-   the on-target signal, warm paper is the desk it sits on.
-   Navy #12294B + amber #E9A13C are the ONLY brand hues; every
-   other value is a derived step, a warm neutral, or the single
-   cool "signal" hue reserved for on-screen data/telemetry UI.
+
+   CONCEPT: "the detector's view."
+   The interface borrows the vernacular of what this studio's models
+   actually render — corner brackets, confidence readouts, mask
+   overlays, tracking frames. Dark navy is the camera feed. Rust is
+   the interface. Detection-cyan is the machine's own mark: it only
+   ever appears on measured data, never on a control.
 
    Token values are retuned in place — never rename a key (that
-   silently kills its Tailwind utility). Orphans are removed only
-   after a repo-wide grep.
+   silently kills its Tailwind utility). `--color-amber-*` now holds
+   the RUST accent; the name is legacy, the value is the source of
+   truth. Orphans are removed only after a repo-wide grep.
    ============================================================ */
 
 @theme {
-  /* ---- Brand: navy ---- */
-  --color-navy-ink: #070e1c; /* near-black base, deepest sections */
-  --color-navy-deep: #0a1730; /* legacy alias of navy-900 */
-  --color-navy-900: #0a1730; /* dark section ground */
-  --color-navy-800: #0e2044; /* raised dark surface */
-  --color-navy: #12294b; /* PRIMARY — unchanged */
-  --color-navy-600: #1c3a69; /* dark hover / borders */
-  --color-navy-500: #2a5296; /* lines on dark, muted accents */
-  --color-navy-300: #7c9bd0; /* text on navy-ink (AA), captions */
+  /* ---- Brand: navy — the feed. Cooler and deeper than before. ---- */
+  --color-navy-ink: #060b14; /* near-black base, deepest sections */
+  --color-navy-deep: #0a1120; /* legacy alias of navy-900 */
+  --color-navy-900: #0a1120; /* dark section ground */
+  --color-navy-800: #101a2e; /* raised dark surface */
+  --color-navy: #12294b; /* BRAND — from the logo, unchanged */
+  --color-navy-600: #1b3455; /* dark hover / borders */
+  --color-navy-500: #2a4a73; /* lines on dark */
+  --color-navy-300: #8299bb; /* captions on navy-ink */
 
-  /* ---- Brand: amber ---- */
-  --color-amber: #e9a13c; /* ACCENT — unchanged */
-  --color-amber-300: #f4c57f; /* gradient partner, hover glow */
-  --color-amber-600: #a56a15; /* text-safe amber on ivory — AA 4.5:1 */
-  --color-amber-700: #8a5713; /* text-safe amber, small / dense */
-  --color-amber-glow: rgb(233 161 60 / 0.15); /* blurred orb / corner wash */
+  /* ---- Accent: RUST. Replaces the old yellow-amber — it read as a
+         caution label, not an interface. Deeper and less saturated
+         than the common clay so it doesn't read as a stock accent. ---- */
+  --color-amber: #c2553a; /* PRIMARY ACCENT (rust) */
+  --color-amber-300: #e08063; /* light rust — gradients, on-dark text */
+  --color-amber-600: #a13f28; /* text-safe on paper — AA 4.5:1 */
+  --color-amber-700: #85321f; /* text-safe, small / dense */
+  --color-amber-glow: rgb(194 85 58 / 0.18); /* wash / orb */
 
-  /* ---- Clay — the Anthropic-family warm secondary. Icon chips, serif accent
-         words on ivory, quiet hovers. Never a CTA fill (amber owns that). ---- */
-  --color-clay: #c15f3c;
-  --color-clay-600: #a44e30; /* text-safe on ivory */
-  --color-clay-soft: rgb(193 95 60 / 0.1); /* chip / wash */
+  /* ---- Clay — quieter warm tertiary. Icon chips, soft washes. ---- */
+  --color-clay: #b0644a;
+  --color-clay-600: #94472f; /* text-safe on paper */
+  --color-clay-soft: rgb(176 100 74 / 0.1);
 
-  /* ---- Ivory paper + warm neutrals (Anthropic-influenced, enterprise-calm) ---- */
-  --color-paper: #f5f3ec; /* page base (light sections) */
-  --color-paper-2: #eeeae0; /* alternating band */
-  --color-surface: #fdfcf9; /* card fill on paper (NB: -base/-raised/-elevated are DARK) */
-  --color-surface-2: #f1ede3; /* inset panel / tag chip on paper */
-  --color-line: #e3ddce; /* hairline on paper */
-  --color-line-2: #d2cab7; /* stronger hairline on paper */
-  --color-ink: #1a1712; /* warm near-black body text */
-  --color-muted: #554e3d; /* secondary text — AA on paper + paper-2 */
-  --color-faint: #625946; /* eyebrow / meta / tertiary — AA (4.5:1) on paper + paper-2 */
+  /* ---- Paper: warm ground, COOL ink. The tension keeps it off the
+         stock cream-and-brown editorial look. ---- */
+  --color-paper: #f1efe9; /* page base */
+  --color-paper-2: #e7e4dc; /* alternating band */
+  --color-surface: #fbfaf7; /* card fill on paper */
+  --color-surface-2: #eceae2; /* inset panel / chip */
+  --color-line: #dedacd; /* hairline */
+  --color-line-2: #c9c4b4; /* stronger hairline */
+  --color-ink: #14171c; /* cool near-black body text */
+  --color-muted: #474d57; /* secondary text — AA */
+  /* meta / tertiary. Measured against the DARKEST ground it lands on
+     (--color-paper-2 #e7e4dc, the .section--band fill), where it clears
+     4.5:1 with margin — 4.83:1. The old #626873 was 4.41:1 there. */
+  --color-faint: #5c626d;
 
   /* ---- Dark-section surfaces ---- */
-  --color-surface-base: #0a1730; /* = navy-900 */
-  --color-surface-raised: #0e2044; /* = navy-800 */
-  --color-surface-elevated: #132a55;
-  --color-surface-border: #24406e;
-  --color-d-surface: #0e2044;
-  --color-d-surface-2: #132a55;
-  --color-d-line: #24406e;
-  --color-d-text: #e8ecf5;
-  --color-d-muted: #9db0d0;
+  --color-surface-base: #0a1120;
+  --color-surface-raised: #101a2e;
+  --color-surface-elevated: #16233c;
+  --color-surface-border: #21334f;
+  --color-d-surface: #101a2e;
+  --color-d-surface-2: #16233c;
+  --color-d-line: #21334f;
+  --color-d-text: #e9edf4;
+  --color-d-muted: #98a8c0;
 
-  /* ---- Signal — data / telemetry UI ONLY. Never a button, link,
-         heading, or brand surface. ---- */
-  --color-signal: #3ea6c4;
-  --color-signal-dim: #2c6e86;
+  /* ---- Detection cyan — the machine's own mark. Measured data,
+         confidence readouts, tracking frames. Never a control. ---- */
+  --color-signal: #4fc3e8;
+  --color-signal-dim: #2b7fa0;
 
-  /* ---- Neutral greys — retuned warm; kept for transitional use,
-         components migrate to paper / ink / muted / d-* ---- */
-  --color-grey-50: #f5f3ec;
-  --color-grey-100: #eeeae0;
-  --color-grey-200: #e3ddce;
-  --color-grey-300: #cdc5b3;
-  --color-grey-400: #978f7e;
-  --color-grey-500: #746a56;
-  --color-grey-700: #47412f;
-  --color-grey-800: #2b2619;
-  --color-grey-900: #1a1712;
+  /* ---- Neutral greys — legacy aliases onto the paper/ink scale. ---- */
+  --color-grey-50: #f1efe9;
+  --color-grey-100: #e7e4dc;
+  --color-grey-200: #dedacd;
+  --color-grey-300: #c9c4b4;
+  --color-grey-400: #8c9199;
+  --color-grey-500: #5c626d;
+  --color-grey-700: #474d57;
+  --color-grey-800: #262a31;
+  --color-grey-900: #14171c;
 
   /* ---- Semantic (kept — ContactForm depends on these) ---- */
   --color-success: #2f8f4e;
@@ -107,14 +114,24 @@
 
 /* Non-utility tokens — kept off @theme so no stray utilities are generated. */
 :root {
-  --grain-opacity: 0.035;
-  --shadow-warm: 27 22 16; /* rgb triplet for warm shadows on paper */
-  --shadow-e1: 0 1px 2px rgb(var(--shadow-warm) / 0.06),
+  --grain-opacity: 0.03;
+  --shadow-warm: 14 18 26; /* rgb triplet, cool to match the ink */
+  --shadow-e1: 0 1px 2px rgb(var(--shadow-warm) / 0.07),
     0 2px 8px rgb(var(--shadow-warm) / 0.05);
-  --shadow-e2: 0 4px 12px rgb(var(--shadow-warm) / 0.08),
+  --shadow-e2: 0 4px 12px rgb(var(--shadow-warm) / 0.09),
     0 12px 32px rgb(var(--shadow-warm) / 0.07);
-  --shadow-e3: 0 10px 26px rgb(var(--shadow-warm) / 0.1),
-    0 28px 64px rgb(var(--shadow-warm) / 0.11);
+  --shadow-e3: 0 10px 26px rgb(var(--shadow-warm) / 0.11),
+    0 28px 64px rgb(var(--shadow-warm) / 0.12);
+
+  /* Glass — HUD panels floating over the feed. */
+  --glass-bg: rgb(255 255 255 / 0.055);
+  --glass-bg-strong: rgb(255 255 255 / 0.1);
+  --glass-line: rgb(255 255 255 / 0.13);
+  --glass-blur: 16px;
+  /* Glass over paper */
+  --glass-paper-bg: rgb(255 255 255 / 0.62);
+  --glass-paper-line: rgb(20 23 28 / 0.08);
+
   --container-page: 1280px;
   --container-wide: 1400px;
   --header-h: 4.5rem;
@@ -271,11 +288,22 @@ summary:focus-visible,
   line-height: 1.6;
 }
 
+/* Section label. Sentence case, not tracked-out caps — it's a label,
+   not a signpost that needs shouting. */
 .text-eyebrow {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.02em;
+}
+
+/* Readout: the machine's own voice. Uppercase + tracking is earned here
+   because it's mimicking a confidence/telemetry label. */
+.text-readout {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -337,7 +365,7 @@ summary:focus-visible,
   );
 }
 
-/* Warm elevation utilities (paper only). */
+/* Elevation utilities (paper only). */
 .shadow-e1 {
   box-shadow: var(--shadow-e1);
 }
@@ -346,6 +374,77 @@ summary:focus-visible,
 }
 .shadow-e3 {
   box-shadow: var(--shadow-e3);
+}
+
+/* ============================================================
+   Glass — HUD panels floating over the feed.
+   ============================================================ */
+
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+}
+.glass-strong {
+  background: var(--glass-bg-strong);
+}
+/* Inner top highlight — the lit edge of a pane of glass. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.14),
+    transparent 42%
+  );
+}
+/* Glass over the paper ground. */
+.glass-paper {
+  background: var(--glass-paper-bg);
+  border: 1px solid var(--glass-paper-line);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+
+/* ============================================================
+   Detection frame — corner brackets, borrowed from what the
+   models draw. Used to mark media as "the system's view".
+   ============================================================ */
+
+.det-frame {
+  position: relative;
+}
+.det-frame::before,
+.det-frame::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  border-color: var(--color-signal);
+  opacity: 0.85;
+  transition: opacity 0.25s var(--ease-rise);
+}
+.det-frame::before {
+  top: 10px;
+  left: 10px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.det-frame::after {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+.group:hover .det-frame::before,
+.group:hover .det-frame::after {
+  opacity: 1;
 }
 
 @media (min-width: 768px) {
@@ -391,6 +490,45 @@ summary:focus-visible,
       animation-timeline: view();
       animation-range: entry 0% cover 14%;
     }
+  }
+}
+
+/* ============================================================
+   Hero panel cross-fade — the page's single orchestrated moment.
+   Three frames, 12s cycle, each visible ~4s. Frozen under
+   reduced motion (the first frame stands).
+   ============================================================ */
+
+@keyframes hero-cycle {
+  0%,
+  27% {
+    opacity: 1;
+  }
+  33%,
+  94% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.hero-cycle {
+  opacity: 0;
+  animation: hero-cycle 12s linear infinite;
+}
+/* First frame paints immediately so there's never a blank panel. */
+.hero-cycle:first-of-type {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cycle {
+    animation: none !important;
+    opacity: 0;
+  }
+  .hero-cycle:first-of-type {
+    opacity: 1;
   }
 }
 

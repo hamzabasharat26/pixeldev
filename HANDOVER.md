@@ -8,12 +8,21 @@ Operational docs: `README.md`.
 ## What changed in the rebuild
 
 - **Positioning** now leads with AI + computer vision (it's the real portfolio),
-  keeps the six-discipline studio identity. Hero line: *"We are more than
-  ordinary."* Old "Web, mobile & AI — engineered end-to-end" retired.
-- **Palette** evolved to an enterprise/editorial system: ivory paper + navy +
-  amber (brand, unchanged) + a `clay` warm secondary + a cool `signal` hue used
-  only for on-screen data. Full scale in `app/globals.css`.
-- **Type**: added Fraunces (one serif-italic accent word per headline).
+  keeps the six-discipline studio identity. Hero headline: *"Production AI, not
+  proof of concept."*, with *"We are more than ordinary."* as the brand line
+  above it. Old "Web, mobile & AI — engineered end-to-end" retired.
+- **Palette** rebuilt around **"the detector's view"** — corner brackets,
+  telemetry readouts and glass HUD panels borrowed from what the studio's models
+  actually draw. Navy stays the brand; the accent moved from yellow-amber to
+  **rust `#c2553a`** (the yellow read as a caution label, not an interface);
+  paper is warm but the ink is cool; `signal` cyan marks measured data only.
+  The `--color-amber-*` keys are kept and retuned in place — renaming a
+  `@theme` key silently kills its utility with a green build *and* a green lint.
+- **Type**: added Fraunces (serif-italic accent word, used sparingly). Mono is
+  now reserved for machine voice and measured figures — `MetricValue` routes
+  phrase-style outcomes to the display face instead.
+- **Glassmorphism**: `.glass` / `.glass-paper` (blur + saturate + hairline +
+  inner top highlight) on the header, hero panel and stat strip.
 - **Lenis removed** — native scroll + a reduced-motion-gated CSS `scroll-behavior`
   + CSS scroll-driven reveals. No smooth-scroll library.
 - **`motion` / framer-motion removed** — the one component that used it (a

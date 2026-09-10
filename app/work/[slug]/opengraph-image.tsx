@@ -34,7 +34,7 @@ export default async function OgImage({
           justifyContent: "space-between",
           padding: "72px",
           background:
-            "radial-gradient(120% 120% at 0% 0%, #16335f 0%, rgba(22,51,95,0) 44%), linear-gradient(135deg, #070e1c 0%, #0e2044 60%, #12294b 100%)",
+            "radial-gradient(120% 120% at 0% 0%, #16233c 0%, rgba(22,35,60,0) 46%), linear-gradient(135deg, #060b14 0%, #101a2e 60%, #12294b 100%)",
           fontFamily: "sans-serif",
         }}
       >
@@ -43,7 +43,7 @@ export default async function OgImage({
             display: "flex",
             alignItems: "center",
             gap: "16px",
-            color: "#9db0d0",
+            color: "#98a8c0",
             fontSize: 22,
           }}
         >
@@ -51,21 +51,32 @@ export default async function OgImage({
             <path
               d="M13 12 L30 24 L13 36"
               fill="none"
-              stroke="#f5f3ec"
+              stroke="#e9edf4"
               strokeWidth="6.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-            <rect x="31" y="19" width="10" height="10" rx="2.5" fill="#e9a13c" />
+            <rect x="31" y="19" width="10" height="10" rx="2.5" fill="#c2553a" />
           </svg>
-          <span>Pixel Dev Solutions</span>
-          {category ? <span>· {category}</span> : null}
+          <span style={{ color: "#e9edf4" }}>Pixel Dev Solutions</span>
+          {category ? (
+            <span
+              style={{
+                border: "1px solid rgba(233,237,244,0.22)",
+                borderRadius: 999,
+                padding: "4px 14px",
+                fontSize: 19,
+              }}
+            >
+              {category}
+            </span>
+          ) : null}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
-              color: "#f5f3ec",
+              color: "#e9edf4",
               fontSize: 72,
               fontWeight: 700,
               letterSpacing: "-0.02em",
@@ -76,7 +87,7 @@ export default async function OgImage({
           </div>
           <div
             style={{
-              color: "#e9a13c",
+              color: "#e08063",
               fontSize: 28,
               marginTop: 20,
               maxWidth: 960,

@@ -30,7 +30,7 @@ export function WorkGrid({ projects }: { projects: Project[] }) {
               className={cn(
                 "text-eyebrow rounded-full border px-3.5 py-2 transition-colors",
                 active === cat
-                  ? "border-amber bg-amber text-navy"
+                  ? "border-amber-600 bg-amber-600 text-surface"
                   : "border-d-line text-d-muted hover:border-d-text/40 hover:text-d-text",
               )}
             >
