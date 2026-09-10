@@ -9,7 +9,7 @@ export type Service = {
   summary: string;
   /** Homepage card capability tags (exactly 3). */
   tags: [string, string, string];
-  /** Wide card on the homepage bento grid. */
+  /** Wide card on the homepage bento grid — the flagship pair. */
   featured: boolean;
 
   /* /services deep block */
@@ -19,113 +19,118 @@ export type Service = {
   deepTags: string[];
 };
 
+/**
+ * Order matters — this array drives the homepage bento and the /services page.
+ * Vision + AI lead (featured/wide) because that's the real portfolio.
+ * Slugs are load-bearing: footer anchors, serviceJsonLd, /services#<slug>.
+ */
 export const services: Service[] = [
   {
-    slug: "web",
+    slug: "vision",
     index: "01",
-    icon: "web",
-    title: "Web Development",
-    headline: "Fast, scalable web platforms — not just landing pages.",
+    icon: "vision",
+    title: "Computer Vision",
+    headline: "Turn a camera feed into decisions.",
     summary:
-      "Production-grade sites and web apps in Next.js, React, and Node.js, engineered for speed, SEO, and growth.",
-    tags: ["Next.js", "React", "Node.js"],
+      "Detection, tracking, measurement, segmentation, OCR and anomaly detection — built for messy real-world footage, not the demo reel.",
+    tags: ["PyTorch", "YOLO", "OpenCV"],
     featured: true,
-    deepTitle: "Web platforms built to carry real traffic.",
+    deepTitle: "Systems that see, measure, and decide.",
     deepBody: [
-      "We build marketing sites, dashboards, portals, and full web applications on Next.js and React — the same stack that powers this site. Every build is server-rendered where it matters, statically generated where it doesn't, and measured against Core Web Vitals before it ships.",
-      "Speed isn't a feature we add at the end. It's an architectural decision we make on day one, because a fast site converts better, ranks better, and costs less to run.",
+      "We've shipped vision systems for racket-sport tracking, garment quality control, rail-track monitoring, dock turnaround, defect detection and LiDAR lane detection — deployed as web services, desktop apps, and on-device at the edge.",
+      "Demo accuracy and production accuracy are different problems. We build for the second: bad lighting, awkward angles, motion blur, and the edge cases that only show up on a real line.",
     ],
     whatYouGet: [
-      "Production-ready Next.js codebase you own",
-      "Core Web Vitals passing on mobile",
-      "SEO structure, sitemaps, and schema built in",
-      "CMS or content layer so you can update copy yourself",
+      "A trained model with honest accuracy numbers on your data",
+      "Deployment as a service, an app, or on edge hardware",
+      "A retraining path as your data grows",
+      "Clear reporting on where the model fails, not just where it works",
     ],
-    deepTags: ["Next.js", "React", "TypeScript", "Node.js", "Tailwind CSS", "PostgreSQL"],
-  },
-  {
-    slug: "mobile",
-    index: "02",
-    icon: "mobile",
-    title: "Mobile App Development",
-    headline: "Cross-platform apps that feel native.",
-    summary:
-      "iOS and Android products with React Native and Flutter, backed by reliable APIs and clean architecture you can build on for years.",
-    tags: ["React Native", "Flutter", "REST/GraphQL"],
-    featured: true,
-    deepTitle: "One codebase. Both app stores.",
-    deepBody: [
-      "We build cross-platform mobile apps with React Native and Flutter — native feel, shared logic, and a single team maintaining it instead of two. Push notifications, offline support, payments, and auth are standard, not add-ons.",
-      "We also handle the unglamorous parts: store listings, review submissions, versioning, and crash reporting, so launch day isn't the first time anyone thinks about them.",
-    ],
-    whatYouGet: [
-      "iOS + Android from one codebase",
-      "App Store and Play Store submission handled",
-      "Analytics and crash reporting wired in",
-      "A documented API your app talks to",
-    ],
-    deepTags: ["React Native", "Flutter", "Expo", "Firebase", "REST", "GraphQL"],
+    deepTags: ["PyTorch", "YOLO", "OpenCV", "Detectron2", "TensorRT", "ONNX", "Edge AI"],
   },
   {
     slug: "ai",
-    index: "03",
+    index: "02",
     icon: "ai",
     title: "AI & Automation",
-    headline: "Put AI to work on real workflows.",
+    headline: "AI that answers from your data — and shows its sources.",
     summary:
-      "Custom AI agents, RAG chatbots, and automations that connect your existing tools, answer from your own data, and remove repetitive busywork.",
-    tags: ["OpenAI", "LangChain", "n8n"],
-    featured: false,
-    deepTitle: "AI that does work, not demos.",
+      "RAG assistants, LLM agents, OCR extraction and workflow automation, grounded in your documents and wired into the tools your team already uses.",
+    tags: ["LangChain", "RAG", "Python"],
+    featured: true,
+    deepTitle: "Grounded AI, not a chatbot demo.",
     deepBody: [
-      "We build AI systems grounded in your own data — RAG chatbots that answer from your documentation, agents that handle repetitive inbound requests, and automations that move information between the tools your team already uses.",
-      "We're deliberate about where AI belongs. If a rule-based automation solves it more reliably and for a tenth of the cost, we'll tell you that instead of selling you a model.",
+      "We build retrieval-grounded assistants that answer only from verified internal documents and cite the source, agents that clear repetitive inbound work, and automations that move data between systems. On-premise when the data can't leave the building.",
+      "We're deliberate about where AI belongs. If a rule-based automation is more reliable and a tenth of the cost, you'll hear that instead of a pitch for a model.",
     ],
     whatYouGet: [
-      "Custom chatbot or agent trained on your content",
-      "Workflow automations across your existing tools",
-      "Human-in-the-loop controls and audit logging",
-      "Clear cost-per-query so nothing surprises you",
+      "An assistant or agent grounded in your own content",
+      "Source citations and human-in-the-loop controls",
+      "Automations across your existing tools",
+      "A clear cost-per-query so nothing surprises you",
     ],
-    deepTags: ["OpenAI", "Anthropic", "LangChain", "n8n", "Vector DBs", "Python"],
+    deepTags: ["LangChain", "FAISS", "LLMs", "RAG", "n8n", "FastAPI", "Python"],
   },
   {
-    slug: "vision",
-    index: "04",
-    icon: "vision",
-    title: "Computer Vision",
-    headline: "Turn pixels into decisions.",
+    slug: "web",
+    index: "03",
+    icon: "web",
+    title: "Web Platforms",
+    headline: "Web platforms that carry real traffic.",
     summary:
-      "Detection, tracking, measurement, and OCR systems that hit production accuracy — not just demo accuracy.",
-    tags: ["OpenCV", "PyTorch", "Python"],
+      "Production sites, dashboards and web apps in Next.js and React — server-rendered where it counts, measured against Core Web Vitals before they ship.",
+    tags: ["Next.js", "React", "TypeScript"],
     featured: false,
-    deepTitle: "Systems that see, measure, and decide.",
+    deepTitle: "Not just landing pages.",
     deepBody: [
-      "We develop computer vision applications for detection, classification, tracking, measurement, and OCR — deployed as web services, desktop applications, or on-device.",
-      "Demo accuracy and production accuracy are different problems. We build for the second one: messy lighting, imperfect angles, real hardware, and the edge cases that only show up in the field.",
+      "We build marketing sites, dashboards, portals and full web applications on Next.js and React — the same stack that powers this site. Server-rendered where it matters, static where it doesn't, and profiled before launch.",
+      "Speed isn't a finishing touch. It's a day-one architecture decision, because a fast site converts better, ranks better, and costs less to run.",
     ],
     whatYouGet: [
-      "Trained model with documented accuracy on your data",
-      "Deployment as a service, app, or embedded system",
-      "A retraining pipeline as your data grows",
-      "Honest reporting on where the model fails",
+      "A production Next.js codebase you own outright",
+      "Core Web Vitals passing on mobile",
+      "SEO structure, sitemaps and schema built in",
+      "A content layer so you can edit copy without us",
     ],
-    deepTags: ["OpenCV", "PyTorch", "YOLO", "Python", "ONNX"],
+    deepTags: ["Next.js", "React", "TypeScript", "Node.js", "Tailwind CSS", "PostgreSQL", "Supabase"],
+  },
+  {
+    slug: "mobile",
+    index: "04",
+    icon: "mobile",
+    title: "Mobile Apps",
+    headline: "One codebase. Both app stores.",
+    summary:
+      "iOS and Android products in React Native and Flutter, backed by a documented API and an architecture you can build on for years.",
+    tags: ["React Native", "Flutter", "REST/GraphQL"],
+    featured: false,
+    deepTitle: "Cross-platform, native feel.",
+    deepBody: [
+      "We build cross-platform mobile apps with React Native and Flutter — one team, shared logic, native feel. Push, offline, payments and auth are standard, not add-ons.",
+      "We handle the unglamorous parts too: store listings, review submissions, versioning and crash reporting, so launch day isn't the first time anyone thinks about them.",
+    ],
+    whatYouGet: [
+      "iOS and Android from one codebase",
+      "App Store and Play Store submission handled",
+      "Analytics and crash reporting wired in from day one",
+      "A documented API your app talks to",
+    ],
+    deepTags: ["React Native", "Flutter", "Expo", "Firebase", "REST", "GraphQL"],
   },
   {
     slug: "uiux",
     index: "05",
     icon: "uiux",
     title: "UI/UX Design",
-    headline: "Interfaces people actually want to use.",
+    headline: "Design that survives contact with development.",
     summary:
-      "Research and wireframes through to polished, accessible UI and a design system your developers can build against.",
+      "Research and flows through to accessible, high-fidelity UI and a design system your developers can build against.",
     tags: ["Figma", "Design systems", "WCAG"],
     featured: false,
-    deepTitle: "Design that survives contact with development.",
+    deepTitle: "From research to a handoff-ready system.",
     deepBody: [
-      "We design interfaces from research through to a handoff-ready system: user flows, wireframes, high-fidelity screens, states, and components — documented so developers build what was designed.",
-      "Accessibility is part of the design phase, not a retrofit. Contrast, focus states, touch targets, and keyboard paths are decided in Figma, before they become expensive.",
+      "We design from research through to a documented system: user flows, wireframes, high-fidelity screens, every state, and a component library — so developers build what was designed.",
+      "Accessibility is decided in Figma, not retrofitted: contrast, focus states, touch targets and keyboard paths, before they get expensive.",
     ],
     whatYouGet: [
       "Research and user flows",
@@ -142,19 +147,19 @@ export const services: Service[] = [
     title: "Cloud & DevOps",
     headline: "Infrastructure that scales quietly.",
     summary:
-      "Secure, automated cloud environments on AWS, Vercel, and Docker with CI/CD, so your product ships often and stays up.",
+      "Secure, automated environments on AWS, Vercel and Docker with CI/CD — so your product ships often and stays up.",
     tags: ["AWS", "Docker", "CI/CD"],
     featured: false,
     deepTitle: "Infrastructure you never have to think about.",
     deepBody: [
-      "We set up cloud environments that deploy themselves: containerized services, automated pipelines, staging that mirrors production, and monitoring that tells you about a problem before your users do.",
-      "Whether that's a single Vercel project or a multi-service AWS setup depends on what you actually need — we won't over-engineer infrastructure to look impressive.",
+      "We set up environments that deploy themselves: containerised services, automated pipelines, staging that mirrors production, and monitoring that warns you before your users do.",
+      "A single Vercel project or a multi-service AWS setup — whichever your workload actually needs. We won't over-engineer it to look impressive.",
     ],
     whatYouGet: [
-      "CI/CD pipeline from commit to production",
-      "Staging environment that matches production",
-      "Backups, monitoring, and alerting configured",
-      "Documentation your future developer can follow",
+      "A CI/CD pipeline from commit to production",
+      "A staging environment that matches production",
+      "Backups, monitoring and alerting configured",
+      "Documentation your next developer can follow",
     ],
     deepTags: ["AWS", "Vercel", "Docker", "GitHub Actions", "Cloudflare"],
   },

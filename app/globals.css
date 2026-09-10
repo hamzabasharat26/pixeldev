@@ -27,20 +27,26 @@
   /* ---- Brand: amber ---- */
   --color-amber: #e9a13c; /* ACCENT — unchanged */
   --color-amber-300: #f4c57f; /* gradient partner, hover glow */
-  --color-amber-600: #c27e22; /* text-safe amber on paper */
-  --color-amber-700: #9a5f16; /* text-safe amber, small */
-  --color-amber-glow: rgb(233 161 60 / 0.16); /* blurred orb / corner wash */
+  --color-amber-600: #b9791f; /* text-safe amber on ivory */
+  --color-amber-700: #8f5a15; /* text-safe amber, small */
+  --color-amber-glow: rgb(233 161 60 / 0.15); /* blurred orb / corner wash */
 
-  /* ---- Warm paper + neutrals (tuned toward amber) ---- */
-  --color-paper: #f8f6f1; /* page base (light sections) */
-  --color-paper-2: #f1ede4; /* alternating band */
-  --color-surface: #ffffff; /* card fill on paper (NB: -base/-raised/-elevated are the DARK surfaces) */
-  --color-surface-2: #f4f0e8; /* inset panel / tag chip on paper */
-  --color-line: #e4ddcf; /* hairline on paper */
-  --color-line-2: #d3c8b4; /* stronger hairline on paper */
-  --color-ink: #161310; /* warm near-black body text */
-  --color-muted: #514b40; /* secondary text */
-  --color-faint: #6e6555; /* eyebrow / meta / tertiary */
+  /* ---- Clay — the Anthropic-family warm secondary. Icon chips, serif accent
+         words on ivory, quiet hovers. Never a CTA fill (amber owns that). ---- */
+  --color-clay: #c15f3c;
+  --color-clay-600: #a44e30; /* text-safe on ivory */
+  --color-clay-soft: rgb(193 95 60 / 0.1); /* chip / wash */
+
+  /* ---- Ivory paper + warm neutrals (Anthropic-influenced, enterprise-calm) ---- */
+  --color-paper: #f5f3ec; /* page base (light sections) */
+  --color-paper-2: #eeeae0; /* alternating band */
+  --color-surface: #fdfcf9; /* card fill on paper (NB: -base/-raised/-elevated are DARK) */
+  --color-surface-2: #f1ede3; /* inset panel / tag chip on paper */
+  --color-line: #e3ddce; /* hairline on paper */
+  --color-line-2: #d2cab7; /* stronger hairline on paper */
+  --color-ink: #1a1712; /* warm near-black body text */
+  --color-muted: #554e3d; /* secondary text — AA on paper + paper-2 */
+  --color-faint: #625946; /* eyebrow / meta / tertiary — AA (4.5:1) on paper + paper-2 */
 
   /* ---- Dark-section surfaces ---- */
   --color-surface-base: #0a1730; /* = navy-900 */
@@ -60,15 +66,15 @@
 
   /* ---- Neutral greys — retuned warm; kept for transitional use,
          components migrate to paper / ink / muted / d-* ---- */
-  --color-grey-50: #f8f6f1;
-  --color-grey-100: #f1ede4;
-  --color-grey-200: #e4ddcf;
-  --color-grey-300: #cbc3b4;
-  --color-grey-400: #9a9284;
-  --color-grey-500: #6e6555;
-  --color-grey-700: #4a4438;
-  --color-grey-800: #2a2419;
-  --color-grey-900: #161310;
+  --color-grey-50: #f5f3ec;
+  --color-grey-100: #eeeae0;
+  --color-grey-200: #e3ddce;
+  --color-grey-300: #cdc5b3;
+  --color-grey-400: #978f7e;
+  --color-grey-500: #746a56;
+  --color-grey-700: #47412f;
+  --color-grey-800: #2b2619;
+  --color-grey-900: #1a1712;
 
   /* ---- Semantic (kept — ContactForm depends on these) ---- */
   --color-success: #2f8f4e;
@@ -315,18 +321,20 @@ summary:focus-visible,
   color: var(--color-d-text);
 }
 
-/* Decorative colour orb — radial-gradient, no filter:blur (blur of a large
-   element is one of the most expensive things to rasterise). The element's
-   background-color (set via a `bg-*` utility) is the orb colour. Always
-   aria-hidden + pointer-events:none. */
+/* Decorative colour orb. Soft falloff is a radial-gradient off `currentColor`
+   — no filter:blur, no mask (both force expensive rasterisation). Set the
+   colour with a text utility (e.g. `text-amber`), intensity with `opacity`.
+   Always aria-hidden + pointer-events:none. */
 .glow-orb {
   position: absolute;
   border-radius: 9999px;
-  opacity: 0.6;
   pointer-events: none;
-  filter: blur(40px);
-  -webkit-mask: radial-gradient(closest-side, #000 30%, transparent 100%);
-  mask: radial-gradient(closest-side, #000 30%, transparent 100%);
+  background-image: radial-gradient(
+    circle at center,
+    currentColor 0%,
+    color-mix(in srgb, currentColor 40%, transparent) 34%,
+    transparent 70%
+  );
 }
 
 /* Warm elevation utilities (paper only). */

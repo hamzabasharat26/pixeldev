@@ -140,6 +140,42 @@
         "cover": "media-src/clips/Honey_PT_detect/P1.jpg",
         "01": "media-src/clips/Honey_PT_detect/P1.jpg"
       }
+    },
+    {
+      "slug": "nexus-rag-assistant",
+      "sourceType": "stills",
+      "stills": {
+        "cover": "media-src/clips/Nexus_AI_RAG_Chatbot.png",
+        "01": "media-src/clips/Nexus_AI_RAG_Chatbot.png",
+        "02": "media-src/clips/Nexus_architecture.png"
+      }
+    },
+    {
+      "slug": "ocr-document-extraction",
+      "sourceType": "stills",
+      "stills": {
+        "cover": "media-src/clips/OCR1.png",
+        "01": "media-src/clips/OCR1.png",
+        "02": "media-src/clips/OCR_Details.png"
+      }
+    },
+    {
+      "slug": "parking-occupancy",
+      "sourceType": "stills",
+      "stills": {
+        "cover": "media-src/clips/Dynamic_Parking_System.png",
+        "01": "media-src/clips/Pakring_dasboard.jpg",
+        "02": "media-src/clips/People_counting.png"
+      }
+    },
+    {
+      "slug": "drone-mission-control",
+      "sourceType": "stills",
+      "stills": {
+        "cover": "media-src/zips/Drone HEXA/Drove upper view.png",
+        "01": "media-src/zips/Drone HEXA/Q_Ground_mission_plan.jpeg",
+        "02": "media-src/zips/Drone HEXA/Gazebo_Quad_Drone.png"
+      }
     }
   ],
 

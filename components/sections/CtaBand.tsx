@@ -21,7 +21,7 @@ export function CtaBand({
               "radial-gradient(70% 120% at 100% 0%, var(--color-amber-glow) 0%, transparent 55%)",
           }}
         />
-        <div className="glow-orb -left-16 bottom-[-40%] h-96 w-96 bg-navy-600/40" />
+        <div className="glow-orb -left-16 bottom-[-40%] h-96 w-96 text-navy-500 opacity-25" />
       </div>
 
       <Reveal className="container-page section-y">

@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
 import { featuredProjects } from "@/content/projects";
-import { pageMetadata } from "@/lib/seo";
+import { site } from "@/content/site";
+import { faqs } from "@/content/faq";
+import { pageMetadata, faqJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/ui/JsonLd";
 import { Hero } from "@/components/sections/Hero";
-import { StatsBar } from "@/components/sections/StatsBar";
+import { WorkStrip } from "@/components/sections/WorkStrip";
+import { StackMarquee } from "@/components/sections/StackMarquee";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { StackedWork } from "@/components/sections/StackedWork";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { ProofBand } from "@/components/sections/ProofBand";
-import { StackMarquee } from "@/components/sections/StackMarquee";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { CtaBand } from "@/components/sections/CtaBand";
-import { JsonLd } from "@/components/ui/JsonLd";
-import { faqJsonLd } from "@/lib/seo";
-import { faqs } from "@/content/faq";
 
 export const metadata: Metadata = pageMetadata({
-  description:
-    "Pixel Dev Solutions is a software studio building fast web platforms, mobile apps, and AI systems that deliver measurable results. Start your project today.",
+  description: site.metaDescription,
   path: "/",
 });
 
@@ -26,12 +25,12 @@ export default function HomePage() {
     <>
       <JsonLd data={faqJsonLd(faqs)} />
       <Hero />
-      <StatsBar />
+      <WorkStrip />
+      <StackMarquee />
       <ServicesGrid />
       <StackedWork projects={featuredProjects} />
       <ProcessSteps />
       <ProofBand />
-      <StackMarquee />
       <Testimonials />
       <FaqAccordion />
       <CtaBand />

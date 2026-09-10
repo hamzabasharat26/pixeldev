@@ -7,11 +7,11 @@ export function Footer() {
     <footer className="on-dark relative isolate overflow-hidden">
       <div
         aria-hidden="true"
-        className="glow-orb -left-24 bottom-[-30%] h-[26rem] w-[26rem] bg-amber-glow"
+        className="glow-orb -left-24 bottom-[-30%] h-[26rem] w-[26rem] text-amber opacity-[0.13]"
       />
       <div
         aria-hidden="true"
-        className="glow-orb right-[-10%] top-[-40%] h-[24rem] w-[24rem] bg-navy-600/40"
+        className="glow-orb right-[-10%] top-[-40%] h-[24rem] w-[24rem] text-navy-500 opacity-25"
       />
 
       <div className="container-page relative grid gap-12 py-16 md:grid-cols-[1.5fr_1fr_1fr_1.2fr] md:py-20">

@@ -35,12 +35,12 @@ export function PageHero({
                 "radial-gradient(120% 100% at 8% -20%, var(--color-navy-800) 0%, transparent 60%), radial-gradient(80% 80% at 106% 118%, var(--color-amber-glow) 0%, transparent 62%)",
             }}
           />
-          <div className="glow-orb -right-20 -top-16 h-80 w-80 bg-amber-glow" />
+          <div className="glow-orb -right-20 -top-16 h-80 w-80 text-amber opacity-[0.13]" />
         </div>
       ) : (
         <div
           aria-hidden="true"
-          className="glow-orb -right-24 -top-24 -z-10 h-72 w-72 bg-amber-glow"
+          className="glow-orb -right-24 -top-24 -z-10 h-72 w-72 text-clay opacity-[0.1]"
         />
       )}
       <div className="container-page">
