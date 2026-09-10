@@ -143,8 +143,9 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Static grain over the whole page. Sits below the header (z-50) and
-     drawer (z-40); no section content should set z-index >= 1. */
+  /* Static grain over the whole page. No blend mode (cheaper — no extra
+     compositing layer / scroll repaint); a low flat opacity reads the same at
+     this strength. Sits below the header (z-50) and drawer (z-40). */
   body::before {
     content: "";
     position: fixed;
@@ -152,8 +153,8 @@
     z-index: 1;
     pointer-events: none;
     opacity: var(--grain-opacity);
-    mix-blend-mode: soft-light;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("/noise.png");
+    background-size: 128px 128px;
   }
 
   h1,
@@ -206,7 +207,13 @@ summary:focus-visible,
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
-.headline em {
+
+/* One serif-italic accent word per headline — author it as <em>. */
+.headline em,
+.text-display em,
+.text-h1 em,
+.text-h2 em,
+.text-h3 em {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
@@ -308,13 +315,18 @@ summary:focus-visible,
   color: var(--color-d-text);
 }
 
-/* Decorative blurred colour orb — always aria-hidden + pointer-events:none. */
+/* Decorative colour orb — radial-gradient, no filter:blur (blur of a large
+   element is one of the most expensive things to rasterise). The element's
+   background-color (set via a `bg-*` utility) is the orb colour. Always
+   aria-hidden + pointer-events:none. */
 .glow-orb {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.55;
+  border-radius: 9999px;
+  opacity: 0.6;
   pointer-events: none;
+  filter: blur(40px);
+  -webkit-mask: radial-gradient(closest-side, #000 30%, transparent 100%);
+  mask: radial-gradient(closest-side, #000 30%, transparent 100%);
 }
 
 /* Warm elevation utilities (paper only). */

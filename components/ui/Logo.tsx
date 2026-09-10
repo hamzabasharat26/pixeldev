@@ -20,7 +20,14 @@ export function LogoMark({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <rect x="26.5" y="15.5" width="9" height="9" rx="2.25" fill="#E9A13C" />
+      <rect
+        x="26.5"
+        y="15.5"
+        width="9"
+        height="9"
+        rx="2.25"
+        fill="var(--color-amber)"
+      />
     </svg>
   );
 }
@@ -37,10 +44,10 @@ export function Logo({
   withSolutions = false,
   className,
 }: LogoProps) {
-  const wordColor = variant === "dark" ? "text-navy" : "text-grey-50";
-  // Brand amber fails contrast as small text on white; use the text-safe amber
-  // for the light-background lockup (brief §4.1).
-  const accent = variant === "dark" ? "text-amber-700" : "text-amber";
+  const wordColor = variant === "dark" ? "text-ink" : "text-d-text";
+  // Brand amber fails contrast as small text on paper; use the text-safe amber
+  // for the light-background lockup.
+  const accent = variant === "dark" ? "text-amber-600" : "text-amber";
 
   return (
     <span className={cn("inline-flex items-center gap-2.5", wordColor, className)}>

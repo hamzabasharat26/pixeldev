@@ -18,7 +18,7 @@ export function Eyebrow({
     <span
       className={cn(
         "text-eyebrow inline-flex items-center gap-2.5",
-        tone === "dark" ? "text-navy-500" : "text-amber-300",
+        tone === "dark" ? "text-faint" : "text-d-muted",
         className,
       )}
     >

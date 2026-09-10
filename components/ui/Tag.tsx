@@ -13,10 +13,10 @@ export function Tag({
   return (
     <span
       className={cn(
-        "text-data inline-flex items-center rounded-full border px-2.5 py-1 text-xs",
+        "text-data inline-flex items-center rounded-full border px-2.5 py-1 text-[0.7rem]",
         tone === "dark"
-          ? "border-grey-200 bg-white text-grey-700"
-          : "border-surface-border bg-surface-elevated text-grey-300",
+          ? "border-line bg-surface-2 text-faint"
+          : "border-d-line bg-d-surface-2 text-d-muted",
         className,
       )}
     >

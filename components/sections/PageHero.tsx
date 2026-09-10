@@ -23,17 +23,24 @@ export function PageHero({
     <section
       className={cn(
         "relative isolate overflow-hidden pb-14 pt-32 md:pb-20 md:pt-40",
-        dark ? "on-dark" : "bg-grey-50",
+        dark ? "on-dark bg-navy-ink" : "bg-paper",
       )}
     >
-      {dark && (
+      {dark ? (
+        <div aria-hidden="true" className="absolute inset-0 -z-10">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(120% 100% at 8% -20%, var(--color-navy-800) 0%, transparent 60%), radial-gradient(80% 80% at 106% 118%, var(--color-amber-glow) 0%, transparent 62%)",
+            }}
+          />
+          <div className="glow-orb -right-20 -top-16 h-80 w-80 bg-amber-glow" />
+        </div>
+      ) : (
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10"
-          style={{
-            background:
-              "radial-gradient(120% 100% at 10% -20%, #16335f 0%, rgba(18,41,75,0) 60%), radial-gradient(70% 70% at 105% 115%, rgba(233,161,60,0.16) 0%, rgba(233,161,60,0) 60%)",
-          }}
+          className="glow-orb -right-24 -top-24 -z-10 h-72 w-72 bg-amber-glow"
         />
       )}
       <div className="container-page">
@@ -41,7 +48,7 @@ export function PageHero({
         <h1
           className={cn(
             "text-h1 mt-5 max-w-3xl",
-            dark ? "text-grey-50" : "text-navy",
+            dark ? "text-d-text" : "text-ink",
           )}
         >
           {title}
@@ -50,7 +57,7 @@ export function PageHero({
           <p
             className={cn(
               "text-body-lg mt-5 max-w-2xl",
-              dark ? "text-grey-300" : "text-grey-700",
+              dark ? "text-d-muted" : "text-muted",
             )}
           >
             {intro}

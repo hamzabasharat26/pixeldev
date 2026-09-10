@@ -2,31 +2,39 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Surface container. On light sections: hairline border + soft shadow on hover.
- * On dark sections: 1px surface-border outline, no shadow (brief §4.3).
+ * Surface container.
+ *   tone="paper" — white card on the warm paper ground: subtle top-to-bottom
+ *     tint, hairline border, inner highlight line at the top edge.
+ *   tone="navy"  — raised panel inside a dark section.
+ * `interactive` adds lift + glow + amber border on hover.
  */
 export function Card({
   children,
-  tone = "dark",
+  tone = "paper",
   interactive = false,
   className,
 }: {
   children: ReactNode;
-  tone?: "dark" | "light";
+  tone?: "paper" | "navy";
   interactive?: boolean;
   className?: string;
 }) {
   return (
     <div
       className={cn(
-        "rounded-[16px] p-6 md:p-8",
-        tone === "dark"
-          ? "border border-grey-200 bg-white"
-          : "border border-surface-border bg-surface-raised",
+        "relative rounded-[var(--radius-card)] p-6 md:p-7",
+        "before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:rounded-t-[var(--radius-card)]",
+        tone === "paper"
+          ? "border border-line bg-[linear-gradient(180deg,var(--color-surface),var(--color-surface-2))] before:bg-white/70"
+          : "border border-d-line bg-[linear-gradient(180deg,var(--color-d-surface-2),var(--color-d-surface))] before:bg-white/8",
         interactive &&
-          (tone === "dark"
-            ? "transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-1 hover:border-amber/60 hover:shadow-[0_12px_32px_rgb(16_24_40/0.10)]"
-            : "transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-amber/50"),
+          "transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-1",
+        interactive &&
+          tone === "paper" &&
+          "hover:border-amber-600/60 hover:shadow-e2",
+        interactive &&
+          tone === "navy" &&
+          "hover:border-amber/50 hover:shadow-[0_18px_50px_-16px_rgb(233_161_60/0.25)]",
         className,
       )}
     >

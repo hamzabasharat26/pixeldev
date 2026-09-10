@@ -37,7 +37,7 @@ export function SectionHeading({
           className={cn(
             as === "h1" ? "text-h1" : "text-h2",
             "mt-4",
-            tone === "light" ? "text-grey-50" : "text-navy",
+            tone === "light" ? "text-d-text" : "text-ink",
           )}
         >
           {title}
@@ -46,7 +46,7 @@ export function SectionHeading({
           <p
             className={cn(
               "text-body-lg mt-4",
-              tone === "light" ? "text-grey-300" : "text-grey-700",
+              tone === "light" ? "text-d-muted" : "text-muted",
             )}
           >
             {intro}
@@ -58,8 +58,10 @@ export function SectionHeading({
         <Link
           href={action.href}
           className={cn(
-            "text-eyebrow group inline-flex shrink-0 items-center gap-1.5 pb-1",
-            tone === "light" ? "text-grey-100" : "text-navy",
+            "text-eyebrow group inline-flex shrink-0 items-center gap-1.5 pb-1 transition-colors",
+            tone === "light"
+              ? "text-d-muted hover:text-amber-300"
+              : "text-faint hover:text-amber-600",
           )}
         >
           {action.label}

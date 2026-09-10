@@ -65,34 +65,3 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(options?: {
 
   return [ref, shown];
 }
-
-/**
- * Page scroll progress, 0 → 1. rAF-throttled. Returns 0 under reduced motion
- * consumers still render a static (empty) bar, which is fine.
- */
-export function useScrollProgress(): number {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    let raf = 0;
-    const read = () => {
-      raf = 0;
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - doc.clientHeight;
-      setProgress(max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0);
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(read);
-    };
-    read();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  return progress;
-}

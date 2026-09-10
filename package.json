@@ -28,18 +28,25 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.10.1",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^26.5.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
     "@types/three": "^0.185.4",
-    "@axe-core/cli": "^4.10.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
     "lighthouse": "^12.8.2",
     "sharp": "^0.34.4",
-    "tailwindcss": "^4"
-  }
+    "tailwindcss": "^4",
+    "ws": "^8.21.3"
+  },
+  "browserslist": [
+    "chrome >= 111",
+    "edge >= 111",
+    "firefox >= 128",
+    "safari >= 16.4"
+  ]
 }
