@@ -68,10 +68,15 @@ export const projects: Project[] = [
     role: "Design + Build",
     timeline: "Ongoing",
     media: {
-      // TODO(owner): drop a 2–6s muted loop.webm/loop.mp4 in public/work/rallylens/
-      poster: "/work/rallylens/scene.jpg",
-      cover: "/work/rallylens/dashboard.jpg",
-      gallery: ["/work/rallylens/scene.jpg", "/work/rallylens/dashboard.jpg"],
+      poster: "/work/rallylens/poster.webp",
+      webm: "/work/rallylens/loop.webm",
+      mp4: "/work/rallylens/loop.mp4",
+      cover: "/work/rallylens/cover.webp",
+      gallery: [
+        "/work/rallylens/01.webp",
+        "/work/rallylens/02.webp",
+        "/work/rallylens/dashboard.jpg",
+      ],
     },
   },
   {
@@ -102,10 +107,15 @@ export const projects: Project[] = [
     role: "Design + Build",
     timeline: "Ongoing",
     media: {
-      // TODO(owner): drop a 2–6s muted loop.webm/loop.mp4 in public/work/magicqc/
-      poster: "/work/magicqc/desktop.png",
-      cover: "/work/magicqc/web.png",
-      gallery: ["/work/magicqc/desktop.png", "/work/magicqc/web.png"],
+      poster: "/work/magicqc/poster.webp",
+      webm: "/work/magicqc/loop.webm",
+      mp4: "/work/magicqc/loop.mp4",
+      cover: "/work/magicqc/cover.webp",
+      gallery: [
+        "/work/magicqc/web.png",
+        "/work/magicqc/desktop.png",
+        "/work/magicqc/01.webp",
+      ],
     },
   },
 

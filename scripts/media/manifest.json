@@ -1,0 +1,166 @@
+{
+  "version": 1,
+  "_note": "Raw sources under media-src/ (git-ignored). Timestamps hand-curated from `node scripts/build-media.mjs sheets`. Only public/work/**, public/services/*.webp and public/og.jpg are committed.",
+
+  "defaults": {
+    "still": { "width": 1600, "quality": 82 },
+    "cover": { "width": 1600, "quality": 82 },
+    "loop": { "width": 1280, "durationSec": 3 }
+  },
+  "budgets": {
+    "stillKB": 320,
+    "coverKB": 320,
+    "loopKB": 1500,
+    "serviceKB": 300,
+    "ogKB": 200
+  },
+
+  "projects": [
+    {
+      "slug": "rallylens",
+      "sourceType": "video",
+      "source": "media-src/clips/padel-8s.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:02.720" },
+        { "name": "01", "t": "00:00:01.440" },
+        { "name": "02", "t": "00:00:05.600" }
+      ],
+      "loop": { "t": "00:00:01.000", "durationSec": 4 },
+      "poster": { "t": "00:00:02.720" }
+    },
+    {
+      "slug": "magicqc",
+      "sourceType": "video",
+      "source": "media-src/clips/magic-8s.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:04.320" },
+        { "name": "01", "t": "00:00:02.400" },
+        { "name": "02", "t": "00:00:06.560" }
+      ],
+      "loop": { "t": "00:00:03.360", "durationSec": 4 },
+      "poster": { "t": "00:00:04.320" }
+    },
+    {
+      "slug": "dock-vision-ai",
+      "sourceType": "video",
+      "source": "media-src/clips/dock-8s.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:07.200" },
+        { "name": "01", "t": "00:00:02.400" },
+        { "name": "02", "t": "00:00:06.240" }
+      ],
+      "loop": { "t": "00:00:05.280", "durationSec": 2.7 },
+      "poster": { "t": "00:00:07.200" }
+    },
+    {
+      "slug": "safe-rail",
+      "sourceType": "video",
+      "source": "media-src/clips/Safety_Rail/Railway_Seg1.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:01.900" },
+        { "name": "01", "t": "00:00:00.700" },
+        { "name": "02", "t": "00:00:03.100" }
+      ],
+      "loop": { "t": "00:00:00.300", "durationSec": 2.6, "crf": 34 },
+      "poster": { "t": "00:00:01.900" }
+    },
+    {
+      "slug": "candy-detection",
+      "sourceType": "video",
+      "source": "media-src/clips/Candy_Dt/CD.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:01.500" },
+        { "name": "01", "t": "00:00:00.600" },
+        { "name": "02", "t": "00:00:02.400" }
+      ],
+      "loop": { "t": "00:00:00.200", "durationSec": 2.6 },
+      "poster": { "t": "00:00:01.500" }
+    },
+    {
+      "slug": "cake-counting",
+      "sourceType": "video",
+      "source": "media-src/clips/Cake_Cut/Cake.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:44.400" },
+        { "name": "01", "t": "00:00:13.200" },
+        { "name": "02", "t": "00:00:54.000" }
+      ],
+      "loop": { "t": "00:00:40.000", "durationSec": 4 },
+      "poster": { "t": "00:00:44.400" }
+    },
+    {
+      "slug": "tire-cord-fabric-defect",
+      "sourceType": "video",
+      "source": "media-src/clips/FB_AnomlyClip/FBDT.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:09.900" },
+        { "name": "01", "t": "00:00:03.900" },
+        { "name": "02", "t": "00:00:12.300" }
+      ],
+      "loop": { "t": "00:00:08.500", "durationSec": 4 },
+      "poster": { "t": "00:00:09.900" }
+    },
+    {
+      "slug": "vehicle-damage-detection",
+      "sourceType": "video",
+      "source": "media-src/clips/Car_defect/deft.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:03.500" },
+        { "name": "01", "t": "00:00:01.400" },
+        { "name": "02", "t": "00:00:05.600" }
+      ],
+      "loop": { "t": "00:00:01.000", "durationSec": 3 },
+      "poster": { "t": "00:00:03.500" }
+    },
+    {
+      "slug": "lidar-lane-detection",
+      "sourceType": "video",
+      "source": "media-src/clips/3D_Railwar_lidar/lidar.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:02.600" },
+        { "name": "01", "t": "00:00:01.000" },
+        { "name": "02", "t": "00:00:04.200" }
+      ],
+      "loop": { "t": "00:00:00.400", "durationSec": 3.5 },
+      "poster": { "t": "00:00:02.600" }
+    },
+    {
+      "slug": "anomaly-detection",
+      "sourceType": "stills",
+      "stills": {
+        "cover": "media-src/clips/Anomly_detect_parts/P3.jpg",
+        "01": "media-src/clips/Anomly_detect_parts/P1.jpg",
+        "02": "media-src/clips/Anomly_detect_parts/P5.jpg"
+      }
+    },
+    {
+      "slug": "hornet-ai",
+      "sourceType": "stills",
+      "stills": {
+        "cover": "media-src/clips/Honey_PT_detect/P1.jpg",
+        "01": "media-src/clips/Honey_PT_detect/P1.jpg"
+      }
+    }
+  ],
+
+  "services": [
+    { "name": "vision", "source": "media-src/services/vision.png", "widths": [1400, 800], "quality": 78 },
+    { "name": "ai", "source": "media-src/services/ai.png", "widths": [1400, 800], "quality": 78 },
+    { "name": "web", "source": "media-src/services/web.png", "widths": [1400, 800], "quality": 78 },
+    { "name": "mobile", "source": "media-src/services/mobile.png", "widths": [1400, 800], "quality": 78 },
+    { "name": "uiux", "source": "media-src/services/uiux.png", "widths": [1400, 800], "quality": 62 },
+    { "name": "cloud", "source": "media-src/services/cloud.png", "widths": [1400, 800], "quality": 78 },
+    { "name": "hero-bg", "source": "media-src/services/hero-bg.png", "widths": [1920, 1200], "quality": 72 },
+    { "name": "hero-robot", "source": "media-src/services/hero-robot.png", "widths": [1400, 900], "quality": 80 },
+    { "name": "cta-bg", "source": "media-src/services/cta-bg.png", "widths": [1920, 1200], "quality": 70 },
+    { "name": "workspace", "source": "media-src/services/workspace.png", "widths": [1400, 800], "quality": 76 }
+  ],
+
+  "og": {
+    "source": "media-src/services/og.png",
+    "out": "public/og.jpg",
+    "width": 1200,
+    "height": 630,
+    "quality": 80
+  }
+}
