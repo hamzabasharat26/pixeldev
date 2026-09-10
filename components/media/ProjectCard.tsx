@@ -15,11 +15,11 @@ export function ProjectCard({
     <Link
       href={`/work/${project.slug}`}
       className={cn(
-        "group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-d-line bg-[linear-gradient(180deg,var(--color-d-surface-2),var(--color-navy-900))] transition-[transform,border-color] duration-200 hover:-translate-y-1 hover:border-amber/45",
+        "group flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface shadow-e1 transition-[transform,border-color,box-shadow] duration-200 hover:-translate-y-1 hover:border-amber/50 hover:shadow-e2",
         className,
       )}
     >
-      <div className="relative border-b border-d-line">
+      <div className="relative border-b border-line">
         <AutoVideo
           poster={project.media.poster}
           posterSmall={project.media.posterSmall}
@@ -31,29 +31,34 @@ export function ProjectCard({
           rounded={false}
           className="det-frame"
         />
-        <span className="text-eyebrow absolute left-3 top-3 rounded-full bg-navy-ink/80 px-2.5 py-1 text-[0.6rem] text-amber-300 backdrop-blur-sm">
+        <span className="text-eyebrow absolute left-3 top-3 rounded-full bg-navy-ink/85 px-2.5 py-1 text-[0.6rem] text-amber-300 backdrop-blur-sm">
           {project.category}
         </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center justify-between">
-          <h3 className="text-h4 text-d-text">{project.title}</h3>
-          <span className="text-data text-xs text-d-muted">{project.year}</span>
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="text-h4 text-ink">{project.title}</h3>
+          <span className="text-data shrink-0 text-xs text-faint">
+            {project.year}
+          </span>
         </div>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-d-muted">
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
           {project.summary}
         </p>
 
         {/* Mono is the voice of the measured value only — running it through
             the whole sentence turns the card into a wall of monospace. */}
-        <p className="mt-4 text-sm leading-relaxed text-d-muted">
+        <p className="mt-4 text-sm leading-relaxed text-muted">
           <span
             className={cn(
               "text-data font-semibold",
+              // `signal` cyan is a dark-ground colour; on white it drops to
+              // ~2:1, so the light card uses the measured mustard step for
+              // both. The distinction still reads on the case-study page.
               project.metricsAccent === "signal"
-                ? "text-signal"
-                : "text-amber-300",
+                ? "text-clay-600"
+                : "text-amber-700",
             )}
           >
             {project.outcome.value}
@@ -61,7 +66,7 @@ export function ProjectCard({
           {project.outcome.label}
         </p>
 
-        <TagRow items={project.tech.slice(0, 4)} tone="light" className="mt-4" />
+        <TagRow items={project.tech.slice(0, 4)} className="mt-4" />
       </div>
     </Link>
   );

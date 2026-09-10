@@ -1,48 +1,42 @@
-import Image from "next/image";
-
 /**
- * Hero ground: the navy + rust "data highway" render, full-bleed and heavily
- * washed so it reads as depth behind the content rather than as a picture.
- * Server-rendered, unoptimised (the media pipeline already sized it) so it
- * never sits in the LCP critical path behind the image optimiser.
+ * Hero ground for the light theme.
+ *
+ * No photograph — the robot is the image now, and a busy backdrop behind a
+ * cut-out subject just muddies it. This is pure CSS: a warm mustard bloom
+ * top-right, a cream settle at the base so the section hands off to the band
+ * below it, and a very quiet measurement grid (the studio's own vernacular).
+ * Being CSS-only also keeps the hero's LCP element the robot, not a backdrop.
  */
 export function HeroMedia() {
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-      <Image
-        src="/services/hero-bg-1920.webp"
-        alt=""
-        fill
-        priority
-        unoptimized
-        sizes="100vw"
-        className="object-cover opacity-90"
-      />
-      {/* vertical wash: readable at the top, butts the next section at the base */}
+      {/* warm bloom behind the robot */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgb(6 11 20 / 0.72) 0%, rgb(6 11 20 / 0.66) 45%, rgb(6 11 20 / 0.9) 82%, var(--color-navy-ink) 100%)",
+            "radial-gradient(58% 62% at 78% 26%, var(--color-amber-glow) 0%, transparent 62%), radial-gradient(46% 50% at 8% 6%, rgb(10 40 74 / 0.07) 0%, transparent 64%)",
         }}
       />
-      {/* horizontal wash: darkest under the headline column */}
+      {/* cream settle into the next band */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-x-0 bottom-0 h-56"
         style={{
           background:
-            "linear-gradient(90deg, rgb(6 11 20 / 0.82) 0%, rgb(6 11 20 / 0.35) 48%, transparent 78%)",
+            "linear-gradient(180deg, transparent, var(--color-paper-2))",
         }}
       />
-      {/* faint measurement grid — the studio's own vernacular, very quiet */}
+      {/* measurement grid — quiet, masked so it never reaches the text */}
       <div
-        className="absolute inset-0 opacity-[0.35]"
+        className="absolute inset-0 opacity-[0.5]"
         style={{
           backgroundImage:
-            "linear-gradient(color-mix(in srgb, var(--color-navy-500) 40%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-navy-500) 40%, transparent) 1px, transparent 1px)",
-          backgroundSize: "88px 88px",
+            "linear-gradient(rgb(10 40 74 / 0.07) 1px, transparent 1px), linear-gradient(90deg, rgb(10 40 74 / 0.07) 1px, transparent 1px)",
+          backgroundSize: "84px 84px",
           maskImage:
-            "radial-gradient(90% 70% at 30% 40%, #000 0%, transparent 88%)",
+            "radial-gradient(80% 70% at 72% 34%, #000 0%, transparent 82%)",
+          WebkitMaskImage:
+            "radial-gradient(80% 70% at 72% 34%, #000 0%, transparent 82%)",
         }}
       />
     </div>

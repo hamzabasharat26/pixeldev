@@ -35,7 +35,6 @@ export default function ServicesPage() {
       />
 
       <PageHero
-        tone="dark"
         eyebrow="Services"
         title={
           <>

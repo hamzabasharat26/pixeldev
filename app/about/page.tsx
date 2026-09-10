@@ -19,7 +19,6 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
-        tone="dark"
         eyebrow="About"
         title={
           <>

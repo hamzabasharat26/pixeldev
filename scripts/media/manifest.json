@@ -17,6 +17,27 @@
 
   "projects": [
     {
+      "_note": "Only one still was supplied for this project, so cover and 01 are two different crops of it rather than two identical images. content/projects.ts sets galleryCount 1 to match.",
+      "slug": "hornet-ai",
+      "sourceType": "stills",
+      "stills": {
+        "cover": "media-src/clips/Honey_PT_detect/P1.jpg",
+        "01": "media-src/clips/Honey_PT_detect/P1.jpg"
+      }
+    },
+    {
+      "slug": "mri-brain-segmentation",
+      "sourceType": "video",
+      "source": "media-src/clips/mri-8s.mp4",
+      "frames": [
+        { "name": "cover", "t": "00:00:03.200" },
+        { "name": "01", "t": "00:00:01.400" },
+        { "name": "02", "t": "00:00:06.000" }
+      ],
+      "loop": { "t": "00:00:01.000", "durationSec": 4 },
+      "poster": { "t": "00:00:03.200" }
+    },
+    {
       "slug": "rallylens",
       "sourceType": "video",
       "source": "media-src/clips/padel-8s.mp4",
@@ -128,9 +149,9 @@
       "slug": "anomaly-detection",
       "sourceType": "stills",
       "stills": {
-        "cover": "media-src/clips/Anomly_detect_parts/P3.jpg",
-        "01": "media-src/clips/Anomly_detect_parts/P1.jpg",
-        "02": "media-src/clips/Anomly_detect_parts/P5.jpg"
+        "cover": "media-src/clips/Anomly_detect_parts/P5.jpg",
+        "01": "media-src/clips/Anomly_detect_parts/P5.jpg",
+        "02": "media-src/clips/Anomly_detect_parts/P3.jpg"
       }
     },
     {

@@ -16,7 +16,6 @@ export default function CareersPage() {
   return (
     <>
       <PageHero
-        tone="dark"
         eyebrow="Careers"
         title={
           <>

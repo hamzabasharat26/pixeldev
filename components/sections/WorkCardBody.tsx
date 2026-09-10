@@ -17,7 +17,7 @@ export function WorkCardBody({
   flip?: boolean;
 }) {
   return (
-    <article className="grid gap-6 overflow-hidden rounded-[var(--radius-panel)] border border-d-line bg-[linear-gradient(165deg,var(--color-d-surface-2),var(--color-navy-900))] p-5 md:grid-cols-[1.15fr_1fr] md:items-center md:gap-10 md:p-8">
+    <article className="grid gap-6 overflow-hidden rounded-[var(--radius-panel)] border border-line bg-surface p-5 shadow-e1 md:grid-cols-[1.15fr_1fr] md:items-center md:gap-10 md:p-8">
       <AutoVideo
         poster={project.media.poster}
         posterSmall={project.media.posterSmall}
@@ -31,38 +31,35 @@ export function WorkCardBody({
 
       <div className={cn(flip && "md:order-1")}>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-eyebrow inline-flex items-center rounded-full border border-amber/40 px-2.5 py-1 text-amber-300">
+          <span className="text-eyebrow inline-flex items-center rounded-full border border-amber/45 px-2.5 py-1 text-amber-700">
             {project.category}
           </span>
-          <span className="text-data text-xs text-d-muted">{project.year}</span>
+          <span className="text-data text-xs text-faint">{project.year}</span>
         </div>
 
         <MetricValue
           value={project.outcome.value}
           className={`mt-5 ${
+            // `signal` cyan is a dark-ground colour and fails on white.
             project.metricsAccent === "signal"
-              ? "text-signal"
-              : "text-amber-300"
+              ? "text-clay-600"
+              : "text-amber-700"
           }`}
         />
-        <p className="mt-1.5 max-w-sm text-sm text-d-muted">
+        <p className="mt-1.5 max-w-sm text-sm text-muted">
           {project.outcome.label}
         </p>
 
-        <h3 className="text-h3 mt-5 text-d-text">{project.title}</h3>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-d-muted">
+        <h3 className="text-h3 mt-5 text-ink">{project.title}</h3>
+        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
           {project.summary}
         </p>
 
-        <TagRow
-          items={project.tech.slice(0, 5)}
-          tone="light"
-          className="mt-5"
-        />
+        <TagRow items={project.tech.slice(0, 5)} className="mt-5" />
 
         <Link
           href={`/work/${project.slug}`}
-          className="mt-6 inline-block text-[0.9rem] font-medium text-d-text underline decoration-amber/50 decoration-1 underline-offset-4 transition-colors hover:text-amber-300 hover:decoration-amber-300"
+          className="mt-6 inline-block text-[0.9rem] font-medium text-ink underline decoration-amber/60 decoration-1 underline-offset-4 transition-colors hover:text-amber-700 hover:decoration-amber-700"
         >
           Read the case study
         </Link>

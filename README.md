@@ -50,26 +50,39 @@ Layout `<title>`/`description`/`keywords` read from there too. Never hardcode.
 
 ## Design system
 
-`app/globals.css` `@theme`. The concept is **"the detector's view"**: the UI
-borrows the vernacular of what this studio's own models render — corner
-brackets (`.det-frame`), telemetry readouts (`.text-readout`), glass HUD panels
-over a dark camera feed.
+`app/globals.css` `@theme`. The site runs **light**: white and Anthropic-family
+cream, with navy kept as an anchor rather than a ground. The concept is still
+**"the detector's view"** — corner brackets (`.det-frame`), telemetry readouts
+(`.text-readout`), glass panels (`.glass-paper`) — but the feed is now a screen
+sitting on a light page instead of the page itself.
 
-- Navy `#12294B` is the brand hue, unchanged, and reads as the feed.
-- The accent is **rust `--color-amber: #c2553a`**. The key name is legacy —
+Both brand hues are sampled from `public/brand/logo-src-light.jpeg`:
+
+- **Navy `--color-navy: #0a284a`** — the logo's dominant pixel.
+- **Mustard `--color-brand-gold: #e7a23b`** — the logo's "DEV". This token is
+  for the **logo artwork only**. It is ~2.2:1 on white, which WCAG 1.4.3
+  permits for a logotype and for nothing else.
+- The UI accent is the **mustard-brown** `--color-amber-*` scale, which is the
+  logo gold deepened until it can carry text and fills. The key name is legacy:
   retuning a `@theme` value regenerates every dependent utility, whereas
   renaming the key silently deletes it with a green build *and* a green lint.
   The value is the source of truth, not the name.
-- Paper is a warm ground (`--color-paper`) carrying **cool** ink
-  (`--color-ink: #14171c`). The mismatch is deliberate: warm-on-warm is the
-  stock editorial look.
 - `--color-signal: #4fc3e8` is the machine's own mark — measured data and
-  tracking frames **only**. Never a button, link or heading.
+  tracking frames, and **only on navy**. On white it drops to ~2:1, so light
+  surfaces substitute `--color-clay-600`.
 
 Contrast pairs are hand-checked, and two are load-bearing: `--color-faint` is
 tuned against `--color-paper-2` (the darkest ground it lands on), and the
-primary button's gradient stops are all ≥4.76:1 against its text — axe cannot
+primary button's gradient stops are all ≥4.5:1 against white — axe cannot
 evaluate contrast over a gradient, so lightening a stop needs the maths redone.
+The button hover **darkens** for that reason; a brightness lift breaks it.
+
+**Motion.** GSAP drives the hero's single load timeline (`HeroReveal`) and the
+round trailing cursor (`components/ui/Cursor.tsx`); `motion` drives the /work
+filter, where animation shows what actually changed. The cursor removes itself
+on coarse pointers and under reduced motion, and only hides the native cursor
+once it has confirmed it replaced it — so a JS failure can never leave a
+visitor with no pointer.
 
 Type: Space Grotesk (display) + Fraunces italic (available for an `<em>` accent
 word, used sparingly) + Inter (body) + JetBrains Mono, which is reserved for

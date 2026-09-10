@@ -17,6 +17,7 @@ import {
 import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { Cursor } from "@/components/ui/Cursor";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -74,7 +75,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#12294b",
+  themeColor: "#0a284a",
   colorScheme: "light",
 };
 
@@ -100,6 +101,7 @@ export default function RootLayout({
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <SkipLink />
         <ScrollProgress />
+        <Cursor />
         <Header />
         <main id="main">{children}</main>
         <Footer />

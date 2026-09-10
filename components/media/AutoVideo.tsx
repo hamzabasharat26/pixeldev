@@ -99,12 +99,17 @@ export function AutoVideo({
           {mp4 && <source src={mp4} type="video/mp4" />}
         </video>
       ) : (
+        /* `unoptimized` on purpose: the media pipeline has already produced
+           these at the right widths, so the optimiser adds a slow cold-start
+           re-encode for no benefit — and when it lagged, cards rendered
+           blank. Prefer the 800px variant where the caller supplied one. */
         <Image
-          src={poster}
+          src={posterSmall ?? poster}
           alt={alt}
           fill
           sizes={sizes}
           priority={priority}
+          unoptimized
           className="object-cover"
         />
       )}

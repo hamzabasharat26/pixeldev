@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function ProcessSteps() {
   return (
-    <section className="section bg-paper">
+    <section className="section--band section">
       <div className="container-wide">
         <Reveal>
           <SectionHeading

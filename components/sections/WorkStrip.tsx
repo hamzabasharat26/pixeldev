@@ -12,14 +12,14 @@ export function WorkStrip() {
   return (
     <section
       aria-label="Selected work"
-      className="on-dark relative border-y border-d-line bg-navy-900 py-7"
+      className="section--band relative py-8"
     >
       <Marquee durationSeconds={72} gapClassName="gap-5 pe-5" aria-label="Selected projects">
         {stripProjects.map((p) => (
           <Link
             key={p.slug}
             href={`/work/${p.slug}`}
-            className="group flex w-[330px] shrink-0 flex-col overflow-hidden rounded-xl border border-d-line bg-navy-800/60 transition-[border-color,transform] duration-200 hover:-translate-y-1 hover:border-amber/45"
+            className="group flex w-[330px] shrink-0 flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-e1 transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-1 hover:border-amber/50 hover:shadow-e2"
           >
             <span className="det-frame relative block aspect-[16/10] overflow-hidden">
               <Image
@@ -33,14 +33,14 @@ export function WorkStrip() {
             </span>
             <span className="flex items-center justify-between gap-3 px-3.5 py-3">
               <span className="min-w-0">
-                <span className="block truncate text-[0.92rem] font-medium text-d-text group-hover:text-amber-300">
+                <span className="block truncate text-[0.92rem] font-medium text-ink group-hover:text-amber-700">
                   {p.title}
                 </span>
-                <span className="mt-0.5 block truncate text-[0.75rem] text-d-muted">
+                <span className="mt-0.5 block truncate text-[0.75rem] text-faint">
                   {p.outcome.value}
                 </span>
               </span>
-              <span className="text-readout shrink-0 rounded-md border border-white/12 px-2 py-1 text-d-muted">
+              <span className="text-readout shrink-0 rounded-md border border-line-2 px-2 py-1 text-faint">
                 {p.year}
               </span>
             </span>

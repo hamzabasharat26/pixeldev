@@ -26,7 +26,7 @@ export function LogoMark({ className }: { className?: string }) {
         width="9"
         height="9"
         rx="2.25"
-        fill="var(--color-amber)"
+        fill="var(--color-brand-gold)"
       />
     </svg>
   );
@@ -50,8 +50,13 @@ export function Logo({
   className,
 }: LogoProps) {
   const word = variant === "dark" ? "text-ink" : "text-d-text";
-  // The brand accent fails small-text contrast on paper; step down there.
-  const accent = variant === "dark" ? "text-amber-600" : "text-amber-300";
+  // The logo's own gold, matching public/brand/logo-src-light.jpeg exactly.
+  // It is ~2.2:1 on white, which WCAG 1.4.3 permits: "text that is part of a
+  // logo or brand name has no minimum contrast requirement". This is the ONLY
+  // place --color-brand-gold is allowed — everywhere else uses the mustard
+  // steps, which are measured. Do not "fix" this to amber-600: it would stop
+  // matching the artwork the client supplied.
+  const accent = "text-[var(--color-brand-gold)]";
   const sub = variant === "dark" ? "text-faint" : "text-d-muted";
 
   return (

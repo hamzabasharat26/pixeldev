@@ -26,9 +26,9 @@ function LeadCard({ service }: { service: Service }) {
   return (
     <Link
       href={`/services#${service.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-[var(--radius-panel)] border border-navy-600/60 bg-[linear-gradient(155deg,var(--color-navy-800),var(--color-navy-ink))] shadow-e2 transition-[border-color,transform] duration-200 hover:-translate-y-1 hover:border-amber/50"
+      className="group glass relative flex flex-col overflow-hidden rounded-[var(--radius-panel)] transition-[border-color,transform] duration-200 hover:-translate-y-1 hover:border-amber/55"
     >
-      <span className="det-frame relative block aspect-[16/9] overflow-hidden border-b border-white/8">
+      <span className="det-frame relative z-10 block aspect-[16/9] overflow-hidden border-b border-white/10">
         <Image
           src={`/services/${service.slug}-1400.webp`}
           alt=""
@@ -39,11 +39,11 @@ function LeadCard({ service }: { service: Service }) {
         />
         <span
           aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-navy-ink)_2%,transparent_58%)]"
+          className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-navy-900)_2%,transparent_58%)]"
         />
       </span>
 
-      <span className="flex flex-1 flex-col p-7 md:p-8">
+      <span className="relative z-10 flex flex-1 flex-col p-7 md:p-8">
         <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-amber/30 bg-amber/12 text-amber-300">
           <Icon size={21} strokeWidth={1.75} />
         </span>
@@ -61,13 +61,13 @@ function LeadCard({ service }: { service: Service }) {
   );
 }
 
-/** The four that make the lead work shippable. Quiet, on paper. */
+/** The four that make the lead work shippable. Quiet, on the navy ground. */
 function SupportCard({ service }: { service: Service }) {
   const Icon = icons[service.icon];
   return (
     <Link
       href={`/services#${service.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-1 hover:border-clay/45 hover:shadow-e2"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-d-line bg-navy-800/50 p-6 transition-[border-color,background-color,transform] duration-200 hover:-translate-y-1 hover:border-amber/40 hover:bg-navy-800/80"
     >
       <Image
         src={`/services/${service.slug}-800.webp`}
@@ -75,20 +75,22 @@ function SupportCard({ service }: { service: Service }) {
         width={520}
         height={390}
         unoptimized
-        className="pointer-events-none absolute -right-7 -top-7 w-28 rounded-xl opacity-25 [mask-image:radial-gradient(120%_120%_at_88%_12%,#000_34%,transparent_74%)] transition-opacity duration-300 group-hover:opacity-40"
+        className="pointer-events-none absolute -right-8 -top-8 w-32 rounded-xl opacity-55 [mask-image:radial-gradient(120%_120%_at_88%_12%,#000_38%,transparent_78%)] transition-opacity duration-300 group-hover:opacity-75"
       />
-      <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line-2 bg-surface-2 text-clay-600 transition-colors group-hover:border-clay/40">
+      <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/12 bg-white/6 text-amber-300">
         <Icon size={19} strokeWidth={1.75} />
       </span>
-      <h3 className="text-h4 relative mt-5 text-ink underline-offset-4 group-hover:underline group-hover:decoration-clay/50">
+      <h3 className="text-h4 relative mt-5 text-d-text underline-offset-4 group-hover:underline group-hover:decoration-amber/50">
         {service.title}
       </h3>
-      <p className="relative mt-2.5 text-sm leading-relaxed text-muted">
+      <p className="relative mt-2.5 text-sm leading-relaxed text-d-muted">
         {service.headline}
       </p>
       <div className="relative mt-auto flex flex-wrap gap-1.5 pt-5">
         {service.tags.map((t) => (
-          <Tag key={t}>{t}</Tag>
+          <Tag key={t} tone="light">
+            {t}
+          </Tag>
         ))}
       </div>
     </Link>
@@ -100,14 +102,18 @@ export function ServicesGrid() {
   const support = services.filter((s) => !s.featured);
 
   return (
-    <section id="services" className="section relative isolate overflow-hidden bg-paper">
+    <section
+      id="services"
+      className="on-dark section relative isolate overflow-hidden bg-navy-900"
+    >
       <div
         aria-hidden="true"
-        className="glow-orb -right-32 top-10 h-[30rem] w-[30rem] text-clay opacity-[0.09]"
+        className="glow-orb -right-32 top-10 h-[30rem] w-[30rem] text-amber opacity-[0.13]"
       />
       <div className="container-wide relative">
         <Reveal>
           <SectionHeading
+            tone="light"
             eyebrow="What we build"
             title="Six disciplines, one senior team."
             intro="Two of them are why clients call. The other four are why the work ships."

@@ -16,7 +16,6 @@ export default function WorkPage() {
   return (
     <>
       <PageHero
-        tone="dark"
         eyebrow="Selected work"
         title={
           <>

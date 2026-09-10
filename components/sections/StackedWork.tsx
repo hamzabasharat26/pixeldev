@@ -6,10 +6,9 @@ import { WorkCardBody } from "./WorkCardBody";
 /** Featured case studies — a clean stacked set. No scroll effect, no JS. */
 export function StackedWork({ projects }: { projects: Project[] }) {
   return (
-    <section className="on-dark section bg-navy-ink">
+    <section className="section bg-paper">
       <div className="container-wide">
         <SectionHeading
-          tone="light"
           eyebrow="Selected work"
           title={
             <>

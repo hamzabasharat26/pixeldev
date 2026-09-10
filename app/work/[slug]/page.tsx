@@ -54,7 +54,12 @@ export default async function CaseStudyPage({
   const live = projects.filter((p) => !p.placeholder);
   const liveIndex = live.findIndex((p) => p.slug === slug);
   const next = live[(liveIndex + 1) % live.length];
+  // On the light hero these must be the measured mustard steps — `signal`
+  // cyan is a dark-ground colour and falls to ~2:1 on white. The navy metrics
+  // band below keeps its own on-dark accent.
   const accentClass =
+    project.metricsAccent === "signal" ? "text-clay-600" : "text-amber-700";
+  const accentOnDark =
     project.metricsAccent === "signal" ? "text-signal" : "text-amber-300";
 
   return (
@@ -75,29 +80,29 @@ export default async function CaseStudyPage({
         ]}
       />
 
-      <article className="on-dark relative isolate overflow-hidden bg-navy-ink pt-32 pb-10 md:pt-40">
+      <article className="relative isolate overflow-hidden bg-paper pt-32 pb-10 md:pt-40">
         <div
           aria-hidden="true"
-          className="glow-orb -right-24 -top-20 h-80 w-80 text-amber opacity-[0.12]"
+          className="glow-orb -right-24 -top-20 h-80 w-80 text-amber opacity-[0.1]"
         />
         <div className="container-wide relative">
-          <nav aria-label="Breadcrumb" className="text-eyebrow text-d-muted">
-            <Link href="/work" className="transition-colors hover:text-amber-300">
+          <nav aria-label="Breadcrumb" className="text-eyebrow text-faint">
+            <Link href="/work" className="transition-colors hover:text-amber-700">
               Work
             </Link>
             <span aria-hidden="true"> / </span>
-            <span className="text-d-text">{project.title}</span>
+            <span className="text-ink">{project.title}</span>
           </nav>
 
-          <h1 className="text-h1 mt-6 max-w-3xl text-d-text">{project.title}</h1>
-          <p className="text-body-lg mt-4 max-w-2xl text-d-muted">
+          <h1 className="text-h1 mt-6 max-w-3xl text-ink">{project.title}</h1>
+          <p className="text-body-lg mt-4 max-w-2xl text-muted">
             <span className={cn("font-semibold", accentClass)}>
               {project.outcome.value}
             </span>{" "}
             {project.outcome.label}.
           </p>
 
-          <dl className="mt-10 grid grid-cols-2 gap-6 border-y border-d-line py-6 sm:grid-cols-5">
+          <dl className="mt-10 grid grid-cols-2 gap-6 border-y border-line-2 py-6 sm:grid-cols-5">
             {[
               ["Client", project.client],
               ["Year", String(project.year)],
@@ -106,8 +111,8 @@ export default async function CaseStudyPage({
               ["Timeline", project.timeline],
             ].map(([label, value]) => (
               <div key={label}>
-                <dt className="text-eyebrow text-d-muted">{label}</dt>
-                <dd className="text-data mt-1 text-sm font-medium text-d-text">
+                <dt className="text-eyebrow text-faint">{label}</dt>
+                <dd className="text-data mt-1 text-sm font-medium text-ink">
                   {value}
                 </dd>
               </div>
@@ -155,7 +160,7 @@ export default async function CaseStudyPage({
                   <MetricValue
                     value={metric.value}
                     size="hero"
-                    className={accentClass}
+                    className={accentOnDark}
                   />
                   <span className="mt-2 block max-w-[28ch] text-sm leading-relaxed text-d-muted">
                     {metric.label}

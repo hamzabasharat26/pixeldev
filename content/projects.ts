@@ -66,7 +66,12 @@ export type Project = {
 };
 
 const W = (slug: string) => `/work/${slug}`;
-const media = (slug: string, video = false) => ({
+/**
+ * `galleryCount` exists because not every project came with the same amount of
+ * source material. Where only one still was supplied, asking for two gallery
+ * images just renders the same picture twice, which looks like a bug.
+ */
+const media = (slug: string, video = false, galleryCount: 1 | 2 = 2) => ({
   poster: video ? `${W(slug)}/poster.webp` : `${W(slug)}/cover.webp`,
   ...(video
     ? { webm: `${W(slug)}/loop.webm`, mp4: `${W(slug)}/loop.mp4` }
@@ -79,10 +84,92 @@ const media = (slug: string, video = false) => ({
   posterSmall: video
     ? `${W(slug)}/poster-800.webp`
     : `${W(slug)}/cover-800.webp`,
-  gallery: [`${W(slug)}/01.webp`, `${W(slug)}/02.webp`],
+  gallery: [`${W(slug)}/01.webp`, `${W(slug)}/02.webp`].slice(0, galleryCount),
 });
 
 export const projects: Project[] = [
+  {
+    slug: "hornet-ai",
+    title: "HornetAI",
+    client: "Confidential", // TODO(owner): the brief names a biosecurity programme — clear the name before using it.
+    year: 2025, // TODO(owner): confirm
+    category: "Computer Vision",
+    tags: ["Biosecurity", "Edge AI"],
+    featured: true,
+    strip: true,
+    outcome: {
+      value: "Marked and re-identified",
+      label:
+        "individual hornets tracked at the bait station by their paint-dot colour",
+    },
+    summary:
+      "Detects Asian hornets at a bait station and tells individually marked insects apart, so a single hornet can be followed between visits.",
+    challenge:
+      "The yellow-legged Asian hornet (Vespa velutina) is a highly predative non-native species that has spread rapidly across Europe since being introduced in 2004. Tracking its movement means knowing not just that a hornet visited a bait station, but which hornet — the standard field method is to mark individuals with a coloured paint dot and watch for their return, which is slow, manual work.",
+    solution:
+      "A detector runs on the bait-station camera and classifies each insect in frame, separating Asian hornets from other visitors. On top of that it reads the coloured paint dot applied to marked individuals, labelling each one by colour so the same hornet can be recognised across visits. It is built to run on edge hardware at the station rather than streaming footage away for processing.",
+    results:
+      "Visits are logged automatically with the individual identified rather than tallied by hand.", // TODO(owner): confirm deployment scale, site count and any biosecurity outcomes before adding claims here.
+    metrics: [
+      {
+        value: "per hornet",
+        label: "paint-dot colour read and labelled per individual",
+      },
+      {
+        value: "on the station",
+        label: "runs on edge hardware at the bait site",
+      },
+      {
+        value: "species-level",
+        label: "Asian hornet separated from other visiting insects",
+      },
+    ],
+    metricsAccent: "signal",
+    tech: ["Python", "YOLO", "OpenCV", "Object tracking", "Edge AI"],
+    role: "Design + Build",
+    timeline: "TODO(owner): confirm",
+    // Only one still was supplied, so the gallery is a single image.
+    media: media("hornet-ai", false, 1),
+  },
+  {
+    // Sourced from an unlabelled clip: no brief was supplied for this one, so
+    // everything below describes ONLY what is visible on screen. Every claim
+    // about client, scale or outcome is left as TODO(owner).
+    slug: "mri-brain-segmentation",
+    title: "Brain MRI Segmentation",
+    client: "Confidential", // TODO(owner): confirm whether this was client work or R&D.
+    year: 2025, // TODO(owner): confirm
+    category: "AI",
+    tags: ["Medical imaging", "Segmentation"],
+    featured: false,
+    strip: true,
+    outcome: {
+      value: "Three planes",
+      label:
+        "sagittal, coronal and axial views segmented from the same volume",
+    },
+    summary:
+      "Segments structures in a brain MRI volume and renders the labelled regions across all three standard viewing planes.",
+    challenge:
+      "An MRI is a volume, but clinicians read it as slices in three orthogonal planes. A segmentation is only useful if it stays consistent as you move between those views.", // TODO(owner): replace with the actual project brief — this describes the problem domain, not a stated client requirement.
+    solution:
+      "The model labels anatomical regions in the volume and renders them as colour-coded masks over the greyscale scan, presented simultaneously in the sagittal, coronal and axial planes so the same segmentation can be inspected from all three.",
+    results:
+      "TODO(owner): no results were supplied for this project. Confirm accuracy, dataset and clinical context before this goes in front of a client.",
+    metrics: [
+      { value: "3 planes", label: "sagittal, coronal and axial, from one volume" },
+      { value: "per region", label: "each structure rendered as its own mask" },
+      {
+        value: "volumetric",
+        label: "labels carried through the stack, not drawn per slice",
+      },
+    ],
+    metricsAccent: "signal",
+    tech: ["Python", "PyTorch", "Segmentation", "Medical imaging"], // TODO(owner): confirm the actual stack.
+    role: "TODO(owner): confirm",
+    timeline: "TODO(owner): confirm",
+    media: media("mri-brain-segmentation", true),
+  },
   {
     slug: "rallylens",
     title: "RallyLens",
