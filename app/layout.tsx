@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
+import {
+  Space_Grotesk,
+  Inter,
+  JetBrains_Mono,
+  Fraunces,
+} from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { site } from "@/content/site";
@@ -14,7 +19,6 @@ import { JsonLd } from "@/components/ui/JsonLd";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/layout/SkipLink";
-import { SmoothScroll } from "@/components/layout/SmoothScroll";
 
 const display = Space_Grotesk({
   subsets: ["latin"],
@@ -36,23 +40,25 @@ const mono = JetBrains_Mono({
   preload: false,
 });
 
+/** One accent word per headline, italic. Not preloaded. */
+const serif = Fraunces({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["400"],
+  variable: "--font-fraunces",
+  display: "swap",
+  preload: false,
+});
+
 export const metadata: Metadata = {
   metadataBase: METADATA_BASE,
   title: {
-    default: "Pixel Dev Solutions — Web, Mobile & AI Software Development",
-    template: "%s | Pixel Dev Solutions",
+    default: site.metaTitle,
+    template: site.metaTitleTemplate,
   },
-  description:
-    "Pixel Dev Solutions is a software studio building fast web platforms, mobile apps, and AI systems that deliver measurable results. Start your project today.",
+  description: site.metaDescription,
   applicationName: site.name,
-  keywords: [
-    "software development company",
-    "Next.js development agency",
-    "mobile app development",
-    "AI automation",
-    "computer vision development",
-    "custom software Pakistan",
-  ],
+  keywords: [...site.keywords],
   authors: [{ name: site.name }],
   creator: site.name,
   openGraph: {
@@ -79,16 +85,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(display.variable, sans.variable, mono.variable)}
+      // Native smooth scroll (Lenis removed). Next 16 reads this flag to
+      // suppress the animation during route transitions.
+      data-scroll-behavior="smooth"
+      className={cn(
+        display.variable,
+        sans.variable,
+        mono.variable,
+        serif.variable,
+      )}
     >
       <body>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <SkipLink />
-        <SmoothScroll>
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
-        </SmoothScroll>
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
         <Analytics />
       </body>
     </html>

@@ -4,7 +4,8 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
     formats: ["image/avif", "image/webp"],
-    qualities: [50, 75, 90],
+    // Every value any <Image quality> uses must be listed or the optimizer 400s.
+    qualities: [50, 65, 75, 80, 90],
     // Only first-party SVGs ship in /public; sandbox them anyway.
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",

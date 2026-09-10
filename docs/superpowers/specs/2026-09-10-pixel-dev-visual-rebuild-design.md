@@ -1,7 +1,7 @@
 # Pixel Dev Solutions — Visual-Layer Rebuild Design Spec
 
 Date: 2026-09-10
-Status: **draft — awaiting owner approval**
+Status: **approved with changes 2026-09-10 — proceeding to implementation plan**
 Companion: `DESIGN_RESEARCH.md` (reference-site teardown), `design-refs/*.jpeg`
 Supersedes the visual sections of `docs/superpowers/specs/2026-09-09-pixel-dev-website-design.md`.
 That doc's architecture, routing, SEO, a11y and content-integrity rules **still stand** — this
@@ -31,36 +31,28 @@ gives us the structure; **aeyron.com** gives the depth and imagery techniques.
 |---|---|
 | 1 | **Palette:** navy `#12294B` + amber `#E9A13C` stay the *only* brand hues. Build a full engineered scale around them (navy steps, near-black, warm off-white paper, warm neutrals) **plus one cool "signal" color reserved for data/telemetry UI only** — never brand, never CTA. |
 | 2 | **Projects:** owner supplies client + metrics + outcomes per project. Spec ships a fill-in intake template + schema. Case studies built on receipt; visible `TODO(owner)` markers until then. Nothing invented. |
-| 3 | **Positioning:** broad studio identity kept (6 disciplines), but hero + homepage narrative **lead with AI + computer vision** as the flagship. Tagline adopts LinkedIn's **"We Deliver What We Commit."** |
+| 3 | **Positioning:** broad studio identity kept (6 disciplines), but hero + homepage narrative **lead with AI + computer vision** as the flagship. Lead line everywhere: *"AI & computer-vision studio — with the full-stack team to ship it."* |
 | 4 | **Sequencing:** this spec + `DESIGN_RESEARCH.md` get one approval, then phased build with `npm run build` + Lighthouse after each phase. |
 | 5 | **Logo:** unchanged. Existing hand-authored SVG mark stays; navy + amber derive from it. |
+| 6 | **Voice / tagline:** drop "We Deliver What We Commit". Hero brand line is **"We are more than ordinary."** (serif italic on *ordinary*). The positioning line (row 3) is the sub / meta / SEO lead. Old "Web, mobile & AI — engineered end-to-end" is **retired** (not kept in the footer). |
+| 7 | **Service card imagery:** the 6 service cards use the AI-render PNGs in `public/services/`; every other card uses a real project screenshot or an extracted video frame. |
+| 8 | **Raw media:** unzip `Drone HEXA` + `MagicQC Size Measurement`, inspect, place what's usable. Move all raw source `.mp4` out of `public/` to `media-src/`; commit only the derived `public/work/**` assets. |
 
-## 3. Open questions for the owner (answer inline, then I finalise)
+## 3. Decisions delegated to the build (owner gave full authority 2026-09-10)
 
-1. **HQ / location line.** LinkedIn says US; the site + supplied office address
-   say Lahore, Pakistan; croge.dev uses "Pakistan · Worldwide". Which is the
-   public line? Options: (a) keep Lahore address + "Pakistan · Working with
-   clients worldwide" [current], (b) "US · Pakistan · Working worldwide",
-   (c) drop the street address, keep only the region line. **Default if no
-   answer: (a).**
-2. **Lenis.** croge.dev achieves the whole aesthetic with **no smooth-scroll
-   library** (pure CSS + IntersectionObserver). Recommendation: **remove Lenis**
-   — less JS, no scroll-ownership complexity, better INP. Keep? **Default:
-   remove.**
-3. **Serif accent font.** croge sets one word per headline in **Fraunces
-   italic**. Recommendation: add Fraunces (italic, one weight) via
-   `next/font/google`. Alternative: no serif, amber-only accent word. **Default:
-   add Fraunces.**
-4. **Homepage featured projects (stacked deck needs 3+).** Candidates:
-   RallyLens, MagicQC, Dock Vision AI (IEEE 1st place), + pick from the CV set
-   (Safe Rail, Tire-Cord Fabric Defect, LiDAR Lane Detection, Vehicle Damage,
-   HornetAI). **Which 3–5 lead the homepage?** Default: RallyLens, MagicQC,
-   Dock Vision AI, Safe Rail.
-5. **Service card imagery.** Use the AI-render PNGs in `public/services/`
-   (`web.png` etc.), or real project screenshots per discipline? Default: renders
-   for the 6 service cards, real screenshots everywhere else.
-6. **Dock Vision AI + the two ZIPs** (`Drone HEXA`, `MagicQC Size Measurement`)
-   — unzip and use? Default: yes, I'll inspect and place.
+1. **HQ / location line → (a):** keep the Lahore office address on `/contact`,
+   footer and JSON-LD `PostalAddress`; region line stays "Pakistan · Working
+   with clients worldwide". LinkedIn's US listing is a market-facing choice, not
+   a second HQ — not surfaced on the site.
+2. **Lenis → removed.** croge.dev proves the aesthetic needs no smooth-scroll
+   library. Delete `lenis` + `SmoothScroll.tsx`; native scroll +
+   reduced-motion-gated CSS `scroll-behavior`; IntersectionObserver for reveals.
+   Fewer KB, better INP, no scroll-ownership edge cases.
+3. **Fraunces → added.** `next/font/google`, italic, single weight, `--font-serif`,
+   `display: swap`, not preloaded. Used only for the one accent word per headline.
+4. **Homepage featured projects → RallyLens, MagicQC, Dock Vision AI, Safe Rail.**
+   Owner can re-order or swap by flipping `featured` in `content/projects.ts`
+   once real project blocks arrive.
 
 ---
 
@@ -151,14 +143,50 @@ use signal.
 ```
 --grain-opacity: 0.035;
 --shadow-warm:  27 22 16;                 /* rgb for warm shadows on paper */
---shadow-sm:  0 1px 2px rgb(var(--shadow-warm) / .06), 0 2px 8px rgb(var(--shadow-warm) / .05);
---shadow-md:  0 4px 12px rgb(var(--shadow-warm) / .08), 0 12px 32px rgb(var(--shadow-warm) / .07);
---shadow-lg:  0 8px 24px rgb(var(--shadow-warm) / .10), 0 24px 60px rgb(var(--shadow-warm) / .10);
+--shadow-e1:  0 1px 2px rgb(var(--shadow-warm) / .06), 0 2px 8px rgb(var(--shadow-warm) / .05);
+--shadow-e2:  0 4px 12px rgb(var(--shadow-warm) / .08), 0 12px 32px rgb(var(--shadow-warm) / .07);
+--shadow-e3:  0 8px 24px rgb(var(--shadow-warm) / .10), 0 24px 60px rgb(var(--shadow-warm) / .10);
 --radius-card: 16px;
 --radius-panel: 28px;
 --radius-frame: 12px;   /* inner image frame */
 --ease-rise: cubic-bezier(0.22, 1, 0.36, 1);
 ```
+
+> **Validation corrections (2026-09-10), authoritative over the prose below:**
+> 1. Shadow tokens are `--shadow-e1/e2/e3` (NOT `sm/md/lg` — that namespace
+>    collides with Tailwind v4's own `--shadow-*` utilities).
+> 2. **Keep** `--color-success/error/warning/info` (ContactForm) and
+>    `--radius-sm/md/lg/xl` (SkipLink, ContactForm `rounded-md`) in `@theme` —
+>    retune values freely, add the new radius tokens alongside. Drop only
+>    `--color-navy-deep` (zero refs). Keep `--color-navy-ink`.
+> 3. Token names are **retuned, never renamed** — renaming silently kills a
+>    utility with a green build + lint. Orphan removal happens in Phase F behind
+>    a grep.
+> 4. `next.config.ts` `images.qualities` must include every value any `<Image
+>    quality>` uses — set `[50, 75, 80, 90]`. (ffmpeg `-quality 82` is file
+>    compression, unrelated to `next/image` render quality.)
+> 5. Fraunces load: `Fraunces({ subsets:['latin'], style:['italic'],
+>    weight:['400'], variable:'--font-serif', display:'swap', preload:false })`
+>    — no `axes`/optical-size (combining `axes` with `weight` throws at build).
+> 6. Lenis removal also needs `data-scroll-behavior="smooth"` on `<html>` (Next
+>    16 checks that dataset flag before suppressing scroll animation on route
+>    changes) and does NOT need a replacement scroll-reset component — the Next
+>    default handles it once Lenis is gone. Delete `ScrollResetOnRouteChange`.
+> 7. `app/layout.tsx` hardcodes `metadata.title.default` / `description` /
+>    `keywords` — refactor these to read from `content/site.ts` (add
+>    `metaTitle` / `metaDescription` / `keywords`).
+> 8. Media pipeline: timestamps are **hand-curated** in
+>    `scripts/media/manifest.json` (scene detection finds cuts, not
+>    information-dense frames). `git rm` the dead tracked assets
+>    `public/posters/*.jpg` + `public/clips/*-8s.mp4` (zero code refs).
+>    `.gitignore` `media-src/` + `.lighthouse/`. `sharp` is present transitively
+>    via Next but add it to `devDependencies`.
+> 9. StatsBar is removed from `app/page.tsx` in Phase D (Hero's glass card
+>    carries the stats); a restyled StatsBar mounts on `/about`.
+> 10. The sticky-scale deck (§8.6) needs 3+ featured projects. Phase D adds
+>     **Dock Vision AI** + **Safe Rail** to `content/projects.ts` as skeleton
+>     entries — verifiable facts only (LinkedIn: IEEE Hackathon win,
+>     commercialised; `Safe_rail.txt`), all else `TODO(owner)`.
 
 ### 5.7 Contrast rules (carried from the 2026-09-09 spec, still enforced)
 
@@ -434,24 +462,63 @@ default: move raw sources to `media-src/`, commit only the derived
 
 ## 11. Copy changes
 
-Minimal, owner-authored base tightened then `humanizer` pass (Phase 5).
+Minimal. Owner-authored base tightened, then a `humanizer` pass in Phase F.
+`content/site.ts` is the single source — components never hardcode these.
 
-- **Tagline:** "We Deliver What We Commit." (replaces "Web, mobile & AI —
-  engineered end-to-end.")
-- **Positioning line** (`content/site.ts`): "AI & computer-vision studio — with
-  the full-stack team to ship it."
-- **Hero headline** (draft): *"We build computer-vision and AI systems that*
-  *<em>ship</em> — and the web, mobile and cloud stack to run them."*
-- **Hero sub** (draft): "A small senior team in Pakistan, working with clients
-  worldwide. From technical brief to deployed production system in 3–8 weeks."
-- **Stats** (`content/site.ts`, keep honest-minimal, revise labels):
-  `10+ AI systems in production` · `1st IEEE Hackathon (Dock Vision AI)` ·
-  `3–8 wks brief → production` · `24h reply`. Any hard number owner can't
-  defend → `TODO(owner)` + fallback.
-- **ProofBand** claims: reframe around RallyLens (single-camera tracking),
-  MagicQC ("500+ items/shift, 90%+ accuracy" — owner-confirmed via LinkedIn),
-  Dock Vision AI (competition win). Mark MagicQC numbers `// source: LinkedIn,
-  owner to confirm`.
+### 11.1 `content/site.ts` string changes
+
+| Field | New value | Notes |
+|---|---|---|
+| `positioning` | `"AI & computer-vision studio — with the full-stack team to ship it."` | the lead line — hero sub, `<meta name=description>` base, OG description, LinkedIn-consistent |
+| `tagline` | `"We are more than ordinary."` | hero brand line; *ordinary* renders as `<em>` (Fraunces italic) |
+| ~~`"Web, mobile & AI — engineered end-to-end"`~~ | **deleted** | retired everywhere, footer included |
+| ~~`"We Deliver What We Commit"`~~ | **not adopted** | |
+
+### 11.2 Hero
+
+- **Eyebrow row (mono):** `AI & COMPUTER-VISION STUDIO` ——rule——
+  `PAKISTAN · WORLDWIDE`
+- **Headline (`.headline`):** `We are more than <em>ordinary</em>.`
+  - Single line on desktop, wraps on mobile. `<em>` = Fraunces italic.
+  - This is a brand statement, not a keyword line — the SEO weight sits in the
+    sub + the `<title>` + the section H2s.
+- **Sub (`--color-d-muted`, `max-width: 44rem`):**
+  `We build computer-vision and AI systems that ship — object detection,
+  tracking, quality control, RAG and LLM apps — plus the web, mobile and cloud
+  stack to run them in production. Brief to deployment in 3–8 weeks.`
+- **CTAs:** primary amber `Start a project`, ghost-light `See the work`.
+- **Glass stat card:** 4 stats from `content/site.ts` (below).
+
+### 11.3 Stats (`content/site.ts` `stats[]`, keep honest-minimal)
+
+| Value | Label | Source |
+|---|---|---|
+| `10+` | `AI systems in production` | LinkedIn ("10+ AI systems delivered to US & Canada clients") |
+| `1st` | `IEEE Hackathon — Dock Vision AI` | LinkedIn (won, then commercialised) |
+| `3–8 wk` | `brief → production` | LinkedIn |
+| `24h` | `median reply time` | current site claim |
+
+Every hard number a component renders that the owner has not explicitly
+confirmed carries a `// TODO(owner): confirm` and a safe fallback.
+
+### 11.4 ProofBand claims (`content/site.ts` `proof[]`)
+
+Reframe around defensible outcomes:
+
+1. `1 camera` — RallyLens tracks ball speed, bounces and wall-target accuracy
+   from a single phone-grade camera.
+2. `500+ / shift` — MagicQC measures 500+ garments per shift at 90%+ accuracy
+   against each brand's tolerance table. `// source: LinkedIn — owner to confirm`
+3. `1st place` — Dock Vision AI won an IEEE Hackathon and went to production.
+
+### 11.5 Section H2s (SEO — carry the keyword weight the hero headline doesn't)
+
+- Services: `What we build` → cards titled "Computer Vision", "AI &
+  Automation", "Web Platforms", "Mobile Apps", "UI/UX", "Cloud & DevOps".
+- Work: `Selected work — shipped systems, measurable outcomes.`
+- Process: `A process built around <em>shipping</em>.`
+- Proof: `Proof, not promises.`
+- CTA: `Tell us what you're trying to <em>build</em>.`
 
 ## 12. Project data model + intake template
 

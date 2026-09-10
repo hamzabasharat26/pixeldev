@@ -46,3 +46,8 @@ next-env.d.ts
 /phase*.png
 /p[0-9]*.png
 /*-screenshot.png
+
+# media pipeline
+/media-src/
+/.lighthouse/
+/scripts/media/_sheets/

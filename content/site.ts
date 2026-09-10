@@ -1,7 +1,8 @@
 /**
- * Single source of truth for company facts.
+ * Single source of truth for company facts + top-level SEO strings.
  * Every phone / email / domain / address reference in the app imports from
- * here — never hardcode a contact string in a component.
+ * here — never hardcode a contact string (or the tagline / positioning line)
+ * in a component or in app/layout.tsx.
  *
  * Locked facts (do not "correct" or reformat):
  *   phone displays as "+92 304070719", links as "tel:+92304070719".
@@ -13,8 +14,26 @@ export const site = {
   domain: "pixeldevsolutions.tech",
   url: "https://pixeldevsolutions.tech",
 
-  positioning: "Software studio — web, mobile & AI, engineered end-to-end",
-  tagline: "Web, mobile & AI — engineered end-to-end.",
+  /** Lead line — hero sub, meta description base, OG description, JSON-LD. */
+  positioning:
+    "AI & computer-vision studio — with the full-stack team to ship it.",
+  /** Hero brand line. "ordinary" renders as <em> (serif italic). */
+  tagline: "We are more than ordinary.",
+
+  /** app/layout.tsx metadata reads these — do not hardcode there. */
+  metaTitle: "Pixel Dev Solutions — AI & Computer Vision Studio",
+  metaTitleTemplate: "%s · Pixel Dev Solutions",
+  metaDescription:
+    "We build production AI and computer-vision systems — object detection, tracking, quality control, OCR, RAG and LLM apps — plus the web, mobile and cloud stack to run them. A small senior team in Pakistan, working with clients worldwide.",
+  keywords: [
+    "computer vision development",
+    "AI development studio",
+    "object detection",
+    "RAG and LLM applications",
+    "machine learning engineering",
+    "Next.js development",
+    "software studio Pakistan",
+  ],
 
   email: "pixeldevsolutions@gmail.com",
   phoneDisplay: "+92 304070719",
@@ -31,22 +50,20 @@ export const site = {
   responseTime: "Within 24 hours",
 
   /**
-   * Homepage stat bar. Honest-minimal — every value here is defensible today.
-   * TODO(owner): raise "Products in production" and add real project/client
-   * counts as the portfolio grows. Keep under-claiming until then.
+   * Homepage hero stat card. Honest-minimal — every value is defensible today.
+   * Sourced from the LinkedIn company page unless noted.
+   * TODO(owner): confirm each figure; raise as the portfolio grows.
    */
   stats: [
-    { value: "6", label: "Core disciplines" },
-    { value: "2", label: "Products in production" },
-    { value: "24h", label: "Average reply time" },
-    { value: "100%", label: "Code ownership handed over" },
+    { value: "10+", label: "AI systems in production" },
+    { value: "1st", label: "IEEE Hackathon — Dock Vision AI" },
+    { value: "3–8 wk", label: "brief to production" },
+    { value: "24h", label: "median reply time" },
   ],
 
   /**
-   * Proof band — claims we can defend today. Each maps to something visible in
-   * the RallyLens / MagicQC case studies.
-   * TODO(owner): add a real before/after outcome (e.g. "+40% inquiries") once a
-   * client will let you publish it.
+   * Proof band — claims we can defend today, each mapped to a real project.
+   * TODO(owner): confirm the MagicQC throughput/accuracy figures below.
    */
   proof: [
     {
@@ -55,19 +72,20 @@ export const site = {
         "RallyLens tracks ball speed, bounces and wall-target accuracy from a single phone-grade camera",
     },
     {
-      value: "7 POMs",
+      value: "500+ / shift",
       label:
-        "measured against each brand's tolerance table, live on the MagicQC line",
+        "MagicQC measures 500+ garments per shift at 90%+ accuracy against each brand's tolerance table", // source: LinkedIn — owner to confirm
     },
     {
-      value: "1 team",
-      label: "owns design, build and deployment on every project we take",
+      value: "1st place",
+      label:
+        "Dock Vision AI won an IEEE Hackathon and went into production",
     },
   ],
 
   social: {
     // TODO(owner): add real profile URLs. Empty array is valid for JSON-LD sameAs.
-    links: [] as string[],
+    links: ["https://www.linkedin.com/company/pixeldevsolutions"] as string[],
   },
 } as const;
 
@@ -82,10 +100,10 @@ export const primaryNav = [
 /** Footer link columns. Service anchors match /services section ids. */
 export const footerNav = {
   Services: [
+    { label: "Computer Vision", href: "/services#vision" },
+    { label: "AI & Automation", href: "/services#ai" },
     { label: "Web Development", href: "/services#web" },
     { label: "Mobile Apps", href: "/services#mobile" },
-    { label: "AI & Automation", href: "/services#ai" },
-    { label: "Computer Vision", href: "/services#vision" },
     { label: "UI/UX Design", href: "/services#uiux" },
     { label: "Cloud & DevOps", href: "/services#cloud" },
   ],

@@ -12,11 +12,19 @@ type CounterProps = {
 function parse(value: string) {
   const match = value.match(/^(\D*)(\d[\d,.]*)(\D*)$/);
   if (!match) return null;
+  const prefix = match[1] ?? "";
+  const suffix = match[3] ?? "";
+  // A digit or range dash in the affixes (e.g. "3–8 wk", "1st") means the
+  // number isn't a clean count — render it verbatim, don't animate.
+  if (/[\d–-]/.test(prefix) || /[\d–-]/.test(suffix)) return null;
   const digits = match[2].replace(/,/g, "");
+  const target = Number(digits);
+  // Tiny counts animate as a distracting flicker; show them as-is.
+  if (target < 5 && !digits.includes(".")) return null;
   return {
-    prefix: match[1] ?? "",
-    target: Number(digits),
-    suffix: match[3] ?? "",
+    prefix,
+    target,
+    suffix,
     decimals: (digits.split(".")[1] ?? "").length,
   };
 }

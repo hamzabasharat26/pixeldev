@@ -2,62 +2,116 @@
 
 /* ============================================================
    Pixel Dev Solutions — design tokens
-   Palette + type derive from the studio logo (navy + amber).
+   "Instrument panel, warmly lit": navy is the screen, amber is
+   the on-target signal, warm paper is the desk it sits on.
+   Navy #12294B + amber #E9A13C are the ONLY brand hues; every
+   other value is a derived step, a warm neutral, or the single
+   cool "signal" hue reserved for on-screen data/telemetry UI.
+
+   Token values are retuned in place — never rename a key (that
+   silently kills its Tailwind utility). Orphans are removed only
+   after a repo-wide grep.
    ============================================================ */
 
 @theme {
-  /* Brand — navy */
-  --color-navy-ink: #0a1729;
-  --color-navy-deep: #0e1f3a;
-  --color-navy: #12294b; /* PRIMARY */
-  --color-navy-600: #1b3a6b;
-  --color-navy-500: #234c86;
+  /* ---- Brand: navy ---- */
+  --color-navy-ink: #070e1c; /* near-black base, deepest sections */
+  --color-navy-deep: #0a1730; /* legacy alias of navy-900 */
+  --color-navy-900: #0a1730; /* dark section ground */
+  --color-navy-800: #0e2044; /* raised dark surface */
+  --color-navy: #12294b; /* PRIMARY — unchanged */
+  --color-navy-600: #1c3a69; /* dark hover / borders */
+  --color-navy-500: #2a5296; /* lines on dark, muted accents */
+  --color-navy-300: #7c9bd0; /* text on navy-ink (AA), captions */
 
-  /* Brand — amber */
-  --color-amber: #e9a13c; /* ACCENT */
-  --color-amber-300: #f4c078;
-  --color-amber-600: #c8842a; /* text-safe on white */
-  --color-amber-700: #a66c1e; /* text-safe, small text */
+  /* ---- Brand: amber ---- */
+  --color-amber: #e9a13c; /* ACCENT — unchanged */
+  --color-amber-300: #f4c57f; /* gradient partner, hover glow */
+  --color-amber-600: #c27e22; /* text-safe amber on paper */
+  --color-amber-700: #9a5f16; /* text-safe amber, small */
+  --color-amber-glow: rgb(233 161 60 / 0.16); /* blurred orb / corner wash */
 
-  /* Dark surfaces */
-  --color-surface-base: #0a1223;
-  --color-surface-raised: #101b30;
-  --color-surface-elevated: #16233d;
-  --color-surface-border: #243349;
+  /* ---- Warm paper + neutrals (tuned toward amber) ---- */
+  --color-paper: #f8f6f1; /* page base (light sections) */
+  --color-paper-2: #f1ede4; /* alternating band */
+  --color-surface: #ffffff; /* card fill on paper (NB: -base/-raised/-elevated are the DARK surfaces) */
+  --color-surface-2: #f4f0e8; /* inset panel / tag chip on paper */
+  --color-line: #e4ddcf; /* hairline on paper */
+  --color-line-2: #d3c8b4; /* stronger hairline on paper */
+  --color-ink: #161310; /* warm near-black body text */
+  --color-muted: #514b40; /* secondary text */
+  --color-faint: #6e6555; /* eyebrow / meta / tertiary */
 
-  /* Neutrals */
-  --color-grey-50: #f9fafb;
-  --color-grey-100: #f3f4f6;
-  --color-grey-200: #e5e7eb;
-  --color-grey-300: #d1d5db;
-  --color-grey-400: #9ca3af;
-  --color-grey-500: #6b7280;
-  --color-grey-700: #374151;
-  --color-grey-800: #1f2937;
-  --color-grey-900: #111827;
+  /* ---- Dark-section surfaces ---- */
+  --color-surface-base: #0a1730; /* = navy-900 */
+  --color-surface-raised: #0e2044; /* = navy-800 */
+  --color-surface-elevated: #132a55;
+  --color-surface-border: #24406e;
+  --color-d-surface: #0e2044;
+  --color-d-surface-2: #132a55;
+  --color-d-line: #24406e;
+  --color-d-text: #e8ecf5;
+  --color-d-muted: #9db0d0;
 
-  /* Semantic */
-  --color-success: #16a34a;
-  --color-error: #dc2626;
-  --color-warning: #d97706;
-  --color-info: #2563eb;
+  /* ---- Signal — data / telemetry UI ONLY. Never a button, link,
+         heading, or brand surface. ---- */
+  --color-signal: #3ea6c4;
+  --color-signal-dim: #2c6e86;
 
-  /* Radii */
+  /* ---- Neutral greys — retuned warm; kept for transitional use,
+         components migrate to paper / ink / muted / d-* ---- */
+  --color-grey-50: #f8f6f1;
+  --color-grey-100: #f1ede4;
+  --color-grey-200: #e4ddcf;
+  --color-grey-300: #cbc3b4;
+  --color-grey-400: #9a9284;
+  --color-grey-500: #6e6555;
+  --color-grey-700: #4a4438;
+  --color-grey-800: #2a2419;
+  --color-grey-900: #161310;
+
+  /* ---- Semantic (kept — ContactForm depends on these) ---- */
+  --color-success: #2f8f4e;
+  --color-error: #cc3d3d;
+  --color-warning: #c07a1b;
+  --color-info: #2f6fd0;
+
+  /* ---- Radii ---- */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+  --radius-card: 16px;
+  --radius-panel: 28px;
+  --radius-frame: 12px; /* inner image frame */
 
-  /* Motion */
+  /* ---- Motion ---- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-rise: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Fonts — CSS vars injected by next/font in the root layout */
+  /* ---- Fonts — CSS vars injected by next/font in the root layout ---- */
   --font-display: var(--font-space-grotesk), "Space Grotesk", ui-sans-serif,
     system-ui, sans-serif;
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui,
     -apple-system, sans-serif;
+  --font-serif: var(--font-fraunces), "Fraunces", ui-serif, Georgia, serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, "JetBrains Mono",
     "SFMono-Regular", Menlo, monospace;
+}
+
+/* Non-utility tokens — kept off @theme so no stray utilities are generated. */
+:root {
+  --grain-opacity: 0.035;
+  --shadow-warm: 27 22 16; /* rgb triplet for warm shadows on paper */
+  --shadow-e1: 0 1px 2px rgb(var(--shadow-warm) / 0.06),
+    0 2px 8px rgb(var(--shadow-warm) / 0.05);
+  --shadow-e2: 0 4px 12px rgb(var(--shadow-warm) / 0.08),
+    0 12px 32px rgb(var(--shadow-warm) / 0.07);
+  --shadow-e3: 0 10px 26px rgb(var(--shadow-warm) / 0.1),
+    0 28px 64px rgb(var(--shadow-warm) / 0.11);
+  --container-page: 1280px;
+  --container-wide: 1400px;
+  --header-h: 4.5rem;
 }
 
 /* ============================================================
@@ -69,14 +123,37 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Lenis is gone — native smooth scroll for hash/anchor jumps only.
+     Next 16 suppresses this during route transitions via the
+     data-scroll-behavior="smooth" flag set on <html> in layout.tsx. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   body {
-    background-color: var(--color-grey-50);
-    color: var(--color-navy-ink);
+    position: relative;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Static grain over the whole page. Sits below the header (z-50) and
+     drawer (z-40); no section content should set z-index >= 1. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   h1,
@@ -100,9 +177,9 @@
   }
 }
 
-/* Focus ring — unlayered so it wins over utilities. amber-700 clears 3:1
-   non-text contrast on the light ground, on navy, and on the dark surfaces
-   (the 2px outline-offset keeps it off amber-filled buttons). */
+/* Focus ring — unlayered so it wins over utilities. amber outline for the
+   on-brand read, plus a navy halo so it stays clearly visible on paper,
+   on navy, and on amber-filled buttons (2px offset keeps it off the fill). */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -110,9 +187,10 @@ select:focus-visible,
 textarea:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--color-amber-700);
+  outline: 2px solid var(--color-amber);
   outline-offset: 2px;
-  border-radius: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-navy) 32%, transparent);
+  border-radius: 3px;
 }
 
 /* ============================================================
@@ -120,36 +198,51 @@ summary:focus-visible,
    inherited from tag soup. clamp() carries the responsive step.
    ============================================================ */
 
+.headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 1.5rem + 4.5vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.headline em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
 .text-display {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.5rem, 1.6rem + 4vw, 4rem);
-  line-height: 1.04;
-  letter-spacing: -0.03em;
+  line-height: 1.03;
+  letter-spacing: -0.032em;
 }
 
 .text-h1 {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2.25rem, 1.7rem + 2.6vw, 3rem);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  line-height: 1.06;
+  letter-spacing: -0.028em;
 }
 
 .text-h2 {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(1.75rem, 1.4rem + 1.7vw, 2.25rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.12;
+  letter-spacing: -0.024em;
 }
 
 .text-h3 {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 1.5rem;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
+  line-height: 1.18;
+  letter-spacing: -0.018em;
 }
 
 .text-h4 {
@@ -157,6 +250,7 @@ summary:focus-visible,
   font-weight: 600;
   font-size: 1.25rem;
   line-height: 1.25;
+  letter-spacing: -0.012em;
 }
 
 .text-body-lg {
@@ -183,7 +277,13 @@ summary:focus-visible,
    ============================================================ */
 
 .container-page {
-  max-width: var(--container-page, 1280px);
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.container-wide {
+  max-width: var(--container-wide);
   margin-inline: auto;
   padding-inline: 1.5rem;
 }
@@ -192,15 +292,45 @@ summary:focus-visible,
   padding-block: 3.5rem;
 }
 
-/* Dark section: paint the ground + set a sane default text colour so nested
-   elements that don't specify one still read correctly. */
+.section {
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+/* Full-bleed band that reads as raised: alternating paper tone + hairlines. */
+.section--band {
+  background-color: var(--color-paper-2);
+  border-block: 1px solid var(--color-line);
+}
+
+/* Dark section: paint the ground + a sane default text colour. */
 .on-dark {
-  background-color: var(--color-surface-base);
-  color: var(--color-grey-100);
+  background-color: var(--color-navy-900);
+  color: var(--color-d-text);
+}
+
+/* Decorative blurred colour orb — always aria-hidden + pointer-events:none. */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* Warm elevation utilities (paper only). */
+.shadow-e1 {
+  box-shadow: var(--shadow-e1);
+}
+.shadow-e2 {
+  box-shadow: var(--shadow-e2);
+}
+.shadow-e3 {
+  box-shadow: var(--shadow-e3);
 }
 
 @media (min-width: 768px) {
-  .container-page {
+  .container-page,
+  .container-wide {
     padding-inline: 2rem;
   }
   .section-y {
@@ -211,6 +341,30 @@ summary:focus-visible,
 @media (min-width: 1024px) {
   .section-y {
     padding-block: 8rem;
+  }
+}
+
+/* ============================================================
+   Reveal — opacity + rise on scroll-in. Renders already-visible
+   under reduced motion (no transition dependency — the global
+   killswitch below zeroes transition-duration).
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease-rise),
+    transform 0.7s var(--ease-rise);
+}
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -252,7 +406,7 @@ summary:focus-visible,
 
 /* ============================================================
    Reduced motion — kill transforms, marquees, autoplay scaling.
-   Opacity fades stay.
+   Opacity-only reveals still resolve via the .reveal rule above.
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {

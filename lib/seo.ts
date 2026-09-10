@@ -8,6 +8,9 @@ export const SITE_ORIGIN = (
 
 export const METADATA_BASE = new URL(SITE_ORIGIN);
 
+/** E.164 phone for schema.org, derived from the single source in content/site.ts. */
+const TELEPHONE_E164 = site.phoneHref.replace(/^tel:/, "");
+
 type PageMetaInput = {
   title?: string;
   description: string;
@@ -61,7 +64,7 @@ export function organizationJsonLd() {
     name: site.name,
     url: SITE_ORIGIN,
     email: site.email,
-    telephone: "+92304070719",
+    telephone: TELEPHONE_E164,
     logo: `${SITE_ORIGIN}/icon.svg`,
     image: `${SITE_ORIGIN}/opengraph-image`,
     description: site.positioning,
