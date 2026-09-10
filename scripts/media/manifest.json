@@ -164,9 +164,9 @@
       "slug": "drone-mission-control",
       "sourceType": "stills",
       "stills": {
-        "cover": "media-src/zips/Drone HEXA/Drove upper view.png",
+        "cover": "media-src/zips/Drone HEXA/Gazebo_Quad_Drone.png",
         "01": "media-src/zips/Drone HEXA/Q_Ground_mission_plan.jpeg",
-        "02": "media-src/zips/Drone HEXA/Gazebo_Quad_Drone.png"
+        "02": "media-src/zips/Drone HEXA/Mission.jpeg"
       }
     }
   ],
