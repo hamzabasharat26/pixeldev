@@ -642,10 +642,14 @@ summary:focus-visible,
   }
 }
 
+/* `--marquee-boost` is written to <html> by components/ui/MarqueeVelocity.tsx
+   from scroll velocity; it defaults to 1, so the strips run at their base
+   speed with no JS at all. */
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee-left var(--marquee-duration, 38s) linear infinite;
+  animation: marquee-left
+    calc(var(--marquee-duration, 38s) / var(--marquee-boost, 1)) linear infinite;
 }
 
 .marquee-track[data-direction="right"] {

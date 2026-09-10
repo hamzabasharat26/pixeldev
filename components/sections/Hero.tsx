@@ -2,6 +2,7 @@ import Image from "next/image";
 import { site } from "@/content/site";
 import { LinkButton } from "@/components/ui/Button";
 import { Counter } from "@/components/ui/Counter";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { HeroMedia } from "./HeroMedia";
 import { HeroPanel } from "./HeroPanel";
 import { HeroReveal } from "./HeroReveal";
@@ -25,7 +26,11 @@ export function Hero() {
               {site.tagline}
             </p>
 
-            <h1 data-hero-step className="headline mt-5 max-w-[13ch] text-ink">
+            <h1
+              data-hero-step
+              data-hero-headline
+              className="headline mt-5 max-w-[13ch] text-ink"
+            >
               Production AI, not proof of concept.
             </h1>
 
@@ -39,12 +44,16 @@ export function Hero() {
             </p>
 
             <div data-hero-step className="mt-8 flex flex-wrap gap-3">
-              <LinkButton href="/contact" size="lg">
-                Start a project
-              </LinkButton>
-              <LinkButton href="/work" size="lg" variant="ghostLight">
-                See the work
-              </LinkButton>
+              <Magnetic>
+                <LinkButton href="/contact" size="lg">
+                  Start a project
+                </LinkButton>
+              </Magnetic>
+              <Magnetic>
+                <LinkButton href="/work" size="lg" variant="ghostLight">
+                  See the work
+                </LinkButton>
+              </Magnetic>
             </div>
           </div>
 

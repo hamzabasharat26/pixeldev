@@ -43,13 +43,15 @@ export function ProjectCard({
             {project.year}
           </span>
         </div>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
+        {/* Clamped so a long summary can't make one card tower over its row —
+            the full text is on the case study. */}
+        <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted">
           {project.summary}
         </p>
 
         {/* Mono is the voice of the measured value only — running it through
             the whole sentence turns the card into a wall of monospace. */}
-        <p className="mt-4 text-sm leading-relaxed text-muted">
+        <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-muted">
           <span
             className={cn(
               "text-data font-semibold",
