@@ -80,6 +80,15 @@ export function HeroReveal({
     const panel = root.querySelector<HTMLElement>("[data-hero-panel]");
     let detachParallax: (() => void) | undefined;
 
+    // Late hydration (a slow device or network) means the hero has already
+    // been on screen, and read, for a while. Blanking it to replay the intro
+    // would be a visible flash, so skip straight to the interactive part.
+    // performance.now() is milliseconds since navigation started.
+    if (performance.now() > 1200) {
+      detachParallax = attachParallax(root, visual, panel);
+      return () => detachParallax?.();
+    }
+
     const ctx = gsap.context(() => {
       const heading = root.querySelector<HTMLElement>("[data-hero-headline]");
       const words = heading ? splitWords(heading) : [];

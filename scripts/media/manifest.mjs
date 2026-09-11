@@ -26,6 +26,7 @@ export function loadManifest() {
     }
   }
   for (const svc of raw.services) svc._source = check(svc.source);
+  for (const s of raw.showcase ?? []) s._source = check(s.source);
   raw.og._source = check(raw.og.source);
 
   return { manifest: raw, root: ROOT, missing };

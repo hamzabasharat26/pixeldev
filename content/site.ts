@@ -114,7 +114,7 @@ export type NavItem = {
 export const primaryNav: NavItem[] = [
   { label: "Home", href: "/", exact: true },
   { label: "Services", href: "/services" },
-  { label: "Work", href: "/work" },
+  { label: "Portfolio", href: "/portfolio" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -131,7 +131,7 @@ export const footerNav = {
   ],
   Company: [
     { label: "About", href: "/about" },
-    { label: "Work", href: "/work" },
+    { label: "Portfolio", href: "/portfolio" },
     { label: "Contact", href: "/contact" },
     { label: "Careers", href: "/careers" },
   ],

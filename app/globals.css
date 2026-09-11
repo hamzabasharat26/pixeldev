@@ -571,12 +571,39 @@ summary:focus-visible,
   }
 }
 
+/* Real product screens drift slightly against their panel as they pass
+   through the viewport: depth, driven by the compositor, no JS. `translate`
+   (not `transform`) so it composes with the hover `scale` on the same card. */
+@keyframes showcase-drift {
+  from {
+    translate: 0 4%;
+  }
+  to {
+    translate: 0 -4%;
+  }
+}
+
+/* Identity base: the stacking context must exist before the animation runs,
+   not appear mid-scroll. */
+.showcase-img {
+  translate: 0;
+}
+
+/* `(animation-range: entry)` is required in the check, not optional: it
+   filters out browsers with only partial scroll-timeline support, which
+   would otherwise run these with broken ranges. Unsupported = the element
+   just renders in place. Decorative, so no JS fallback. */
 @media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
     .reveal {
       animation: reveal-rise linear both;
       animation-timeline: view();
       animation-range: entry 0% cover 14%;
+    }
+    .showcase-img {
+      animation: showcase-drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
     }
   }
 }
@@ -586,6 +613,66 @@ summary:focus-visible,
    Three frames, 12s cycle, each visible ~4s. Frozen under
    reduced motion (the first frame stands).
    ============================================================ */
+
+/* ============================================================
+   Work reel (components/sections/WorkReel.tsx)
+   Default: a swipeable, snapping row. Wide screens with scroll-driven
+   animation support: a tall section supplies the scroll distance, a sticky
+   child holds the viewport, and a view-timeline slides the track sideways.
+   The height is fixed here, in CSS, so nothing moves on hydration.
+   ============================================================ */
+
+.work-reel-track {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 3rem;
+}
+.work-reel-track > li {
+  scroll-snap-align: start;
+}
+
+@keyframes reel-x {
+  to {
+    /* 100% = the track's own width; 100cqw = the sticky viewport's width,
+       excluding any scrollbar, so the last card stops flush at the edge. */
+    translate: calc(-100% + 100cqw);
+  }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .work-reel {
+      height: 300vh;
+      view-timeline: --reel block;
+    }
+    .work-reel-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      container-type: inline-size;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .work-reel-track {
+      width: max-content;
+      overflow: visible;
+      padding-bottom: 0;
+      translate: 0;
+      animation: reel-x linear both;
+      animation-timeline: --reel;
+      animation-range: contain 0% contain 100%;
+    }
+    /* Keyboard focus inside: drop the scroll-linked slide and fall back to a
+       native scrolling row, so the focused card is always brought into view. */
+    .work-reel:has(:focus-visible) .work-reel-track {
+      animation: none;
+      overflow-x: auto;
+      width: auto;
+    }
+  }
+}
 
 @keyframes hero-cycle {
   0%,
@@ -642,22 +729,34 @@ summary:focus-visible,
   }
 }
 
-/* `--marquee-boost` is written to <html> by components/ui/MarqueeVelocity.tsx
-   from scroll velocity; it defaults to 1, so the strips run at their base
-   speed with no JS at all. */
+/* Base speed lives here, so the strips run with no JS at all.
+   components/ui/MarqueeDriver.tsx adjusts each track's playbackRate for scroll
+   surge, hover brake, pause and offscreen pausing. Do NOT go back to changing
+   speed through a custom property feeding animation-duration: that restyled the
+   whole document every frame and made the strip jump (measured, see the
+   driver). And no `:hover { animation-play-state: paused }`: an instant freeze
+   under the cursor is what read as the strip "hanging". */
+.marquee-root {
+  /* Keeps a strip's layout and paint from leaking into the rest of the page. */
+  contain: layout paint;
+}
+
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee-left
-    calc(var(--marquee-duration, 38s) / var(--marquee-boost, 1)) linear infinite;
+  animation: marquee-left var(--marquee-duration, 38s) linear infinite;
 }
 
 .marquee-track[data-direction="right"] {
   animation-name: marquee-right;
 }
 
-.marquee-root:hover .marquee-track {
-  animation-play-state: paused;
+/* The strips are already frozen under reduced motion; a pause button there
+   would be a control that does nothing. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-toggle {
+    display: none;
+  }
 }
 
 /* ============================================================

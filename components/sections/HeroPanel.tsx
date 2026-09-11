@@ -41,8 +41,7 @@ export function HeroPanel() {
             src={f.src}
             alt=""
             fill
-            unoptimized
-            sizes="360px"
+            sizes="368px"
             className="hero-cycle object-cover"
             style={{ animationDelay: `${i * 4}s` }}
           />
@@ -72,10 +71,10 @@ export function HeroPanel() {
         </div>
 
         <Link
-          href="/work"
+          href="/portfolio"
           className="shrink-0 rounded-lg border border-white/15 px-2.5 py-1 text-[0.72rem] font-medium text-d-text transition-colors hover:border-amber-300/60 hover:text-amber-300"
         >
-          All work
+          Portfolio
         </Link>
       </div>
     </div>

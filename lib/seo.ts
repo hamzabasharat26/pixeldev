@@ -14,7 +14,7 @@ const TELEPHONE_E164 = site.phoneHref.replace(/^tel:/, "");
 type PageMetaInput = {
   title?: string;
   description: string;
-  /** Path without domain, e.g. "/work" or "/". */
+  /** Path without domain, e.g. "/portfolio" or "/". */
   path: string;
   /** Absolute or root-relative OG image. Defaults to the site OG route. */
   ogImage?: string;
@@ -114,7 +114,7 @@ export function creativeWorkJsonLd(project: {
     abstract: project.summary,
     dateCreated: String(project.year),
     image: `${SITE_ORIGIN}${project.cover}`,
-    url: `${SITE_ORIGIN}/work/${project.slug}`,
+    url: `${SITE_ORIGIN}/portfolio/${project.slug}`,
     creator: { "@type": "Organization", name: site.name, url: SITE_ORIGIN },
   };
 }

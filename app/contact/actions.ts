@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { Resend } from "resend";
 import { site } from "@/content/site";
 import { isBudget, isService } from "./options";
+import { verifyFormToken } from "@/lib/form-token";
 
 export type ContactState = {
   status: "idle" | "success" | "error";
@@ -52,6 +53,21 @@ export async function submitContact(
 ): Promise<ContactState> {
   // Honeypot: a bot filled the hidden field. Pretend it worked.
   if (clipLine(formData.get("company_url"), 1)) {
+    return { status: "success" };
+  }
+
+  // Signed form token: issued by the contact page, checked here.
+  const token = verifyFormToken(clipLine(formData.get("form_token"), 200));
+  if (!token.ok) {
+    // A real person who left the tab open for hours: tell them how to fix it.
+    if (token.reason === "expired") {
+      return {
+        status: "error",
+        message: "This form was open a long time and has expired. Please refresh the page and send it again.",
+      };
+    }
+    // Missing, forged or submitted faster than anyone can type: a script.
+    // Same silent success as the honeypot, so it learns nothing.
     return { status: "success" };
   }
 
@@ -121,9 +137,10 @@ export async function submitContact(
     }
   } else {
     // No key configured yet (local dev / pre-launch). Log so it isn't silent.
-    console.warn("[contact] RESEND_API_KEY not set, enquiry not delivered:", {
-      name,
-      email,
+    // Log that it happened, not who sent it: a visitor's name and address
+    // don't belong in server logs.
+    console.warn("[contact] RESEND_API_KEY not set, enquiry not delivered", {
+      emailDomain: email.split("@")[1] ?? "unknown",
     });
   }
 

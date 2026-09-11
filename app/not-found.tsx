@@ -26,8 +26,8 @@ export default function NotFound() {
           <LinkButton href="/" size="lg">
             Back home
           </LinkButton>
-          <LinkButton href="/work" size="lg" variant="ghostDark">
-            See the work
+          <LinkButton href="/portfolio" size="lg" variant="ghostDark">
+            View the portfolio
           </LinkButton>
         </div>
       </div>

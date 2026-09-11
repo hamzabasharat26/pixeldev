@@ -38,7 +38,7 @@ function SubmitButton() {
   );
 }
 
-export function ContactForm() {
+export function ContactForm({ token }: { token: string }) {
   const [state, formAction] = useActionState(submitContact, initial);
   const nameId = useId();
   const emailId = useId();
@@ -87,6 +87,10 @@ export function ContactForm() {
       noValidate
       className="rounded-[var(--radius-card)] border border-line bg-surface p-6 shadow-e1 md:p-8"
     >
+      {/* Signed timestamp from the server (lib/form-token.ts). Proves we served
+          this form and that a person had time to fill it in. */}
+      <input type="hidden" name="form_token" value={token} />
+
       {/* honeypot */}
       <div aria-hidden="true" className="absolute left-[-9999px]">
         <label>

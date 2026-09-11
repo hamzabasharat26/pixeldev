@@ -29,7 +29,7 @@ export async function generateMetadata({
   const meta = pageMetadata({
     title: project.title,
     description: `${project.summary} ${project.outcome.value} ${project.outcome.label}.`,
-    path: `/work/${slug}`,
+    path: `/portfolio/${slug}`,
     ogType: "article",
   });
   if (project.placeholder) meta.robots = { index: false, follow: false };
@@ -74,8 +74,8 @@ export default async function CaseStudyPage({
             cover: project.media.cover,
           }),
           breadcrumbJsonLd([
-            { name: "Work", path: "/work" },
-            { name: project.title, path: `/work/${project.slug}` },
+            { name: "Portfolio", path: "/portfolio" },
+            { name: project.title, path: `/portfolio/${project.slug}` },
           ]),
         ]}
       />
@@ -87,8 +87,8 @@ export default async function CaseStudyPage({
         />
         <div className="container-wide relative">
           <nav aria-label="Breadcrumb" className="text-eyebrow text-faint">
-            <Link href="/work" className="transition-colors hover:text-amber-700">
-              Work
+            <Link href="/portfolio" className="transition-colors hover:text-amber-700">
+              Portfolio
             </Link>
             <span aria-hidden="true"> / </span>
             <span className="text-ink">{project.title}</span>
@@ -211,7 +211,7 @@ export default async function CaseStudyPage({
       <section className="bg-paper pb-16 pt-14">
         <div className="container-wide">
           <Link
-            href={`/work/${next.slug}`}
+            href={`/portfolio/${next.slug}`}
             className="group flex items-center justify-between gap-6 rounded-[var(--radius-card)] border border-line bg-surface p-7 transition-colors hover:border-amber-600/50 hover:shadow-e1"
           >
             <span>

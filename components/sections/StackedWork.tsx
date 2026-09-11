@@ -19,7 +19,7 @@ export function StackedWork({ projects }: { projects: Project[] }) {
           eyebrow="Selected work"
           title={<>Shipped systems, measurable outcomes.</>}
           intro="A few of the systems we've designed, built and put into production."
-          action={{ label: "View all work", href: "/work" }}
+          action={{ label: "View the portfolio", href: "/portfolio" }}
         />
 
         <Reveal className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

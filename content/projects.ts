@@ -77,8 +77,9 @@ const media = (slug: string, video = false, galleryCount: 1 | 2 = 2) => ({
     ? { webm: `${W(slug)}/loop.webm`, mp4: `${W(slug)}/loop.mp4` }
     : {}),
   cover: `${W(slug)}/cover.webp`,
-  // These images are served `unoptimized`, so the browser gets exactly the
-  // file we name — a 1600px cover in a 330px card is pure waste. Built by
+  // 800px variant for small slots. Where a slot is served `unoptimized` the
+  // browser gets exactly this file, so the right width has to exist on disk:
+  // a 1600px cover in a 330px card is pure waste. Built by
   // `node scripts/build-media.mjs thumbs`.
   coverSmall: `${W(slug)}/cover-800.webp`,
   posterSmall: video
@@ -240,8 +241,8 @@ export const projects: Project[] = [
       coverSmall: "/work/magicqc/cover-800.webp",
       posterSmall: "/work/magicqc/poster-800.webp",
       gallery: [
-        "/work/magicqc/web.png",
-        "/work/magicqc/desktop.png",
+        "/work/magicqc/web.webp",
+        "/work/magicqc/desktop.webp",
         "/work/magicqc/01.webp",
       ],
     },

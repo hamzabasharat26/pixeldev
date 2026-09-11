@@ -6,6 +6,7 @@ import { services, type Service } from "@/content/services";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Tag } from "@/components/ui/Tag";
 import { Reveal } from "@/components/ui/Reveal";
+import { TiltCard } from "@/components/ui/TiltCard";
 
 const icons: Record<Service["icon"], LucideIcon> = {
   web: Code2,
@@ -17,82 +18,92 @@ const icons: Record<Service["icon"], LucideIcon> = {
 };
 
 /**
- * The two disciplines this studio is actually known for. They get the screen
- * treatment — a dark panel on the paper ground, the render running to the
- * edge under a detection frame. The weight difference *is* the hierarchy.
+ * A real product screen, framed (see scripts/media/showcase.mjs), floating on a
+ * lit navy panel. `object-contain` because the frame and its shadow are part
+ * of the image: cropping would cut the window, not just the background.
  */
-function LeadCard({ service }: { service: Service }) {
-  const Icon = icons[service.icon];
+function Showcase({ slug, large = false }: { slug: Service["slug"]; large?: boolean }) {
   return (
-    <Link
-      href={`/services#${service.slug}`}
-      className="group glass relative flex flex-col overflow-hidden rounded-[var(--radius-panel)] transition-[border-color,transform] duration-200 hover:-translate-y-1 hover:border-amber/55"
-    >
-      <span className="det-frame relative z-10 block aspect-[16/9] overflow-hidden border-b border-white/10">
+    <span className="relative z-10 block overflow-hidden rounded-2xl bg-[radial-gradient(85%_70%_at_50%_0%,rgb(200_138_46/0.2),transparent_62%),linear-gradient(175deg,var(--color-navy-800),var(--color-navy-ink))]">
+      <span className="showcase-img relative block aspect-[16/10]">
         <Image
-          src={`/services/${service.slug}-1400.webp`}
+          src={`/services/${slug}-${large ? 1400 : 800}.webp`}
           alt=""
           fill
           unoptimized
-          sizes="(min-width: 768px) 50vw, 100vw"
-          className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-        />
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-navy-900)_2%,transparent_58%)]"
+          sizes={large ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+          className="scale-100 object-contain transition-[scale] duration-500 group-hover:scale-[1.035]"
         />
       </span>
-
-      <span className="relative z-10 flex flex-1 flex-col p-7 md:p-8">
-        <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-amber/30 bg-amber/12 text-amber-300">
-          <Icon size={21} strokeWidth={1.75} />
-        </span>
-        <h3 className="text-h3 mt-5 text-d-text underline-offset-[6px] group-hover:underline group-hover:decoration-amber/60">
-          {service.title}
-        </h3>
-        <p className="mt-2.5 max-w-[34ch] font-medium text-d-text/90">
-          {service.headline}
-        </p>
-        <p className="mt-2 max-w-[42ch] text-sm leading-relaxed text-d-muted">
-          {service.summary}
-        </p>
-      </span>
-    </Link>
+    </span>
   );
 }
 
-/** The four that make the lead work shippable. Quiet, on the navy ground. */
+/** Vision and AI: why clients call. Glass over the navy, tilts toward the pointer. */
+function LeadCard({ service }: { service: Service }) {
+  const Icon = icons[service.icon];
+  return (
+    <TiltCard className="h-full">
+      <Link
+        href={`/services#${service.slug}`}
+        className="group glass flex h-full flex-col overflow-hidden rounded-[var(--radius-panel)] p-2.5 transition-[border-color] duration-300 hover:border-amber/55"
+      >
+        <Showcase slug={service.slug} large />
+        <span className="relative z-10 flex flex-1 flex-col px-4 pb-4 pt-6 md:px-5">
+          <span className="flex items-center gap-3">
+            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber/30 bg-amber/12 text-amber-300">
+              <Icon size={19} strokeWidth={1.75} aria-hidden="true" />
+            </span>
+            <h3 className="text-h3 text-d-text underline-offset-[6px] group-hover:underline group-hover:decoration-amber/60">
+              {service.title}
+            </h3>
+          </span>
+          <span className="mt-4 block max-w-[40ch] font-medium text-d-text/90">
+            {service.headline}
+          </span>
+          <span className="mt-2 block max-w-[52ch] text-sm leading-relaxed text-d-muted">
+            {service.summary}
+          </span>
+          <span className="mt-auto flex flex-wrap gap-1.5 pt-5">
+            {service.tags.map((t) => (
+              <Tag key={t} tone="light">
+                {t}
+              </Tag>
+            ))}
+          </span>
+        </span>
+      </Link>
+    </TiltCard>
+  );
+}
+
+/** The four that make the lead work shippable. */
 function SupportCard({ service }: { service: Service }) {
   const Icon = icons[service.icon];
   return (
     <Link
       href={`/services#${service.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-d-line bg-navy-800/50 p-6 transition-[border-color,background-color,transform] duration-200 hover:-translate-y-1 hover:border-amber/40 hover:bg-navy-800/80"
+      className="group flex translate-y-0 flex-col overflow-hidden rounded-2xl border border-d-line bg-navy-800/55 p-2 transition-[border-color,background-color,translate] duration-200 hover:-translate-y-1 hover:border-amber/40 hover:bg-navy-800"
     >
-      <Image
-        src={`/services/${service.slug}-800.webp`}
-        alt=""
-        width={520}
-        height={390}
-        unoptimized
-        className="pointer-events-none absolute -right-8 -top-8 w-32 rounded-xl opacity-55 [mask-image:radial-gradient(120%_120%_at_88%_12%,#000_38%,transparent_78%)] transition-opacity duration-300 group-hover:opacity-75"
-      />
-      <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/12 bg-white/6 text-amber-300">
-        <Icon size={19} strokeWidth={1.75} />
+      <Showcase slug={service.slug} />
+      <span className="flex flex-1 flex-col px-3 pb-3 pt-4">
+        <span className="flex items-center gap-2.5">
+          <Icon size={17} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-amber-300" />
+          <h3 className="text-h4 text-d-text underline-offset-4 group-hover:underline group-hover:decoration-amber/50">
+            {service.title}
+          </h3>
+        </span>
+        <span className="mt-2 block text-sm leading-relaxed text-d-muted">
+          {service.headline}
+        </span>
+        <span className="mt-auto flex flex-wrap gap-1.5 pt-4">
+          {service.tags.map((t) => (
+            <Tag key={t} tone="light">
+              {t}
+            </Tag>
+          ))}
+        </span>
       </span>
-      <h3 className="text-h4 relative mt-5 text-d-text underline-offset-4 group-hover:underline group-hover:decoration-amber/50">
-        {service.title}
-      </h3>
-      <p className="relative mt-2.5 text-sm leading-relaxed text-d-muted">
-        {service.headline}
-      </p>
-      <div className="relative mt-auto flex flex-wrap gap-1.5 pt-5">
-        {service.tags.map((t) => (
-          <Tag key={t} tone="light">
-            {t}
-          </Tag>
-        ))}
-      </div>
     </Link>
   );
 }
@@ -110,23 +121,27 @@ export function ServicesGrid() {
         aria-hidden="true"
         className="glow-orb -right-32 top-10 h-[30rem] w-[30rem] text-amber opacity-[0.13]"
       />
+      <div
+        aria-hidden="true"
+        className="glow-orb -left-40 bottom-0 h-[26rem] w-[26rem] text-navy-500 opacity-30"
+      />
       <div className="container-wide relative">
         <Reveal>
           <SectionHeading
             tone="light"
             eyebrow="What we build"
             title="Six disciplines, one senior team."
-            intro="Two of them are why clients call. The other four are why the work ships."
+            intro="Two of them are why clients call. The other four are why the work ships. Every screen below is from a system we built."
           />
         </Reveal>
 
-        <Reveal className="mt-11 grid gap-4 md:grid-cols-2">
+        <Reveal className="mt-11 grid gap-5 md:grid-cols-2">
           {lead.map((s) => (
             <LeadCard key={s.slug} service={s} />
           ))}
         </Reveal>
 
-        <Reveal className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Reveal className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {support.map((s) => (
             <SupportCard key={s.slug} service={s} />
           ))}

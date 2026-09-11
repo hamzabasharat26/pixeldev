@@ -217,10 +217,46 @@ async function doThumbs() {
   process.exit(report() ? 1 : 0);
 }
 
+/**
+ * Service visuals from REAL product screenshots, set in a browser or phone
+ * frame (scripts/media/showcase.mjs). Replaces the old AI renders; outputs
+ * keep the same `public/services/<name>-<w>.webp` names so no component
+ * changes when a source is swapped. Re-run with --force after editing a crop.
+ */
+async function buildShowcase() {
+  const { browserFrame, phoneFrame } = await import("./media/showcase.mjs");
+  const outDir = resolve(ROOT, "public/services");
+  for (const s of pick(manifest.showcase ?? [])) {
+    if (!existsSync(s._source)) continue;
+    for (const w of s.widths) {
+      const out = join(outDir, `${s.name}-${w}.webp`);
+      if (!fresh(out, s._source)) {
+        ensureDir(out);
+        if (s.frame === "phone") {
+          await phoneFrame(s._source, out, { width: w, quality: s.quality, front: s.front, back: s.back });
+        } else {
+          await browserFrame(s._source, out, {
+            width: w, quality: s.quality, blur: s.blur, position: s.position, fit: s.fit, paper: s.paper,
+          });
+        }
+        console.log(`  showcase ${s.name}-${w}.webp (${s.frame})`);
+      }
+      record(out, manifest.budgets.serviceKB);
+    }
+  }
+}
+
+async function doShowcase() {
+  console.log("building service showcase …\n");
+  await buildShowcase();
+  process.exit(report() ? 1 : 0);
+}
+
 async function doBuild() {
   console.log("building media …\n");
   for (const p of pick(manifest.projects)) await buildProject(p);
   if (!only || manifest.services.some((s) => s.name === only)) await buildServices();
+  if (!only || (manifest.showcase ?? []).some((s) => s.name === only)) await buildShowcase();
   if (!only) await buildOg();
   await buildThumbs();
   const breached = report();
@@ -244,6 +280,9 @@ async function doCheck() {
   for (const svc of manifest.services) {
     for (const w of svc.widths) record(resolve(ROOT, "public/services", `${svc.name}-${w}.webp`), manifest.budgets.serviceKB);
   }
+  for (const s of manifest.showcase ?? []) {
+    for (const w of s.widths) record(resolve(ROOT, "public/services", `${s.name}-${w}.webp`), manifest.budgets.serviceKB);
+  }
   record(resolve(ROOT, manifest.og.out), manifest.budgets.ogKB);
   process.exit(report() ? 1 : 0);
 }
@@ -252,6 +291,7 @@ const table = {
   sheets: doSheets,
   probe: doProbe,
   build: doBuild,
+  showcase: doShowcase,
   thumbs: doThumbs,
   check: doCheck,
 };

@@ -4,7 +4,6 @@ import { site } from "@/content/site";
 import { faqs } from "@/content/faq";
 import { pageMetadata, faqJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { MarqueeVelocity } from "@/components/ui/MarqueeVelocity";
 import { Hero } from "@/components/sections/Hero";
 import { WorkStrip } from "@/components/sections/WorkStrip";
 import { StackMarquee } from "@/components/sections/StackMarquee";
@@ -25,7 +24,6 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={faqJsonLd(faqs)} />
-      <MarqueeVelocity />
       <Hero />
       <WorkStrip />
       <StackMarquee />

@@ -1,4 +1,13 @@
 import Image from "next/image";
+import {
+  BadgeCheck,
+  Cpu,
+  Crosshair,
+  FileText,
+  MessageSquareText,
+  ScanEye,
+  type LucideIcon,
+} from "lucide-react";
 import { site } from "@/content/site";
 import { LinkButton } from "@/components/ui/Button";
 import { Counter } from "@/components/ui/Counter";
@@ -6,6 +15,16 @@ import { Magnetic } from "@/components/ui/Magnetic";
 import { HeroMedia } from "./HeroMedia";
 import { HeroPanel } from "./HeroPanel";
 import { HeroReveal } from "./HeroReveal";
+
+/** What we build, scannable at a glance. Each is a capability with a shipped project behind it. */
+const CAPABILITIES: { label: string; Icon: LucideIcon }[] = [
+  { label: "Object detection", Icon: ScanEye },
+  { label: "Tracking", Icon: Crosshair },
+  { label: "Quality control", Icon: BadgeCheck },
+  { label: "OCR", Icon: FileText },
+  { label: "RAG assistants", Icon: MessageSquareText },
+  { label: "Edge deployment", Icon: Cpu },
+];
 
 export function Hero() {
   return (
@@ -38,10 +57,26 @@ export function Hero() {
               data-hero-step
               className="mt-6 max-w-xl text-lg leading-relaxed text-muted"
             >
-              {site.positioning} Detection, tracking, quality control, OCR and
-              retrieval-grounded assistants, plus the web, mobile and cloud
-              work to put them in front of the people who use them.
+              {site.positioning} We build the vision and AI systems, then the
+              web, mobile and cloud work that puts them in front of the people
+              who use them.
             </p>
+
+            <ul
+              data-hero-step
+              aria-label="What we build"
+              className="mt-6 flex max-w-xl flex-wrap gap-2"
+            >
+              {CAPABILITIES.map(({ label, Icon }) => (
+                <li
+                  key={label}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-3 py-1.5 text-[0.8rem] font-medium text-muted backdrop-blur-sm"
+                >
+                  <Icon size={14} strokeWidth={2} aria-hidden="true" className="text-amber-600" />
+                  {label}
+                </li>
+              ))}
+            </ul>
 
             <div data-hero-step className="mt-8 flex flex-wrap gap-3">
               <Magnetic>
@@ -50,8 +85,8 @@ export function Hero() {
                 </LinkButton>
               </Magnetic>
               <Magnetic>
-                <LinkButton href="/work" size="lg" variant="ghostLight">
-                  See the work
+                <LinkButton href="/portfolio" size="lg" variant="ghostLight">
+                  View portfolio
                 </LinkButton>
               </Magnetic>
             </div>
@@ -64,7 +99,7 @@ export function Hero() {
             className="relative mx-auto w-full max-w-[560px] lg:mx-0"
           >
             {/* The cut-out ends mid-torso, so it has to dissolve rather than
-                stop — an un-masked edge reads as a broken image. */}
+                stop. An un-masked edge reads as a broken image. */}
             <div
               className="relative aspect-[1086/1448] max-h-[34rem] w-full"
               style={{
@@ -75,13 +110,14 @@ export function Hero() {
               }}
             >
               <Image
-                /* 900px, not 1400: the slot is ~520px, and this is served
-                   unoptimized so the browser gets exactly what we name. */
+                /* Through the image optimiser, not `unoptimized`: the headline
+                   is the LCP element, not the robot, so the optimiser can serve
+                   a width per screen without costing LCP. Measured before:
+                   103 KB wasted on desktop from sending the 900px file. */
                 src="/services/hero-robot-900.webp"
                 alt=""
                 fill
-                priority
-                unoptimized
+                loading="eager"
                 sizes="(min-width: 1024px) 520px, 80vw"
                 className="object-contain object-bottom"
               />

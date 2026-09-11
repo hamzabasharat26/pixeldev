@@ -1,181 +1,301 @@
-# Pixel Dev Solutions — marketing site
+# Pixel Dev Solutions
 
-Next.js 16 (App Router, TypeScript, Turbopack, React Compiler) · Tailwind v4 ·
-Resend · `@vercel/analytics`. Statically rendered, deploys to Vercel on
-`pixeldevsolutions.tech`.
+**We are more than ordinary. We deliver what we commit.**
 
-## Local setup
+Marketing site for Pixel Dev Solutions, an AI and computer vision studio in
+Lahore with the full stack team to ship it. Built to win projects: real work on
+every screen, fast on a mid-range phone, accessible, and hardened for
+production on Vercel.
+
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript strict |
+| Styling | Tailwind CSS v4, CSS-first `@theme` tokens in `app/globals.css` |
+| Motion | GSAP (hero, cursor, magnetic buttons, tilt), `motion` (portfolio filter), native CSS scroll-driven animation (reveals, parallax, the work reel), Web Animations API (marquees) |
+| Forms | Server Actions + Resend, with a signed anti-bot token |
+| Hosting | Vercel, `pixeldevsolutions.tech` |
+
+---
+
+## Quick start
 
 ```bash
-nvm use 22          # Node 20.9+ required; 22 recommended
+# Node 20.9+ (Vercel builds on its current LTS)
 npm install
-cp .env.example .env.local   # fill in RESEND_API_KEY when you have one
-npm run dev                  # http://localhost:3000
+cp .env.example .env.local     # see "Environment variables"
+npm run dev                    # http://localhost:3000
 ```
 
-| Command | Does |
+| Command | What it does |
 |---|---|
-| `npm run build` | Production build (React Compiler runs via Babel — ~1 min) |
+| `npm run dev` | Development server |
+| `npm run build` | Production build (the React Compiler runs through Babel, about a minute) |
 | `npm run start` | Serve the production build |
-| `npm run lint` | ESLint (flat config) |
+| `npm run lint` | ESLint, flat config |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm run media` | Rebuild derived media from `media-src/` (see below) |
+| `npm run media` | Rebuild derived media from `media-src/` (see "Media pipeline") |
+
+---
+
+## Routes
+
+| Path | Rendering | Notes |
+|---|---|---|
+| `/` | Static | Hero, work strip, stack strip, services, selected work, process, proof, FAQ |
+| `/services` | Static | Six disciplines, each with a real product screen |
+| `/portfolio` | Static | Filterable grid of every project |
+| `/portfolio/[slug]` | Static (SSG) | One case study per project, with its own share image |
+| `/about` | Static | Story, values, and the "Inside the work" reel |
+| `/contact` | **Dynamic** | Rendered per request so each visitor gets a freshly signed form token |
+| `/careers`, `/privacy`, `/terms` | Static | |
+| `/sitemap.xml`, `/robots.txt` | Generated | |
+
+"Work" was renamed "Portfolio". `/work`, `/work/<slug>` and `/projects`
+redirect permanently (308), so no old link breaks. The redirect matches one path
+segment only, so project media under `public/work/<slug>/` is never caught by
+it.
+
+---
 
 ## Where things live
 
 ```
-app/                 routes; each page.tsx owns its <Metadata> + JSON-LD
-  layout.tsx         fonts, Org + WebSite JSON-LD, Header, Footer, ScrollProgress
-  opengraph-image.tsx / apple-icon.tsx / icon.svg
-  work/[slug]/opengraph-image.tsx   per-project share art
-  sitemap.ts / robots.ts
+app/                  routes; each page owns its <Metadata> and JSON-LD
+  layout.tsx          fonts, Organization + WebSite JSON-LD, header, footer, cursor
+  portfolio/          grid page + [slug] case study + per-project share image
+  contact/actions.ts  the Server Action behind the contact form
 components/
-  layout/            Header (floating pill), MobileNav (vaul drawer), Footer, SkipLink
-  sections/          one file per homepage / page section
-  ui/                Button, Card, Tag, Eyebrow, SectionHeading, Counter, Marquee,
-                     Reveal, ScrollProgress, Logo, Prose, JsonLd
-  media/             AutoVideo, ProjectCard
-content/             ALL copy + data. Edit these, not the components.
-  site.ts            company facts (email/phone/address) + nav + hero stats + SEO strings
-  services.ts        the six services (homepage bento + /services deep blocks)
-  projects.ts        14 case studies
-  testimonials.ts    empty by default — section hides until you add real quotes
-  faq.ts  process.ts  values.ts  stack.ts
-lib/                 cn() (utils.ts), SEO + JSON-LD builders (seo.ts)
-scripts/media/       the media pipeline + manifest
+  layout/             Header (glass bar), MobileNav (vaul drawer), Footer, SkipLink
+  sections/           one file per page section
+  ui/                 primitives: Button, Marquee (+ MarqueeDriver, MarqueeToggle),
+                      Cursor, Magnetic, TiltCard, Reveal, Counter, Logo, ...
+  media/              AutoVideo, ProjectCard
+content/              ALL copy and data. Edit these, not the components.
+  site.ts             company facts, taglines, nav, stats, SEO strings
+  services.ts         the six services
+  projects.ts         every case study
+  stack.ts            the stack strip (+ brand-icons.ts, generated)
+  faq.ts, process.ts, values.ts, testimonials.ts
+lib/                  seo.ts (metadata + JSON-LD), form-token.ts, utils.ts
+scripts/              media pipeline (build-media.mjs + media/*)
+public/               brand/, services/ (service visuals), work/<slug>/ (project media)
 ```
 
-Every phone / email / address / tagline string comes from `content/site.ts`.
-Layout `<title>`/`description`/`keywords` read from there too. Never hardcode.
+Every phone number, email, address and tagline comes from `content/site.ts`.
+Never hardcode one in a component.
+
+---
+
+## Environment variables
+
+Copy `.env.example` to `.env.local` for local work, and set the same keys in
+Vercel under Settings, Environment Variables.
+
+| Variable | Needed | Purpose |
+|---|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Production | Canonical URLs, sitemap, share tags. Defaults to the domain in `content/site.ts` |
+| `RESEND_API_KEY` | To deliver email | Without it, enquiries are logged on the server instead of emailed |
+| `CONTACT_TO_EMAIL` | Optional | Where enquiries go. Defaults to the address in `content/site.ts` |
+| `FORM_TOKEN_SECRET` | Recommended | Signs the contact form token. 32+ random characters. Generate with `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"` |
+
+---
+
+## Security
+
+What is in place, and why it looks the way it does.
+
+**Response headers** (`next.config.ts`, every route)
+
+| Header | Value |
+|---|---|
+| `Content-Security-Policy` | `default-src 'self'`; scripts, styles, images, media, fonts and fetches from our own origin only; `object-src 'none'`; `base-uri 'self'`; `form-action 'self'`; `frame-ancestors 'none'`. Production builds only |
+| `Strict-Transport-Security` | Two years, subdomains, preload |
+| `Cross-Origin-Opener-Policy` | `same-origin` |
+| `X-Frame-Options` | `DENY` |
+| `X-Content-Type-Options` | `nosniff` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `Permissions-Policy` | Camera, microphone, geolocation and Topics off |
+
+The CSP is the static, no-nonce policy from the Next.js guide. A nonce policy
+would force every page to render per request and give up static generation and
+CDN caching, for a site with no accounts and no user content. It does use
+`'unsafe-inline'` for scripts, which Next needs for its inline bootstrap when
+there is no nonce. `upgrade-insecure-requests` is only added on Vercel, because
+on `http://localhost` it would break local testing. One side effect: the CSP
+also blocks the Vercel Toolbar on preview deployments.
+
+**Contact form** (`app/contact/actions.ts`, `lib/form-token.ts`)
+
+- A **signed, time-stamped token** in a hidden field. It is an HMAC-SHA256 over
+  the time the form was served, and is checked in constant time. It proves the
+  server issued the form, that it wasn't submitted faster than a person can type
+  (under 3 seconds), and that it isn't older than 2 hours. Bots get the same
+  silent "success" as the honeypot, so they learn nothing. A person whose tab
+  expired is told to refresh.
+- A **honeypot** field, a per-IP **rate limit** (4 an hour), allow-listed budget
+  and service values, and length caps on every field.
+- Server Actions reject cross-origin posts (an Origin against Host check), which
+  is the CSRF protection a cookie token would otherwise give.
+
+**Deliberately absent.** There are no sessions, JWTs or auth cookies, because
+there are no accounts. There is nothing to log in to and nothing a session
+would protect, and adding them would be attack surface with no benefit. Vercel
+Web Analytics is cookieless and the site sets no cookies of its own, so there
+is no cookie banner.
+
+**Known limit.** The rate limit is held in memory, per server instance. On
+Vercel that is best-effort. For a hard limit, add a Vercel Firewall rate-limit
+rule on `POST /contact`.
+
+---
 
 ## Design system
 
-`app/globals.css` `@theme`. The site runs **light**: white and Anthropic-family
-cream, with navy kept as an anchor rather than a ground. The concept is still
-**"the detector's view"** — corner brackets (`.det-frame`), telemetry readouts
-(`.text-readout`), glass panels (`.glass-paper`) — but the feed is now a screen
-sitting on a light page instead of the page itself.
+`app/globals.css`, `@theme`. The site runs light: white with Anthropic-family
+cream bands, navy as the anchor for the services and closing sections.
 
-Both brand hues are sampled from `public/brand/logo-src-light.jpeg`:
+- **Navy `#0a284a`** and **mustard `#e7a23b`** are sampled from the logo file,
+  `public/brand/logo-src-light.jpeg`.
+- `--color-brand-gold` is the logo's exact gold and is used for the **logo
+  only**. It is about 2.2:1 on white, which WCAG permits for a logotype and
+  nothing else.
+- The UI accent is the `--color-amber-*` scale: the logo gold deepened until it
+  can carry text and fills. The key name is legacy. Retuning a `@theme` value
+  regenerates every utility that uses it, while renaming a key deletes those
+  utilities with a green build and a green lint. The value is the source of
+  truth.
+- Contrast is hand-checked where tools can't see it. axe cannot measure text
+  over a gradient, so the primary button's stops are measured by hand, and its
+  hover darkens instead of brightening.
+- **The detector's view**: corner brackets (`.det-frame`), telemetry readouts
+  (`.text-readout`), and glass panels (`.glass`, `.glass-paper`), borrowed from
+  what the studio's own models draw.
 
-- **Navy `--color-navy: #0a284a`** — the logo's dominant pixel.
-- **Mustard `--color-brand-gold: #e7a23b`** — the logo's "DEV". This token is
-  for the **logo artwork only**. It is ~2.2:1 on white, which WCAG 1.4.3
-  permits for a logotype and for nothing else.
-- The UI accent is the **mustard-brown** `--color-amber-*` scale, which is the
-  logo gold deepened until it can carry text and fills. The key name is legacy:
-  retuning a `@theme` value regenerates every dependent utility, whereas
-  renaming the key silently deletes it with a green build *and* a green lint.
-  The value is the source of truth, not the name.
-- `--color-signal: #4fc3e8` is the machine's own mark — measured data and
-  tracking frames, and **only on navy**. On white it drops to ~2:1, so light
-  surfaces substitute `--color-clay-600`.
+Type: Space Grotesk for display, Inter for body, JetBrains Mono only for
+machine-voiced text such as readouts, tags and measured figures.
 
-Contrast pairs are hand-checked, and two are load-bearing: `--color-faint` is
-tuned against `--color-paper-2` (the darkest ground it lands on), and the
-primary button's gradient stops are all ≥4.5:1 against white — axe cannot
-evaluate contrast over a gradient, so lightening a stop needs the maths redone.
-The button hover **darkens** for that reason; a brightness lift breaks it.
+**House style for copy: no em dashes.** Use a comma, a colon, a full stop, or
+rewrite the sentence.
 
-**Motion.** GSAP drives the hero's single load timeline (`HeroReveal`) and the
-round trailing cursor (`components/ui/Cursor.tsx`); `motion` drives the /work
-filter, where animation shows what actually changed. The cursor removes itself
-on coarse pointers and under reduced motion, and only hides the native cursor
-once it has confirmed it replaced it — so a JS failure can never leave a
-visitor with no pointer.
+---
 
-Type: Space Grotesk (display) + Fraunces italic (available for an `<em>` accent
-word, used sparingly) + Inter (body) + JetBrains Mono, which is reserved for
-genuinely machine-voiced text — readouts, tags, and **measured figures only**.
-`MetricValue` enforces that last rule: a phrase like "Every piece" gets the
-display face, not a tabular-numeral treatment that implies a reading.
+## Motion
 
-Sections alternate a paper ground and a navy ground, hairline-separated.
-Reveal-on-scroll is a pure-CSS `animation-timeline: view()` (no JS; degrades to
-visible) and animates **transform only** — a fade drops text below its contrast
-ratio mid-animation. Marquees are CSS-only, pause on hover, freeze under
-reduced motion.
+Everything answers the reader or plays once, and all of it switches off under
+`prefers-reduced-motion`. Content is never hidden by default and revealed by
+script, so a JS failure can't leave a blank page.
+
+| Where | How |
+|---|---|
+| Hero load | One GSAP timeline, headline word by word (`HeroReveal`) |
+| Hero depth | GSAP pointer parallax between the robot and the panel |
+| Cursor | Round trailing ring, GSAP `quickTo`. Removes itself on touch and under reduced motion |
+| Buttons, cards | Magnetic CTAs and a pointer tilt on service and value cards (GSAP) |
+| Portfolio filter | `motion` layout animation, so cards slide to their new slots |
+| Reveals, parallax, work reel | Native CSS scroll-driven animation, compositor-only, feature-detected |
+| Marquees | Web Animations API (see below) |
+
+**Why the marquees work the way they do.** The first version fed scroll
+velocity into a CSS variable on `<html>` that the animation's duration divided
+by. A Chrome trace showed two faults. Custom properties inherit, so every write
+restyled the whole document: 1,994 ms of style work in 2 seconds, against 63 ms
+with the writes blocked. And changing a running animation's duration makes it
+jump. `MarqueeDriver` now changes speed with `updatePlaybackRate()`, which
+touches no style and keeps the animation's position. It brakes to a crawl under
+the cursor or keyboard focus, stops when a strip is offscreen, and every strip
+has a **pause button**, which WCAG 2.2.2 requires for motion that runs longer
+than five seconds.
+
+The pinned "Inside the work" reel on `/about` is CSS, not GSAP pinning, on
+purpose. JS pinning inserts its scroll distance after hydration and pushes the
+page down, which is a layout shift. A height set in CSS can't do that.
+
+---
 
 ## Media pipeline
 
-Raw source footage lives in **`media-src/`** (git-ignored — kept on the owner's
-machine, not deployed). Only the derived, size-budgeted assets under
-`public/work/**`, `public/services/*.webp` and `public/og.jpg` are committed.
+Raw footage lives in **`media-src/`**, which is git-ignored and stays on the
+owner's machine. Only derived, size-budgeted files under `public/` are
+committed.
 
 ```bash
-node scripts/build-media.mjs sheets   # contact sheets → scripts/media/_sheets/, with per-tile timestamps
-node scripts/build-media.mjs build    # (re)generate everything into public/ (includes thumbs)
-node scripts/build-media.mjs thumbs   # just the 800px covers/posters
-node scripts/build-media.mjs check    # budget check only, nonzero exit on breach
+node scripts/build-media.mjs sheets     # contact sheets with timestamps, to pick frames
+node scripts/build-media.mjs build      # regenerate everything into public/
+node scripts/build-media.mjs showcase   # just the service visuals
+node scripts/build-media.mjs thumbs     # just the 800px covers and posters
+node scripts/build-media.mjs check      # size budgets only, nonzero exit on a breach
 ```
 
-`thumbs` is the one step that reads from `public/` rather than `media-src/`: it
-derives `cover-800.webp` / `poster-800.webp` from the committed 1600px files, so
-it runs on a clean checkout with no raw footage. Those small variants matter
-because the hero panel and work-strip images are served `unoptimized` (keeping
-the LCP image off the image-optimiser's critical path) and a `<video poster>`
-attribute is fetched even under `preload="none"` — in both cases the browser
-gets exactly the file we name, so the right width has to exist on disk.
+Add `--only <name>` to rebuild one item and `--force` to ignore timestamps.
+Force is needed after editing a crop, or after copying in a source file whose
+timestamp is older than the output.
 
-Timestamps are hand-picked in `scripts/media/manifest.json`. Windows: if ffmpeg
-isn't on PATH, set `FFMPEG_BIN` / `FFPROBE_BIN`.
+**Service visuals are real product screenshots, not renders.** The `showcase`
+step sets each one in a browser-window or phone frame, because the screenshots
+arrive in very different shapes and cropping them to one ratio would cut the
+interface. Personal data is blurred at source resolution, before any resize,
+from `blur` regions in `scripts/media/manifest.json`. The MagicQC operator's
+name is redacted this way.
 
-## Add a project (under 5 minutes)
+If ffmpeg isn't on your PATH (Windows), set `FFMPEG_BIN` and `FFPROBE_BIN`.
 
-1. Drop the source video / stills anywhere under `media-src/clips/<name>/`.
-2. Add an entry to `scripts/media/manifest.json` (`sourceType: "video"` with
-   frame timestamps + a loop window, or `sourceType: "stills"` with 3 image
-   paths). Run `node scripts/build-media.mjs sheets` then `build`.
-3. Add an entry to `content/projects.ts` — copy an existing one. Client is
-   `"Confidential"` unless you've cleared a real name; `metrics` describe a
-   *capability*, not an audited outcome, unless you can back the number;
-   `timeline` is an estimate. `media` is one call to the `media(slug, hasVideo)`
-   helper. `featured: true` puts it in the homepage "Selected work" stack.
-4. The route, per-project OG image, sitemap entry, metadata and JSON-LD are all
-   generated.
+---
 
-## Before launch — owner tasks
+## Add a project
 
-Search the repo for **`TODO(owner)`** — every unverified figure is marked. Also:
+1. Put the source video or stills under `media-src/clips/<name>/`.
+2. Add an entry to `scripts/media/manifest.json` (a video with frame times and a
+   loop window, or three stills), then run `sheets` and `build`.
+3. Copy an existing entry in `content/projects.ts`. `featured: true` puts it on
+   the homepage. The route, share image, sitemap entry, metadata and JSON-LD are
+   generated from that entry.
 
-- `content/projects.ts` — all narratives are written from the supplied briefs +
-  media. Confirm every metric marked `TODO(owner): confirm`, add real client
-  names where allowed, set real `timeline` values.
-- `content/site.ts` — `stats` + `proof` numbers are conservative and sourced
-  from the LinkedIn page; confirm. `social.links` has only the LinkedIn URL —
-  add the rest (feeds Organization JSON-LD `sameAs`).
-- Location line: the site shows the Lahore office address + "Pakistan · working
-  with clients worldwide". LinkedIn lists a US HQ — decide which is public.
-- `app/privacy/page.tsx` + `app/terms/page.tsx` — standard drafts; legal review.
-- `content/testimonials.ts` is empty. Add only quotes you have permission for.
-- Resend: verify a sending domain and change `from:` in
-  `app/contact/actions.ts` off `onboarding@resend.dev`.
+**Integrity rules.** `client` stays `"Confidential"` until the owner clears a
+real name. `metrics` describe a capability the system demonstrably has, never
+an audited business result unless the owner confirms the figure. Narrative is
+written from the project brief and what is visible in the media. Nothing is
+invented. Anything unconfirmed is marked `TODO(owner)`.
 
-## Deploy (Vercel)
+---
 
-1. Push to GitHub, import the repo in Vercel (framework auto-detected).
-2. Vercel → Settings → Environment Variables: `RESEND_API_KEY`,
-   `CONTACT_TO_EMAIL`, `NEXT_PUBLIC_SITE_URL` (see `.env.example`).
-3. Vercel → Settings → Domains: `pixeldevsolutions.tech` +
-   `www.pixeldevsolutions.tech`.
-4. At the `.tech` registrar's DNS: apex `@` → **A record** to the IP on Vercel's
-   domain card (`vercel domains inspect pixeldevsolutions.tech`); `www` →
-   **CNAME** to the value Vercel shows. SSL provisions automatically.
-5. Set the primary domain + apex↔www redirect in Vercel.
+## Deploy to Vercel
 
-## Notes
+1. Push to GitHub and import the repository in Vercel. The framework is detected.
+2. Add the environment variables above, including a `FORM_TOKEN_SECRET`.
+3. Settings, Domains: add `pixeldevsolutions.tech` and `www.pixeldevsolutions.tech`.
+4. At the registrar: point the apex `@` A record and the `www` CNAME at the
+   values Vercel shows. SSL provisions automatically.
+5. Set the primary domain and the apex/www redirect in Vercel.
 
-- Security response headers (HSTS, `X-Content-Type-Options`, `X-Frame-Options`,
-  `Referrer-Policy`, `Permissions-Policy`) are set in `next.config.ts`.
-- The contact Server Action has a honeypot + in-memory per-IP rate limit
-  (4/hour) + allow-listed budget/service + validation. The rate limit is
-  per-instance; fine for the traffic level, swap for a shared store if needed.
-- `next.config.ts` `images.dangerouslyAllowSVG` is on for the first-party
-  `icon.svg`; the CSP + sandbox + attachment disposition neutralise it.
-- Local `next start` logs a `/_vercel/insights/script.js` 404 — that script only
-  exists on Vercel; it resolves in production.
-- `npm audit` shows advisories in **dev-only** deps (`sharp`/libvips via the
-  media script, `lighthouse`). `npm audit --omit=dev` is clean — nothing ships.
-- QA tooling (`lighthouse`, `@axe-core/cli`, `sharp`) is in devDependencies.
-  Run Lighthouse against a production build: `npm run build && npm start` then
-  `npx lighthouse http://localhost:3000 --view`.
+**After the first deploy:** load `/contact` and send a test enquiry; check the
+response headers on `/`; run Lighthouse against the live URL.
+
+---
+
+## Before launch: owner checklist
+
+Search the repository for **`TODO(owner)`**. Every unverified figure is marked.
+
+- Confirm the figures in `content/site.ts` (`stats`, `proof`) and every metric
+  marked in `content/projects.ts`. Add client names only where cleared.
+- Verify a sending domain in Resend, then change the `from:` address in
+  `app/contact/actions.ts` away from `onboarding@resend.dev`.
+- Have `app/privacy` and `app/terms` reviewed.
+- `content/testimonials.ts` is empty, and the section hides until it has real
+  quotes. Add only quotes you have permission to use.
+- The Mobile service visual is real RallyLens UI laid out in phone frames.
+  Replace it with a genuine mobile app screenshot when one exists.
+
+---
+
+## Troubleshooting
+
+- **`tsc` errors about `.next/types/...` after renaming a route.** Those are
+  stale generated types. Delete `.next` and rebuild.
+- **`npm install` fails on Windows with `EPERM ... rmdir` in `node_modules`.**
+  A stale folder is held open. Stop running Node processes, delete that folder,
+  and install again.
+- **`next start` logs a 404 for `/_vercel/insights/script.js`.** That script
+  only exists on Vercel. It resolves in production.
+- **`npm audit`** is clean for production dependencies (`npm audit --omit=dev`).
+  Any advisories are in dev-only tools such as `lighthouse`.

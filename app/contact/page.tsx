@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
+import { issueFormToken } from "@/lib/form-token";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { ContactForm } from "@/components/sections/ContactForm";
 
@@ -21,7 +23,13 @@ const blocks = [
   { label: "Response time", value: site.responseTime },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  // Rendered per request, so every visitor gets a freshly signed form token
+  // (lib/form-token.ts). The only dynamic page on the site; everything else
+  // stays statically generated.
+  await connection();
+  const token = issueFormToken();
+
   return (
     <section className="bg-paper pb-24 pt-32 md:pt-40">
       <div className="container-wide grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
@@ -34,6 +42,10 @@ export default function ContactPage() {
             A few sentences on the project is plenty. We reply within 24 hours
             with honest thoughts on scope, timeline and cost, even if the answer
             is that we&apos;re not the right fit.
+          </p>
+          <p className="mt-5 flex items-center gap-2.5 font-medium text-amber-700">
+            <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-amber" />
+            {site.promise}
           </p>
 
           <dl className="mt-10 flex flex-col gap-6 border-t border-line-2 pt-8">
@@ -57,7 +69,7 @@ export default function ContactPage() {
           </dl>
         </div>
 
-        <ContactForm />
+        <ContactForm token={token} />
       </div>
     </section>
   );

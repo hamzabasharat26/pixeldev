@@ -193,16 +193,27 @@
   ],
 
   "services": [
-    { "name": "vision", "source": "media-src/services/vision.png", "widths": [1400, 800], "quality": 78 },
-    { "name": "ai", "source": "media-src/services/ai.png", "widths": [1400, 800], "quality": 78 },
-    { "name": "web", "source": "media-src/services/web.png", "widths": [1400, 800], "quality": 78 },
-    { "name": "mobile", "source": "media-src/services/mobile.png", "widths": [1400, 800], "quality": 78 },
-    { "name": "uiux", "source": "media-src/services/uiux.png", "widths": [1400, 800], "quality": 62 },
-    { "name": "cloud", "source": "media-src/services/cloud.png", "widths": [1400, 800], "quality": 78 },
-    { "name": "hero-bg", "source": "media-src/services/hero-bg.png", "widths": [1920, 1200], "quality": 72 },
-    { "name": "hero-robot", "source": "media-src/services/hero-robot.png", "widths": [1400, 900], "quality": 80 },
-    { "name": "cta-bg", "source": "media-src/services/cta-bg.png", "widths": [1920, 1200], "quality": 70 },
-    { "name": "workspace", "source": "media-src/services/workspace.png", "widths": [1400, 800], "quality": 76 }
+    { "name": "hero-robot", "source": "media-src/services/hero-robot.png", "widths": [900], "quality": 80 }
+  ],
+
+  "_showcase": "Service visuals, built from REAL product screenshots (not renders). `frame` is browser or phone; blur regions are source pixels and are applied before any resize. Outputs overwrite public/services/<name>-<w>.webp.",
+  "showcase": [
+    { "name": "vision", "frame": "browser", "source": "media-src/showcase/vision.jpg", "position": "top", "fit": "cover", "widths": [1400, 800], "quality": 80 },
+    { "name": "ai", "frame": "browser", "source": "media-src/showcase/ai.png", "position": "top", "fit": "contain", "widths": [1400, 800], "quality": 80 },
+    { "name": "web", "frame": "browser", "source": "media-src/showcase/web.png", "position": "left top", "fit": "cover", "paper": "#f6f8fb", "widths": [1400, 800], "quality": 80 },
+    {
+      "name": "uiux", "frame": "browser", "source": "media-src/showcase/uiux.png", "position": "top", "fit": "cover", "widths": [1400, 800], "quality": 80,
+      "_blur": "operator name + ID badge in the MagicQC header: personal data, never published",
+      "blur": [{ "left": 1360, "top": 6, "width": 356, "height": 62 }]
+    },
+    { "name": "cloud", "frame": "browser", "source": "media-src/showcase/cloud.png", "position": "centre", "fit": "contain", "widths": [1400, 800], "quality": 80 },
+    {
+      "name": "mobile", "frame": "phone", "source": "media-src/showcase/vision.jpg", "widths": [1400, 800], "quality": 80,
+      "_note": "Real RallyLens UI cropped into phone frames. Swap for a genuine mobile-app screenshot when one exists.",
+      "_crop": "front is cropped at the phone screen's own 0.466 ratio so `cover` never trims the readouts' edges",
+      "front": { "left": 1098, "top": 66, "width": 316, "height": 678 },
+      "back": { "left": 330, "top": 72, "width": 320, "height": 588 }
+    }
   ],
 
   "og": {
