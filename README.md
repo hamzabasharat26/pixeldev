@@ -11,7 +11,7 @@ production on Vercel.
 |---|---|
 | Framework | Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript strict |
 | Styling | Tailwind CSS v4, CSS-first `@theme` tokens in `app/globals.css` |
-| Motion | GSAP (hero, cursor, magnetic buttons, tilt), `motion` (portfolio filter), native CSS scroll-driven animation (reveals, parallax, the work reel), Web Animations API (marquees) |
+| Motion | GSAP (hero, cursor, magnetic buttons, tilt), `motion` (portfolio filter), native CSS scroll-driven animation (reveals, parallax, the work reel), Web Animations API (hero detection loop, marquees) |
 | Forms | Server Actions + Resend, with a signed anti-bot token |
 | Hosting | Vercel, `pixeldevsolutions.tech` |
 
@@ -76,7 +76,7 @@ content/              ALL copy and data. Edit these, not the components.
   projects.ts         every case study
   stack.ts            the stack strip (+ brand-icons.ts, generated)
   faq.ts, process.ts, values.ts, testimonials.ts
-lib/                  seo.ts (metadata + JSON-LD), form-token.ts, utils.ts
+lib/                  seo.ts (metadata + JSON-LD), form-token.ts, scroll-watch.ts, utils.ts
 scripts/              media pipeline (build-media.mjs + media/*)
 public/               brand/, services/ (service visuals), work/<slug>/ (project media)
 ```
@@ -181,19 +181,31 @@ rewrite the sentence.
 
 ## Motion
 
-Everything answers the reader or plays once, and all of it switches off under
-`prefers-reduced-motion`. Content is never hidden by default and revealed by
-script, so a JS failure can't leave a blank page.
+Everything answers the reader or plays once, except the hero's detection loop
+and aurora, which run only while the hero is on screen. All of it switches off
+under `prefers-reduced-motion`. Content is never hidden by default and revealed
+by script, so a JS failure can't leave a blank page.
 
 | Where | How |
 |---|---|
-| Hero load | One GSAP timeline, headline word by word (`HeroReveal`) |
-| Hero depth | GSAP pointer parallax between the robot and the panel |
-| Cursor | Round trailing ring, GSAP `quickTo`. Removes itself on touch and under reduced motion |
+| Hero load | One GSAP timeline: headline word by word, then the robot, panel and aurora (`HeroReveal`) |
+| Hero detection | A scan line sweeps the robot, then brackets lock onto its parts with a confidence readout counting up (`HeroDetect`, Web Animations API: transform and opacity only, so the compositor plays it) |
+| Hero ground | Three slow aurora blooms in the brand colours, CSS `translate` only |
+| Hero exit | Follows your scroll: the robot recedes and the aurora sinks as you scroll past (GSAP `quickTo`, no ScrollTrigger, see below) |
+| Hero depth | GSAP pointer parallax between the robot, the panel and the aurora |
+| Cursor | Round trailing ring, GSAP `quickTo`. Over a project it opens into a "View" label. Removes itself on touch and under reduced motion |
 | Buttons, cards | Magnetic CTAs and a pointer tilt on service and value cards (GSAP) |
+| Process | A line draws across the four steps as you scroll, lighting each step in turn (GSAP `quickTo`, 768 px and up) |
+| Proof figures | Decode from scrambled digits once, on first view (GSAP ScrambleText). Screen readers get the plain figure |
 | Portfolio filter | `motion` layout animation, so cards slide to their new slots |
 | Reveals, parallax, work reel | Native CSS scroll-driven animation, compositor-only, feature-detected |
 | Marquees | Web Animations API (see below) |
+
+**The detection targets are measured, not placed by eye.** The boxes sit on the
+robot's glowing parts, found from the image's pixels. If `hero-robot` is ever
+replaced, re-measure `TARGETS` in `HeroDetect.tsx`. The glass panel overlaps
+the robot differently at each breakpoint, so the component measures the overlap
+at runtime and leaves out any target the panel covers.
 
 **Why the marquees work the way they do.** The first version fed scroll
 velocity into a CSS variable on `<html>` that the animation's duration divided
@@ -205,6 +217,19 @@ touches no style and keeps the animation's position. It brakes to a crawl under
 the cursor or keyboard focus, stops when a strip is offscreen, and every strip
 has a **pause button**, which WCAG 2.2.2 requires for motion that runs longer
 than five seconds.
+
+**Why there's no ScrollTrigger.** GSAP's ScrollTrigger starts a
+`requestAnimationFrame` loop when it registers and never stops it (a
+workaround for a Firefox repaint bug). That loop made Chrome render a
+main-thread frame 60 times a second on an idle page, and every running
+animation, even the ones the compositor plays, was restyled and committed on
+each of those frames. A trace of the idle home page measured 736 ms of
+main-thread work in 3 seconds across 182 frames. Without ScrollTrigger it
+measures 252 ms across 35, with no animation-frame callbacks while idle. The
+hero exit and the process line now use GSAP `quickTo`, driven
+by a passive scroll listener that only runs while its section is near the
+viewport (`lib/scroll-watch.ts`). For a new scroll-linked effect, use
+`watchScroll` rather than bringing ScrollTrigger back.
 
 The pinned "Inside the work" reel on `/about` is CSS, not GSAP pinning, on
 purpose. JS pinning inserts its scroll distance after hydration and pushes the

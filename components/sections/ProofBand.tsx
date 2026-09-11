@@ -5,27 +5,34 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function ProofBand() {
   return (
-    <section className="relative isolate overflow-hidden bg-paper">
+    <section className="horizon on-dark relative isolate overflow-hidden bg-navy-900">
       <div
         aria-hidden="true"
-        className="glow-orb -right-20 -top-24 h-80 w-80 text-amber opacity-[0.1]"
+        className="glow-orb -right-20 -top-24 h-80 w-80 text-amber opacity-[0.14]"
+      />
+      <div
+        aria-hidden="true"
+        className="glow-orb -left-24 bottom-[-40%] h-96 w-96 text-navy-500 opacity-25"
       />
 
       <Reveal className="container-wide section relative">
-        <Eyebrow>Proof</Eyebrow>
-        <h2 className="text-h2 mt-4 max-w-xl text-ink">Proof, not promises.</h2>
+        <Eyebrow tone="light">Proof</Eyebrow>
+        <h2 className="text-h2 mt-4 max-w-xl text-d-text">
+          Proof, not promises.
+        </h2>
 
         <dl className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
           {site.proof.map((item) => (
-            <div key={item.label} className="border-t border-line-2 pt-5">
+            <div key={item.label} className="border-t border-d-line pt-5">
               <dt className="sr-only">{item.label}</dt>
               <dd>
                 <MetricValue
                   value={item.value}
                   size="hero"
-                  className="text-amber-700"
+                  decode
+                  className="text-amber-300"
                 />
-                <span className="mt-3 block max-w-[26ch] text-sm leading-relaxed text-muted">
+                <span className="mt-3 block max-w-[26ch] text-sm leading-relaxed text-d-muted">
                   {item.label}
                 </span>
               </dd>

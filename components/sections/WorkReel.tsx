@@ -30,6 +30,7 @@ export function WorkReel({ projects }: { projects: Project[] }) {
             <li key={p.slug} className="w-[min(80vw,540px)] shrink-0">
               <Link
                 href={`/portfolio/${p.slug}`}
+                data-cursor="View"
                 className="group block overflow-hidden rounded-2xl border border-d-line bg-navy-900 transition-[border-color] duration-200 hover:border-amber/50"
               >
                 <span className="det-frame relative block aspect-[16/10] overflow-hidden">

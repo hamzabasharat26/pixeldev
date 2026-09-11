@@ -115,7 +115,7 @@ export function ServicesGrid() {
   return (
     <section
       id="services"
-      className="on-dark section relative isolate overflow-hidden bg-navy-900"
+      className="horizon on-dark section relative isolate overflow-hidden bg-navy-900"
     >
       <div
         aria-hidden="true"

@@ -674,6 +674,270 @@ summary:focus-visible,
   }
 }
 
+/* ============================================================
+   Hero aurora (components/sections/HeroMedia.tsx)
+   Brand-coloured light drifting behind the hero: mustard, cool navy
+   and a trace of detection cyan. Soft edges come from radial
+   gradients, NOT filter: blur, which forces expensive rasterising
+   (it cost ~2s of style and layout earlier in this project). Only
+   `translate` and `scale` animate, so it stays on the compositor.
+   ============================================================ */
+
+.aurora {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, currentColor, transparent);
+  translate: 0 0;
+  /* translate only, no scale: scaling a composited layer makes Chrome
+     periodically re-rasterise these large gradients at the new size.
+     Measured before this change: ~237ms of main-thread time per 3s. */
+  will-change: translate;
+}
+.aurora-a {
+  width: 60rem;
+  height: 60rem;
+  right: -14rem;
+  top: -20rem;
+  color: rgb(224 164 74 / 0.34);
+  animation: aurora-a 22s ease-in-out infinite alternate;
+}
+.aurora-b {
+  width: 48rem;
+  height: 48rem;
+  left: -20rem;
+  top: 2rem;
+  color: rgb(42 81 130 / 0.16);
+  animation: aurora-b 27s ease-in-out infinite alternate;
+}
+.aurora-c {
+  width: 34rem;
+  height: 34rem;
+  right: 12%;
+  bottom: -10rem;
+  color: rgb(79 195 232 / 0.14);
+  animation: aurora-c 19s ease-in-out infinite alternate;
+}
+@keyframes aurora-a {
+  to {
+    translate: -7rem 5rem;
+  }
+}
+@keyframes aurora-b {
+  to {
+    translate: 8rem -3rem;
+  }
+}
+@keyframes aurora-c {
+  to {
+    translate: -6rem -5rem;
+  }
+}
+/* Set by HeroReveal while the hero is off screen: stop drifting where
+   nobody can see it. The class lives on the hero section, not <html>, so
+   toggling it restyles the hero only. */
+.hero-offscreen .aurora {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora {
+    animation: none;
+  }
+}
+
+/* ============================================================
+   Detection lock on the hero robot (HeroDetect.tsx)
+   The site's own detection-frame motif, applied to its own hero.
+   ============================================================ */
+
+.hero-detect {
+  contain: layout style;
+}
+.hero-box {
+  position: absolute;
+  /* Own compositor layer, held for the whole loop, so a lock-on never
+     repaints the masked robot beneath it. */
+  will-change: transform, opacity;
+  border: 1px solid rgb(79 195 232 / 0.3);
+  border-radius: 3px;
+  background: rgb(79 195 232 / 0.07);
+}
+.hero-box::before,
+.hero-box::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--color-signal);
+}
+.hero-box::before {
+  top: -2px;
+  left: -2px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.hero-box::after {
+  bottom: -2px;
+  right: -2px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+.hero-box-label {
+  position: absolute;
+  left: -2px;
+  bottom: calc(100% + 6px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  background: rgb(6 22 39 / 0.88);
+  color: var(--color-d-text);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 16px -6px rgb(6 22 39 / 0.5);
+}
+.hero-box-label i {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--color-signal);
+  box-shadow: 0 0 8px var(--color-signal);
+}
+.hero-box-label b {
+  font-weight: 600;
+  color: var(--color-amber-300);
+  font-variant-numeric: tabular-nums;
+}
+/* Targets near the right edge anchor their label to the box's right side, so
+   it never runs off the stage (or off a phone screen). */
+.hero-box-label[data-align="end"] {
+  left: auto;
+  right: -2px;
+}
+/* The sweeping scan line. Decorative, so hidden until JS runs it. */
+.hero-scan {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+  /* opacity, not visibility: a visibility flip forces a repaint, while an
+     opacity change on a composited layer is compositor-only. */
+  opacity: 0;
+  pointer-events: none;
+}
+.hero-scan::before {
+  content: "";
+  position: absolute;
+  inset-inline: 6%;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-signal), transparent);
+  box-shadow: 0 0 18px 2px rgb(79 195 232 / 0.55);
+}
+.hero-scan::after {
+  content: "";
+  position: absolute;
+  inset-inline: 6%;
+  top: -3rem;
+  height: 3rem;
+  background: linear-gradient(180deg, transparent, rgb(79 195 232 / 0.12));
+}
+
+/* ============================================================
+   Horizon: a lit seam where a navy section begins, instead of a
+   hard edge. Needs `relative isolate` on the section; z-index -1
+   keeps it above the section's own background, below its content.
+   ============================================================ */
+
+.horizon::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  z-index: -1;
+  background: linear-gradient(90deg, transparent, rgb(224 164 74 / 0.75) 50%, transparent);
+}
+.horizon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: min(64rem, 92%);
+  height: 10rem;
+  z-index: -1;
+  translate: -50% -50%;
+  pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(200 138 46 / 0.22), transparent 70%);
+}
+
+/* ============================================================
+   Cursor "View" mode (components/ui/Cursor.tsx). Over project media
+   the ring becomes the site's detection frame, with a label.
+   ============================================================ */
+
+.cursor-ring {
+  /* 17px = half the 34px ring, so it is a circle, and GSAP can tween it
+     to a rounded square in px (it can't interpolate % to px cleanly). */
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+}
+.cursor-ring::before,
+.cursor-ring::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--color-signal);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.cursor-ring::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.cursor-ring::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+.cursor-ring.is-view::before,
+.cursor-ring.is-view::after {
+  opacity: 1;
+}
+.cursor-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0;
+}
+
+/* ============================================================
+   Process line dots (components/sections/ProcessMotion.tsx)
+   ============================================================ */
+
+.process-dot {
+  scale: 1;
+  transition:
+    scale 0.35s var(--ease-rise),
+    box-shadow 0.35s;
+}
+.process-dot.is-lit {
+  scale: 1.6;
+  box-shadow: 0 0 0 4px rgb(200 138 46 / 0.18);
+}
+
 @keyframes hero-cycle {
   0%,
   27% {

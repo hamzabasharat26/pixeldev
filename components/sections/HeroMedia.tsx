@@ -1,23 +1,24 @@
 /**
  * Hero ground for the light theme.
  *
- * No photograph — the robot is the image now, and a busy backdrop behind a
- * cut-out subject just muddies it. This is pure CSS: a warm mustard bloom
- * top-right, a cream settle at the base so the section hands off to the band
- * below it, and a very quiet measurement grid (the studio's own vernacular).
- * Being CSS-only also keeps the hero's LCP element the robot, not a backdrop.
+ * No photograph: the robot is the image, and a busy backdrop behind a cut-out
+ * subject just muddies it. Instead, brand-coloured light (`.aurora` in
+ * globals.css) drifts slowly behind the content, with a cream settle at the
+ * base so the section hands off to the band below, and a very quiet
+ * measurement grid, which is the studio's own vernacular.
+ *
+ * The aurora wrapper takes the pointer drift and the scroll parallax from
+ * HeroReveal; the blobs inside take the idle drift from CSS. Separate
+ * elements, so the two never fight over the same transform.
  */
 export function HeroMedia() {
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-      {/* warm bloom behind the robot */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(58% 62% at 78% 26%, var(--color-amber-glow) 0%, transparent 62%), radial-gradient(46% 50% at 8% 6%, rgb(10 40 74 / 0.07) 0%, transparent 64%)",
-        }}
-      />
+      <div data-hero-aurora className="absolute inset-0">
+        <span className="aurora aurora-a" />
+        <span className="aurora aurora-b" />
+        <span className="aurora aurora-c" />
+      </div>
       {/* cream settle into the next band */}
       <div
         className="absolute inset-x-0 bottom-0 h-56"
@@ -26,7 +27,7 @@ export function HeroMedia() {
             "linear-gradient(180deg, transparent, var(--color-paper-2))",
         }}
       />
-      {/* measurement grid — quiet, masked so it never reaches the text */}
+      {/* measurement grid, masked so it never reaches the text */}
       <div
         className="absolute inset-0 opacity-[0.5]"
         style={{

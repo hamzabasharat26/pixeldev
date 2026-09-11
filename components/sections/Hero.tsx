@@ -12,6 +12,7 @@ import { site } from "@/content/site";
 import { LinkButton } from "@/components/ui/Button";
 import { Counter } from "@/components/ui/Counter";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { HeroDetect } from "./HeroDetect";
 import { HeroMedia } from "./HeroMedia";
 import { HeroPanel } from "./HeroPanel";
 import { HeroReveal } from "./HeroReveal";
@@ -25,6 +26,8 @@ const CAPABILITIES: { label: string; Icon: LucideIcon }[] = [
   { label: "RAG assistants", Icon: MessageSquareText },
   { label: "Edge deployment", Icon: Cpu },
 ];
+
+const ROBOT_MASK = "linear-gradient(to top, transparent 0%, #000 16%, #000 100%)";
 
 export function Hero() {
   return (
@@ -92,35 +95,43 @@ export function Hero() {
             </div>
           </div>
 
-          {/* The robot carries the brand; the glass panel overlapping it
-              carries the proof. Brand on top of real output, literally. */}
+          {/* The robot carries the brand, the detection overlay says what the
+              studio does, and the glass panel carries the proof. */}
           <div
             data-hero-visual
             className="relative mx-auto w-full max-w-[560px] lg:mx-0"
           >
-            {/* The cut-out ends mid-torso, so it has to dissolve rather than
-                stop. An un-masked edge reads as a broken image. */}
+            {/* The stage is exactly the image's aspect ratio and is never
+                height-capped, so percentages inside it map onto the robot
+                itself. A capped box would letterbox the image and the
+                detection brackets would miss their targets. */}
             <div
-              className="relative aspect-[1086/1448] max-h-[34rem] w-full"
-              style={{
-                maskImage:
-                  "linear-gradient(to top, transparent 0%, #000 16%, #000 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to top, transparent 0%, #000 16%, #000 100%)",
-              }}
+              data-hero-stage
+              className="relative mx-auto aspect-[1086/1448] w-full max-w-[25.5rem] lg:mr-6 lg:ml-auto"
             >
-              <Image
-                /* Through the image optimiser, not `unoptimized`: the headline
-                   is the LCP element, not the robot, so the optimiser can serve
-                   a width per screen without costing LCP. Measured before:
-                   103 KB wasted on desktop from sending the 900px file. */
-                src="/services/hero-robot-900.webp"
-                alt=""
-                fill
-                loading="eager"
-                sizes="(min-width: 1024px) 520px, 80vw"
-                className="object-contain object-bottom"
-              />
+              {/* The cut-out ends mid-torso, so it has to dissolve rather than
+                  stop. The mask is on the image only, not the overlay. */}
+              <div
+                className="absolute inset-0"
+                style={{ maskImage: ROBOT_MASK, WebkitMaskImage: ROBOT_MASK }}
+              >
+                <Image
+                  /* `unoptimized` + `priority`, on purpose. Measured: routed
+                     through the image optimiser, the robot became the LCP
+                     element and painted at 3.7s, because the optimiser encodes
+                     on first request. Served as the pre-sized file and
+                     preloaded, it paints with the page. 900px is right for a
+                     408px slot on a retina screen. */
+                  src="/services/hero-robot-900.webp"
+                  alt=""
+                  fill
+                  priority
+                  unoptimized
+                  sizes="(min-width: 1024px) 408px, 90vw"
+                  className="object-contain object-bottom"
+                />
+              </div>
+              <HeroDetect />
             </div>
 
             <div

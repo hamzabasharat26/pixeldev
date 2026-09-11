@@ -29,6 +29,7 @@ export function WorkStrip() {
           <Link
             key={p.slug}
             href={`/portfolio/${p.slug}`}
+            data-cursor="View"
             className="group flex w-[330px] shrink-0 translate-y-0 flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-e1 transition-[border-color,translate,box-shadow] duration-200 hover:-translate-y-1 hover:border-amber/50 hover:shadow-e2"
           >
             <span className="det-frame relative block aspect-[16/10] overflow-hidden">

@@ -19,10 +19,15 @@ research and the rebuild spec are in `docs/`.
   renders remain on the site.
 - **Portfolio**, formerly Work: 16 projects, `/portfolio` and
   `/portfolio/<slug>`. Old `/work` links redirect permanently.
-- **Motion**: GSAP for the hero, cursor, magnetic buttons and card tilt;
-  `motion` for the portfolio filter; native CSS scroll-driven animation for
-  reveals, parallax and the About page reel; the Web Animations API for the
-  marquees. All of it is off under reduced motion.
+- **Motion**: GSAP for the hero intro, its scroll exit and parallax, the cursor
+  (which opens into a "View" label over projects), magnetic buttons, card tilt,
+  the process line and the decoding proof figures. The Web Animations API for
+  the hero's detection loop (a scan line, then brackets locking onto the
+  robot's parts) and the marquees. CSS for the hero aurora; `motion` for the
+  portfolio filter; native CSS scroll-driven animation for reveals, parallax
+  and the About page reel. No ScrollTrigger (README, Motion, says why). All of
+  it is off under reduced motion, and the hero's loops pause whenever the hero
+  is off screen.
 
 ## Fixed in this pass, with the root cause of each
 
@@ -58,6 +63,30 @@ research and the rebuild spec are in `docs/`.
     original PNGs. Third-party design reference screenshots were moved out of
     the repository.
 
+## Second pass: hero and landing motion
+
+The hero now plays the studio's own subject. A scan line sweeps the robot,
+then detection brackets lock onto its parts with a confidence readout counting
+up. The targets were measured from the image's pixels, and any target the
+glass panel covers at the current breakpoint is dropped at runtime. Around it:
+an aurora in the brand colours, a scroll exit, a cursor that opens into a
+"View" label over projects, a process line that draws with the scroll, proof
+figures that decode once, and lit seams where the navy sections begin.
+
+Built to stay cheap while it runs, measured on the idle home page:
+
+- **No ScrollTrigger.** It keeps a `requestAnimationFrame` loop running from
+  the moment it loads, which made the browser restyle and commit every running
+  animation on every frame. With it: **736 ms** of main-thread work in 3
+  seconds, over **182** frames. Without it: **252 ms** over **35**, and no
+  animation-frame callbacks at all while idle.
+- **The detection loop runs on the Web Animations API**, transform and opacity
+  only, so the compositor plays it. Only the confidence readout touches the
+  main thread, at most 25 times a second.
+- **Everything pauses off screen**, and none of it runs under reduced motion.
+- **Layout shift 0.001 and LCP about 1.6 s** in the motion harness, on a first
+  visit with nothing cached.
+
 ## Verified
 
 Against a local production build, 11 September 2026.
@@ -69,6 +98,12 @@ Against a local production build, 11 September 2026.
   contact token is signed and fresh per request. No CSP violations or console
   errors on six routes. No horizontal overflow at 390 px on six routes. The
   marquee figures above. Reduced motion hides nothing and runs nothing.
+- **Motion harness, 24 of 24.** Detection locks every target in view and none
+  behind the panel, at desktop and 390 px. Readouts count up. The scroll exit,
+  cursor, process line and decode all behave, and the hero's loops pause off
+  screen. Reduced motion shows everything and animates nothing. Two checks
+  guard idle cost: no permanent animation-frame loop, and main-thread work
+  under 450 ms per 3 seconds.
 - **Contact form, end to end**, with a signing secret set. An instant submit
   and a forged token both show success and are **not** delivered; a genuine
   submission **is** delivered. The server log is the evidence, since the
@@ -81,7 +116,7 @@ Against a local production build, 11 September 2026.
 
 | Route | Performance | Accessibility | Best practices | SEO | LCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|
-| `/` | 78 | 100 | 96 | 100 | 2.1 s | 0 | 0 ms |
+| `/` | 78 | 100 | 96 | 100 | 1.4 s | 0.001 | 288 ms |
 | `/services` | 91 | 100 | 96 | 100 | 1.4 s | 0 | 0 ms |
 | `/portfolio` | 90 | 100 | 96 | 100 | 1.4 s | 0.001 | 0 ms |
 | `/about` | 87 | 100 | 96 | 100 | 1.6 s | 0 | 0 ms |

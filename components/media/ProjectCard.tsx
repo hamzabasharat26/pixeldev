@@ -22,6 +22,7 @@ export function ProjectCard({
   return (
     <Link
       href={`/portfolio/${project.slug}`}
+      data-cursor="View"
       className={cn(
         "group flex translate-y-0 flex-col overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface shadow-e1 transition-[translate,border-color,box-shadow] duration-200 hover:-translate-y-1 hover:border-amber/50 hover:shadow-e2",
         className,

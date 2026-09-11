@@ -1,5 +1,6 @@
 import { site } from "@/content/site";
 import { LinkButton } from "@/components/ui/Button";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { Reveal } from "@/components/ui/Reveal";
 
 type CtaBandProps = {
@@ -12,7 +13,7 @@ export function CtaBand({
   sub = "We'll come back within 24 hours with honest feedback on scope, timeline and cost, whether or not we turn out to be the right fit.",
 }: CtaBandProps) {
   return (
-    <section className="on-dark relative isolate overflow-hidden bg-navy-ink">
+    <section className="horizon on-dark relative isolate overflow-hidden bg-navy-ink">
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div
           className="absolute inset-0"
@@ -37,9 +38,11 @@ export function CtaBand({
         <p className="text-body-lg mt-5 max-w-xl text-d-muted">{sub}</p>
 
         <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <LinkButton href="/contact" size="lg">
-            Start a project
-          </LinkButton>
+          <Magnetic>
+            <LinkButton href="/contact" size="lg">
+              Start a project
+            </LinkButton>
+          </Magnetic>
           <p className="text-sm text-d-muted">
             Or email{" "}
             <a

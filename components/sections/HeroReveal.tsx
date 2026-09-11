@@ -2,24 +2,30 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
+import { clamp01, watchScroll } from "@/lib/scroll-watch";
 
 /**
- * The landing page's orchestrated moment, in two parts:
+ * The landing page's orchestrated moment, in three parts:
  *
- *   1. One load sequence for the whole hero — headline word by word, then the
- *      supporting copy, then the robot, then the panel. One timeline, not a
- *      fade-and-rise bolted onto every element.
- *   2. After it lands, the visual becomes pointer-reactive: the robot and the
- *      panel track the pointer by different amounts, so they separate in depth
- *      as you move. That parallax is the interactive part — it responds to the
- *      reader rather than playing at them.
+ *   1. One load sequence for the whole hero: the aurora fades up, the headline
+ *      rises word by word, then the supporting copy, the robot and the panel.
+ *      One timeline, not a fade-and-rise bolted onto every element.
+ *   2. After it lands, the visual becomes pointer-reactive: the robot, the
+ *      panel and the aurora track the pointer by different amounts, so they
+ *      separate in depth as you move.
+ *   3. Scrolling away lifts and softens the robot while the aurora parallaxes,
+ *      so the hero hands off to the page instead of just scrolling out. GSAP
+ *      `quickTo` glides each value; a passive scroll listener drives it, not
+ *      ScrollTrigger (see lib/scroll-watch.ts).
  *
- * Children stay server-rendered. Anything tagged `data-hero-step` joins the
- * timeline in DOM order.
+ * Each motion owns its own element, so none fight over a transform: pointer
+ * parallax on [data-hero-visual], scroll on the [data-hero-stage] inside it,
+ * and on the aurora the pointer and scroll share GSAP's transform cache while
+ * its idle drift runs in CSS on the blobs inside.
  *
  * The hidden-start state is applied in JS and ONLY after confirming motion is
  * allowed. Putting `opacity: 0` in the stylesheet would mean a JS failure, or
- * an unsupported browser, leaves the hero permanently blank — this codebase has
+ * an unsupported browser, leaves the hero permanently blank. This codebase has
  * already shipped that bug once with a CSS-hidden reveal.
  */
 
@@ -76,39 +82,48 @@ export function HeroReveal({
     const steps = root.querySelectorAll<HTMLElement>("[data-hero-step]");
     if (!steps.length) return;
 
+    const section = root.closest("section");
     const visual = root.querySelector<HTMLElement>("[data-hero-visual]");
+    const stage = root.querySelector<HTMLElement>("[data-hero-stage]");
     const panel = root.querySelector<HTMLElement>("[data-hero-panel]");
+    const aurora = section?.querySelector<HTMLElement>("[data-hero-aurora]") ?? null;
     let detachParallax: (() => void) | undefined;
-
-    // Late hydration (a slow device or network) means the hero has already
-    // been on screen, and read, for a while. Blanking it to replay the intro
-    // would be a visible flash, so skip straight to the interactive part.
-    // performance.now() is milliseconds since navigation started.
-    if (performance.now() > 1200) {
-      detachParallax = attachParallax(root, visual, panel);
-      return () => detachParallax?.();
-    }
+    let detachScroll: (() => void) | undefined;
 
     const ctx = gsap.context(() => {
+      detachScroll = attachScroll(section, stage, aurora);
+
+      // Late hydration (a slow device or network) means the hero has already
+      // been on screen, and read, for a while. Blanking it to replay the intro
+      // would be a visible flash, so skip straight to the interactive part.
+      // performance.now() is milliseconds since navigation started.
+      if (performance.now() > 1200) {
+        detachParallax = attachParallax(root, visual, panel, aurora);
+        return;
+      }
+
       const heading = root.querySelector<HTMLElement>("[data-hero-headline]");
       const words = heading ? splitWords(heading) : [];
 
       const tl = gsap.timeline({
         defaults: { ease: "power3.out", duration: 0.75 },
         onComplete: () => {
-          detachParallax = attachParallax(root, visual, panel);
+          detachParallax = attachParallax(root, visual, panel, aurora);
         },
       });
+
+      if (aurora) {
+        tl.from(aurora, { opacity: 0, duration: 1.8, ease: "power2.out" }, 0);
+      }
 
       // The headline is the hero's loudest element, so it leads and everything
       // else follows it rather than arriving together.
       if (words.length) {
-        tl.from(words, {
-          yPercent: 115,
-          duration: 0.9,
-          stagger: 0.055,
-          ease: "power4.out",
-        });
+        tl.from(
+          words,
+          { yPercent: 115, duration: 0.9, stagger: 0.055, ease: "power4.out" },
+          0,
+        );
       }
 
       const rest = [...steps].filter((s) => !s.hasAttribute("data-hero-headline"));
@@ -124,6 +139,7 @@ export function HeroReveal({
 
     return () => {
       detachParallax?.();
+      detachScroll?.();
       ctx.revert();
     };
   }, []);
@@ -136,27 +152,65 @@ export function HeroReveal({
 }
 
 /**
- * Pointer parallax. The robot and the panel take different multipliers, which
- * is what reads as depth — matching them would just slide the whole group.
- * Only attached once the load timeline is done, so the two never fight over the
- * same transforms.
+ * Scroll hand-off, from the hero's top at the top of the viewport to its bottom
+ * there. Follows the reader's scroll; `quickTo` eases each value toward it so
+ * it glides rather than steps. Transform and opacity only.
+ */
+function attachScroll(
+  section: HTMLElement | null,
+  stage: HTMLElement | null,
+  aurora: HTMLElement | null,
+) {
+  if (!section) return undefined;
+  const glide = { duration: 0.6, ease: "power3.out" };
+  const stageY = stage ? gsap.quickTo(stage, "yPercent", glide) : null;
+  const stageSX = stage ? gsap.quickTo(stage, "scaleX", glide) : null;
+  const stageSY = stage ? gsap.quickTo(stage, "scaleY", glide) : null;
+  const stageFade = stage ? gsap.quickTo(stage, "opacity", glide) : null;
+  const auroraY = aurora ? gsap.quickTo(aurora, "yPercent", glide) : null;
+
+  const stopWatching = watchScroll(section, (r) => {
+    const p = clamp01(-r.top / r.height);
+    stageY?.(-8 * p);
+    stageSX?.(1 - 0.06 * p);
+    stageSY?.(1 - 0.06 * p);
+    stageFade?.(1 - 0.5 * p);
+    auroraY?.(16 * p);
+  });
+
+  // Pause the aurora's CSS drift while the hero is off screen.
+  const io = new IntersectionObserver(([entry]) =>
+    section.classList.toggle("hero-offscreen", !entry.isIntersecting),
+  );
+  io.observe(section);
+
+  return () => {
+    stopWatching();
+    io.disconnect();
+    section.classList.remove("hero-offscreen");
+  };
+}
+
+/**
+ * Pointer parallax. Robot, panel and aurora take different multipliers, which
+ * is what reads as depth: matching them would just slide the whole group.
  */
 function attachParallax(
   root: HTMLElement,
   visual: HTMLElement | null,
   panel: HTMLElement | null,
+  aurora: HTMLElement | null,
 ) {
   if (!visual) return undefined;
   if (!window.matchMedia("(pointer: fine)").matches) return undefined;
 
   const vx = gsap.quickTo(visual, "x", { duration: 0.9, ease: "power3.out" });
   const vy = gsap.quickTo(visual, "y", { duration: 0.9, ease: "power3.out" });
-  const px = panel
-    ? gsap.quickTo(panel, "x", { duration: 1.1, ease: "power3.out" })
-    : null;
-  const py = panel
-    ? gsap.quickTo(panel, "y", { duration: 1.1, ease: "power3.out" })
-    : null;
+  const px = panel ? gsap.quickTo(panel, "x", { duration: 1.1, ease: "power3.out" }) : null;
+  const py = panel ? gsap.quickTo(panel, "y", { duration: 1.1, ease: "power3.out" }) : null;
+  // The light moves slowest and furthest back: the deepest layer.
+  const ax = aurora ? gsap.quickTo(aurora, "x", { duration: 1.8, ease: "power2.out" }) : null;
+  const ay = aurora ? gsap.quickTo(aurora, "y", { duration: 1.8, ease: "power2.out" }) : null;
 
   const onMove = (e: PointerEvent) => {
     const r = root.getBoundingClientRect();
@@ -169,11 +223,13 @@ function attachParallax(
     // Opposite direction and further, so the panel floats in front.
     px?.(nx * -22);
     py?.(ny * -13);
+    ax?.(nx * 36);
+    ay?.(ny * 22);
   };
 
   window.addEventListener("pointermove", onMove, { passive: true });
   return () => {
     window.removeEventListener("pointermove", onMove);
-    gsap.killTweensOf([visual, panel].filter(Boolean) as HTMLElement[]);
+    gsap.killTweensOf([visual, panel, aurora].filter(Boolean) as HTMLElement[]);
   };
 }
