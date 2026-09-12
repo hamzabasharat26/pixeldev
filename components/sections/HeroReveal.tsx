@@ -15,7 +15,7 @@ import { clamp01, watchScroll } from "@/lib/scroll-watch";
  *      separate in depth as you move.
  *   3. Scrolling away lifts and softens the robot while the aurora parallaxes,
  *      so the hero hands off to the page instead of just scrolling out. GSAP
- *      `quickTo` glides each value; a passive scroll listener drives it, not
+ *      `quickTo` glides the scroll progress; a passive scroll listener drives it, not
  *      ScrollTrigger (see lib/scroll-watch.ts).
  *
  * Each motion owns its own element, so none fight over a transform: pointer
@@ -153,8 +153,11 @@ export function HeroReveal({
 
 /**
  * Scroll hand-off, from the hero's top at the top of the viewport to its bottom
- * there. Follows the reader's scroll; `quickTo` eases each value toward it so
- * it glides rather than steps. Transform and opacity only.
+ * there. One `quickTo` glides the scroll progress (a plain object, so no DOM
+ * reads), and `quickSetter`s write the values. Tweens on the elements
+ * themselves read computed style to find their start values, and each of those
+ * reads forced a full-page style recalculation during load. Transform and
+ * opacity only.
  */
 function attachScroll(
   section: HTMLElement | null,
@@ -162,20 +165,42 @@ function attachScroll(
   aurora: HTMLElement | null,
 ) {
   if (!section) return undefined;
-  const glide = { duration: 0.6, ease: "power3.out" };
-  const stageY = stage ? gsap.quickTo(stage, "yPercent", glide) : null;
-  const stageSX = stage ? gsap.quickTo(stage, "scaleX", glide) : null;
-  const stageSY = stage ? gsap.quickTo(stage, "scaleY", glide) : null;
-  const stageFade = stage ? gsap.quickTo(stage, "opacity", glide) : null;
-  const auroraY = aurora ? gsap.quickTo(aurora, "yPercent", glide) : null;
 
+  // Made on the first scroll, not at load: creating a transform setter reads
+  // the element's computed transform once.
+  let write: ((p: number) => void) | undefined;
+  const makeWriter = () => {
+    const y = stage ? gsap.quickSetter(stage, "yPercent") : null;
+    const sx = stage ? gsap.quickSetter(stage, "scaleX") : null;
+    const sy = stage ? gsap.quickSetter(stage, "scaleY") : null;
+    const fade = stage ? gsap.quickSetter(stage, "opacity") : null;
+    const glow = aurora ? gsap.quickSetter(aurora, "yPercent") : null;
+    return (p: number) => {
+      y?.(-8 * p);
+      sx?.(1 - 0.06 * p);
+      sy?.(1 - 0.06 * p);
+      fade?.(1 - 0.5 * p);
+      glow?.(16 * p);
+    };
+  };
+
+  const progress = { p: 0 };
+  const glide = gsap.quickTo(progress, "p", {
+    duration: 0.6,
+    ease: "power3.out",
+    onUpdate: () => {
+      write ??= makeWriter();
+      write(progress.p);
+    },
+  });
+
+  // At rest every value is already its default, so a page load does nothing.
+  let last = 0;
   const stopWatching = watchScroll(section, (r) => {
     const p = clamp01(-r.top / r.height);
-    stageY?.(-8 * p);
-    stageSX?.(1 - 0.06 * p);
-    stageSY?.(1 - 0.06 * p);
-    stageFade?.(1 - 0.5 * p);
-    auroraY?.(16 * p);
+    if (p === last) return;
+    last = p;
+    glide(p);
   });
 
   // Pause the aurora's CSS drift while the hero is off screen.

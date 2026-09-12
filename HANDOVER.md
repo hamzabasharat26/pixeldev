@@ -86,6 +86,15 @@ Built to stay cheap while it runs, measured on the idle home page:
 - **Everything pauses off screen**, and none of it runs under reduced motion.
 - **Layout shift 0.001 and LCP about 1.6 s** in the motion harness, on a first
   visit with nothing cached.
+- **Load cost, measured beside the previous commit under the same conditions.**
+  The pass first cost about 150 ms more script at load (TBT 362 ms against the
+  previous commit's 212 ms; the 0 ms in an earlier table was a quieter machine,
+  not a faster page). Three fixes brought it back: the scroll exit does nothing
+  at rest and writes with `quickSetter` instead of tweens, which read computed
+  style and force a full-page recalculation; the process line sets itself up on
+  approach rather than at load; and the stats counter stopped building a number
+  formatter on every frame. TBT is now **213 ms** with LCP **1.2 s**, against
+  **212 ms** and **1.9 s** for the commit before this pass.
 
 ## Verified
 
@@ -116,14 +125,15 @@ Against a local production build, 11 September 2026.
 
 | Route | Performance | Accessibility | Best practices | SEO | LCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|
-| `/` | 78 | 100 | 96 | 100 | 1.4 s | 0.001 | 288 ms |
+| `/` | 86 | 100 | 96 | 100 | 1.2 s | 0.001 | 213 ms |
 | `/services` | 91 | 100 | 96 | 100 | 1.4 s | 0 | 0 ms |
 | `/portfolio` | 90 | 100 | 96 | 100 | 1.4 s | 0.001 | 0 ms |
 | `/about` | 87 | 100 | 96 | 100 | 1.6 s | 0 | 0 ms |
 | `/contact` | 92 | 100 | 96 | 100 | 1.3 s | 0 | 0 ms |
 
 This pass moved `/portfolio` accessibility from 96 to 100 (the filter badge)
-and its LCP from 1.8 s to 1.4 s (eager first row).
+and its LCP from 1.8 s to 1.4 s (eager first row). The `/` row was re-measured
+after the second pass, as the median of three runs.
 
 Local performance scores swing with machine load, so judge performance on the
 Vercel deployment. The one best-practices miss locally is a

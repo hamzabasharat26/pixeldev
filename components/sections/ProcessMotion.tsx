@@ -24,12 +24,21 @@ export function ProcessMotion() {
     const dots = Array.from(wrap.querySelectorAll<HTMLElement>("[data-process-dot]"));
 
     const mm = gsap.matchMedia();
-    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-      gsap.set(line, { scaleX: 0 });
-      const draw = gsap.quickTo(line, "scaleX", { duration: 0.5, ease: "power3.out" });
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", (context) => {
+      let draw: ((value: number) => void) | undefined;
       const stop = watchScroll(wrap, (r, vh) => {
         const p = clamp01((0.78 * vh - r.top) / (0.48 * vh));
-        draw(p);
+        // Set up on first approach, not at load: the steps sit far below the
+        // fold, and a GSAP set reads computed style. Added to the context so
+        // it still reverts; nothing is returned, or GSAP would treat it as a
+        // cleanup function.
+        if (!draw) {
+          context.add(() => {
+            gsap.set(line, { scaleX: p });
+            draw = gsap.quickTo(line, "scaleX", { duration: 0.5, ease: "power3.out" });
+          });
+        }
+        draw?.(p);
         dots.forEach((d, i) => d.classList.toggle("is-lit", p >= i / dots.length + 0.02));
       });
       return () => {

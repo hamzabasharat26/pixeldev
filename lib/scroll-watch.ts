@@ -17,11 +17,13 @@ export function watchScroll(
     if (near) request();
   };
 
-  // One update on entering and on leaving the zone, so the last state always lands.
+  // One update on entering the zone and one on leaving it, so the last state
+  // always lands. Nothing while the element is far away, including at load.
   const io = new IntersectionObserver(
     ([entry]) => {
+      const wasNear = near;
       near = entry.isIntersecting;
-      request();
+      if (near || wasNear) request();
     },
     { rootMargin: "50% 0px" },
   );
