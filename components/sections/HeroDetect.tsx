@@ -35,7 +35,8 @@ const TARGETS: Target[] = [
 const MAX_COVERED = 0.2;
 
 /** The loop's beats, in seconds. */
-const DELAY = 1.5;
+const RELEASE_STEP = 0.08;
+const RELEASE_MS = 300;
 const SWEEP = 1.1;
 const LOCK = 0.45;
 const COUNT = 0.7;
@@ -114,16 +115,43 @@ export function HeroDetect() {
     });
     for (const b of hidden) b.style.opacity = "0";
 
+    // The boxes are painted by the server, so the loop must not blank them on
+    // hydration: they used to vanish for 1.5s and then return one at a time.
+    // Instead they are released with a short stagger, and the loop starts the
+    // moment that finishes (fill "none", so nothing is forced before it).
+    const release = locks.map((l, i) =>
+      l.box.animate(
+        [
+          { opacity: 1, transform: "scale(1)" },
+          { opacity: 0, transform: "scale(0.94)" },
+        ],
+        { duration: RELEASE_MS, delay: i * RELEASE_STEP * 1000, easing: "ease-in", fill: "forwards" },
+      ),
+    );
+    // Hand over cleanly: a finished fill-forwards animation keeps holding
+    // opacity and transform, and Chrome will not run a second animation on the
+    // compositor while another claims the same properties. Leaving these in
+    // place made the loop tick on the main thread every frame (181 frames per
+    // 3s, against 11 without the overlay). The resting state moves to an inline
+    // style, then the release animations are dropped.
+    void Promise.all(release.map((a) => a.finished))
+      .then(() => {
+        for (const l of locks) l.box.style.opacity = "0";
+        for (const a of release) a.cancel();
+      })
+      .catch(() => {});
+
+    const DELAY = (RELEASE_MS + Math.max(0, locks.length - 1) * RELEASE_STEP * 1000) / 1000;
     const cycle = Math.max(SWEEP - LOCK + locks.length * SLOT, SWEEP + 0.05) + REST;
     const at = (s: number) => s / cycle;
     const timing: KeyframeAnimationOptions = {
       duration: cycle * 1000,
       delay: DELAY * 1000,
       iterations: Infinity,
-      fill: "backwards",
+      fill: "none",
     };
 
-    const anims: Animation[] = [];
+    const anims: Animation[] = [...release];
     const scan = el.querySelector<HTMLElement>("[data-scan]");
     if (scan) {
       anims.push(
@@ -155,7 +183,7 @@ export function HeroDetect() {
         ),
       );
     }
-    const clock = anims[0];
+    const clock = anims[release.length];
     if (!clock) return;
 
     // The readout follows the shared clock, so it can never drift from the
@@ -191,6 +219,7 @@ export function HeroDetect() {
       window.clearInterval(timer);
       for (const a of anims) a.cancel();
       for (const b of hidden) b.style.opacity = "";
+      for (const l of locks) l.box.style.opacity = "";
       for (const l of locks) if (l.out) l.out.textContent = l.conf.toFixed(2);
     };
   }, []);

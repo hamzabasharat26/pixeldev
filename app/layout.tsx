@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { Cursor } from "@/components/ui/Cursor";
+import { PixelAI } from "@/components/ui/PixelAI";
+import { ClickSound } from "@/components/ui/ClickSound";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SkipLink } from "@/components/layout/SkipLink";
@@ -105,6 +107,8 @@ export default function RootLayout({
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <PixelAI />
+        <ClickSound />
         <Analytics />
       </body>
     </html>

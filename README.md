@@ -13,7 +13,7 @@ production on Vercel.
 | Styling | Tailwind CSS v4, CSS-first `@theme` tokens in `app/globals.css` |
 | Motion | GSAP (hero, cursor, magnetic buttons, tilt), `motion` (portfolio filter), native CSS scroll-driven animation (reveals, parallax, the work reel), Web Animations API (hero detection loop, marquees) |
 | Forms | Server Actions + Resend, with a signed anti-bot token |
-| Hosting | Vercel, `pixeldevsolutions.tech` |
+| Hosting | Vercel, `pixeldevsolution.tech` |
 
 ---
 
@@ -68,7 +68,7 @@ components/
   layout/             Header (glass bar), MobileNav (vaul drawer), Footer, SkipLink
   sections/           one file per page section
   ui/                 primitives: Button, Marquee (+ MarqueeDriver, MarqueeToggle),
-                      Cursor, Magnetic, TiltCard, Reveal, Counter, Logo, ...
+                      Cursor, PixelAI (the assistant), Magnetic, TiltCard, Reveal, Counter, Logo, ...
   media/              AutoVideo, ProjectCard
 content/              ALL copy and data. Edit these, not the components.
   site.ts             company facts, taglines, nav, stats, SEO strings
@@ -76,7 +76,8 @@ content/              ALL copy and data. Edit these, not the components.
   projects.ts         every case study
   stack.ts            the stack strip (+ brand-icons.ts, generated)
   faq.ts, process.ts, values.ts, testimonials.ts
-lib/                  seo.ts (metadata + JSON-LD), form-token.ts, scroll-watch.ts, utils.ts
+  assistant.ts        what Pixel AI can say, composed from the files above
+lib/                  seo.ts (metadata + JSON-LD), form-token.ts, scroll-watch.ts, assistant.ts (Pixel AI matcher), utils.ts
 scripts/              media pipeline (build-media.mjs + media/*)
 public/               brand/, services/ (service visuals), work/<slug>/ (project media)
 ```
@@ -237,6 +238,59 @@ page down, which is a layout shift. A height set in CSS can't do that.
 
 ---
 
+## Pixel AI
+
+The assistant behind the "Ask Pixel AI" tab on every page (a round button on
+phones). It answers **only from what this site publishes**: every answer in
+`content/assistant.ts` is composed from `content/faq.ts`, `services.ts`,
+`process.ts`, `values.ts` and `site.ts`, so editing those pages edits the
+answers, and it cannot invent a client, a price or a result. A question it
+cannot match gets an honest fallback and a link to `/contact`.
+
+- **No API key, no per-message cost, no data collected.** Matching is
+  deterministic keyword scoring (`lib/assistant.ts`). Nothing typed into it
+  leaves the browser.
+- **Costs nothing on page load.** The knowledge base is imported the first
+  time the panel opens (and prefetched when the tab is hovered or focused).
+- **Motion**: GSAP opens and closes the panel, a scan line crosses it once, and
+  answers reveal word by word in CSS. Under reduced motion answers appear at
+  once and nothing animates.
+- **Accessible**: a labelled dialog, focus moves in on open and back to the tab
+  on Esc or close, answers are announced through a polite live region.
+
+**Add or change an answer:** edit or add a topic in `content/assistant.ts`
+(`chip`, `keywords`, `answer`, optional `links`). To show it as a starter chip,
+add its `id` to `assistantStarterIds`. Keep it grounded: quote the content
+files rather than writing new claims.
+
+**Upgrading to a live model later:** the component calls `matchTopic()` in one
+place. Swap that for a Server Action that sends the question plus these topics
+as grounding, and add rate limiting before it goes public.
+
+---
+
+## Click sound
+
+Every click plays a short tap: `public/sounds/button-press.mp3` (6 KB, mono,
+0.42 s, level-matched so it is a tap and not a jolt). `lib/sound.ts` decodes it
+once through the Web Audio API and plays a fresh source per click, which is why
+rapid clicks overlap instead of cutting each other off. The audio context is
+created inside the first real gesture, because browsers refuse audio otherwise.
+
+- It fires on `pointerdown`, so the sound lands with the press. Keyboard
+  activation sends a click with `detail === 0` and is handled separately, so it
+  never doubles up.
+- Only real controls make a sound: links, buttons, `role="button"`, `summary`
+  and submit inputs. Typing, dragging and scrolling stay silent. Add
+  `data-no-sound` to opt an element out.
+- A speaker toggle sits in the header and the mobile drawer. The choice is kept
+  in `localStorage` (`pixeldev:sound`), so it is a preference, not a cookie, and
+  needs no consent banner.
+- Re-encode the source with:
+  `ffmpeg -i button-press.mp3 -af "silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.01,loudnorm=I=-20:TP=-2" -ac 1 -ar 44100 -b:a 96k public/sounds/button-press.mp3`
+
+---
+
 ## Media pipeline
 
 Raw footage lives in **`media-src/`**, which is git-ignored and stays on the
@@ -287,7 +341,8 @@ invented. Anything unconfirmed is marked `TODO(owner)`.
 
 1. Push to GitHub and import the repository in Vercel. The framework is detected.
 2. Add the environment variables above, including a `FORM_TOKEN_SECRET`.
-3. Settings, Domains: add `pixeldevsolutions.tech` and `www.pixeldevsolutions.tech`.
+3. Settings, Domains: add `pixeldevsolution.tech` and `www.pixeldevsolution.tech`.
+   The spelling is singular: the plural is a different, unregistered domain.
 4. At the registrar: point the apex `@` A record and the `www` CNAME at the
    values Vercel shows. SSL provisions automatically.
 5. Set the primary domain and the apex/www redirect in Vercel.
@@ -300,6 +355,22 @@ response headers on `/`; run Lighthouse against the live URL.
 ## Before launch: owner checklist
 
 Search the repository for **`TODO(owner)`**. Every unverified figure is marked.
+
+**Blocking, found in the audit of 14 September 2026:**
+
+1. **The domain is `pixeldevsolution.tech`, singular.** It is registered to
+   the owner (RDAP: created 2026-09-03) and its nameservers are set, but it had
+   no A record on 2026-09-14, so it does not resolve yet. Point it at Vercel
+   during deploy. The plural `pixeldevsolutions.tech` is NOT ours and was
+   unregistered, which is why every reference now uses the singular.
+2. **Claims were trimmed to what your LinkedIn actually says.** "Running in
+   production" became "delivered to clients in the US and Canada"; Dock Vision
+   AI's "straight into production on a live loading bay" became "delivered as a
+   commercial product to an international client"; MagicQC's "live line at a
+   Karachi garment manufacturer" became "in production, and presented at
+   MyKarachi". Restore stronger wording only with evidence you can show.
+3. **Naming adidas, Zara, Puma and Reebok** in the MagicQC case study needs
+   written permission. "8+ brands" is not published anywhere public either.
 
 - Confirm the figures in `content/site.ts` (`stats`, `proof`) and every metric
   marked in `content/projects.ts`. Add client names only where cleared.

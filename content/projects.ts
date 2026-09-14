@@ -218,12 +218,14 @@ export const projects: Project[] = [
     },
     summary:
       "A QC station that already knows every brand’s points of measure and tolerances. The operator just measures.",
+    // TODO(owner): written permission needed before naming adidas, Zara, Puma or
+    // Reebok on a client-facing page, and "8+ brands" is not public anywhere.
     challenge:
       "Garment QC ran on a tape measure and a stack of paper spec sheets. adidas, Zara, Puma and Reebok each bring their own list of points of measure and their own tolerance per size, and operators reconciled all of it by hand. Mistakes shipped, and the QC manager only found out when a customer complained.",
     solution:
       "A desktop capture app paired with a web dashboard. The operator picks brand, article type, style and size; the station loads that brand’s points of measure with the tolerance for that size. Each measurement is captured, compared to spec, and marked pass or fail in centimetres at the point of measure, with garment colour and size driving the tolerance set. “Next Piece” and “Next Article” keep the line moving, and every result syncs to the web app with the operator and table attached.",
     results:
-      "Operators stopped looking up specs, because the station already has them. Pass and fail are logged per operator and per table, and the QC manager watches results arrive on the web app instead of collecting clipboards at the end of a shift. Deployed on a live line at a Karachi garment manufacturer.",
+      "Operators stopped looking up specs, because the station already has them. Pass and fail are logged per operator and per table, and the QC manager watches results arrive on the web app instead of collecting clipboards at the end of a shift. In production, and presented at MyKarachi, the KCCI international expo.", // TODO(owner): confirm the factory city before naming it
     metrics: [
       { value: "500+ / shift", label: "garments measured on a live line" }, // TODO(owner): confirm throughput
       { value: "8+ brands", label: "each with its own POM list and tolerances" },
@@ -258,20 +260,20 @@ export const projects: Project[] = [
     strip: true,
     outcome: {
       value: "1st place",
-      label: "IEEE Hackathon win, then taken into production",
+      label: "IEEE Hackathon win, then delivered to a client",
     },
     summary:
       "Real-time docking assistance: detect the vehicle, track the approach, log the turnaround, all from one fixed camera on the bay.",
     challenge:
       "Loading-dock turnaround is guesswork. Nobody knows exactly when a truck arrived, how long it sat, or where the bottleneck is, so the numbers that would fix scheduling simply do not exist.",
     solution:
-      "A live operations dashboard driven by computer vision on the dock camera. It detects and tracks vehicles and forklifts through the bay, marks each state change (arrived, positioned, loading, then released) on a live turnaround timeline, and streams an event feed operations can watch in real time. Built for the hackathon, then hardened for a real yard.",
+      "A live operations dashboard driven by computer vision on the dock camera. It detects and tracks vehicles and forklifts through the bay, marks each state change (arrived, positioned, loading, then released) on a live turnaround timeline, and streams an event feed operations can watch in real time. Built for the hackathon, then delivered as a commercial product.",
     results:
-      "Won first place at an IEEE Hackathon and was commercialised afterwards. Turnaround time stopped being an argument and became a chart.",
+      "Won first place at an IEEE Hackathon, then was delivered as a commercial product to an international client.", // TODO(owner): if it runs at a live bay today, say so here with the client's permission
     metrics: [
       { value: "real-time", label: "vehicle + forklift detection on the bay camera" },
       { value: "per truck", label: "arrival → release timeline, logged automatically" },
-      { value: "1st", label: "IEEE Hackathon, then into production" },
+      { value: "1st", label: "IEEE Hackathon, then delivered to an international client" },
     ],
     metricsAccent: "signal",
     tech: ["Python", "YOLO", "OpenCV", "Object tracking", "FastAPI", "React"],

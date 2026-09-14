@@ -11,8 +11,11 @@
 export const site = {
   name: "Pixel Dev Solutions",
   shortName: "PixelDev",
-  domain: "pixeldevsolutions.tech",
-  url: "https://pixeldevsolutions.tech",
+  // Registered to the owner since 2026-09-03 (RDAP). Note the spelling: it is
+  // "solution", singular. The plural pixeldevsolutions.tech is NOT ours.
+  // Canonical URLs, OG tags, JSON-LD, robots and the sitemap all read this.
+  domain: "pixeldevsolution.tech",
+  url: "https://pixeldevsolution.tech",
 
   /**
    * HOUSE STYLE (applies to every string in this file and every other content
@@ -68,10 +71,12 @@ export const site = {
    * TODO(owner): confirm each figure; raise as the portfolio grows.
    */
   stats: [
-    { value: "10+", label: "AI systems running in production" },
+    { value: "10+", label: "AI systems delivered to clients in the US and Canada" },
     { value: "1st", label: "IEEE Hackathon win for Dock Vision AI" },
-    { value: "3-8 wk", label: "from brief to live system" },
-    { value: "24h", label: "median reply to a new enquiry" },
+    // Scoped to AI systems on purpose: the FAQ quotes 3 to 5 weeks for a
+    // marketing site and 8 to 16 for an app, and an unscoped figure contradicts it.
+    { value: "3-8 wk", label: "from technical brief to a deployed AI system" },
+    { value: "24h", label: "to tell you whether your idea is buildable" },
   ],
 
   /**
@@ -92,7 +97,7 @@ export const site = {
     {
       value: "1st place",
       label:
-        "Dock Vision AI won an IEEE Hackathon, then went straight into production on a live loading bay.",
+        "Dock Vision AI won first place at an IEEE Hackathon, then was delivered as a commercial product to an international client.",
     },
   ],
 

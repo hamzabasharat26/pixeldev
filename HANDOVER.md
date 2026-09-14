@@ -96,6 +96,21 @@ Built to stay cheap while it runs, measured on the idle home page:
   formatter on every frame. TBT is now **213 ms** with LCP **1.2 s**, against
   **212 ms** and **1.9 s** for the commit before this pass.
 
+## Pixel AI assistant
+
+An "Ask Pixel AI" tab on every page opens a navy glass panel with starter
+questions, free-text questions and links to the right page. Chosen with the
+owner: **grounded answers with no API key**, and answers that end by pointing
+to the contact page rather than collecting details in the chat.
+
+- Every answer is composed from content the site already publishes (FAQ,
+  services, process, about, site facts), so it cannot state a client, price or
+  result that isn't on the site. Unmatched questions get an honest fallback.
+- No personal data is collected and nothing leaves the browser, so there is no
+  new privacy, storage or abuse surface.
+- The knowledge base loads on first open, so pages don't pay for it on load.
+- To use a live model later, see README, Pixel AI.
+
 ## Verified
 
 Against a local production build, 11 September 2026.

@@ -26,12 +26,10 @@ export function ProofBand() {
             <div key={item.label} className="border-t border-d-line pt-5">
               <dt className="sr-only">{item.label}</dt>
               <dd>
-                <MetricValue
-                  value={item.value}
-                  size="hero"
-                  decode
-                  className="text-amber-300"
-                />
+                {/* No scramble here. Decoding turned "1 camera" and "1st place"
+                    into digit noise for over a second, which reads as a broken
+                    page on the one section titled Proof. */}
+                <MetricValue value={item.value} size="hero" className="text-amber-300" />
                 <span className="mt-3 block max-w-[26ch] text-sm leading-relaxed text-d-muted">
                   {item.label}
                 </span>

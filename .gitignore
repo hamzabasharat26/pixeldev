@@ -51,3 +51,10 @@ next-env.d.ts
 /media-src/
 /.lighthouse/
 /scripts/media/_sheets/
+
+# owner's raw assets kept out of the repo (derived files under public/ are committed)
+/*.mp4
+/button-press.mp3
+
+# third-party design reference screenshots: other companies' work, never ours to publish
+/design-refs/

@@ -77,16 +77,20 @@ function LeadCard({ service }: { service: Service }) {
   );
 }
 
-/** The four that make the lead work shippable. */
+/**
+ * The four that make the lead work shippable. Text only, on purpose: these
+ * carried product screenshots whose UI was unreadable at card size, three of
+ * them borrowed from other projects, and they made this section 1531px tall.
+ * The two lead cards keep their screens, which is where the story is.
+ */
 function SupportCard({ service }: { service: Service }) {
   const Icon = icons[service.icon];
   return (
     <Link
       href={`/services#${service.slug}`}
-      className="group flex translate-y-0 flex-col overflow-hidden rounded-2xl border border-d-line bg-navy-800/55 p-2 transition-[border-color,background-color,translate] duration-200 hover:-translate-y-1 hover:border-amber/40 hover:bg-navy-800"
+      className="group flex translate-y-0 flex-col overflow-hidden rounded-2xl border border-d-line bg-navy-800/55 transition-[border-color,background-color,translate] duration-200 hover:-translate-y-1 hover:border-amber/40 hover:bg-navy-800"
     >
-      <Showcase slug={service.slug} />
-      <span className="flex flex-1 flex-col px-3 pb-3 pt-4">
+      <span className="flex flex-1 flex-col px-4 pb-4 pt-5">
         <span className="flex items-center gap-2.5">
           <Icon size={17} strokeWidth={1.75} aria-hidden="true" className="shrink-0 text-amber-300" />
           <h3 className="text-h4 text-d-text underline-offset-4 group-hover:underline group-hover:decoration-amber/50">

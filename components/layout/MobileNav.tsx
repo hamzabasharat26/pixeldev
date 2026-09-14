@@ -6,6 +6,7 @@ import { Drawer } from "vaul";
 import { primaryNav, site } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { LinkButton } from "@/components/ui/Button";
+import { SoundToggle } from "@/components/ui/SoundToggle";
 
 /**
  * Mobile navigation — a vaul drawer sliding in from the right. vaul handles
@@ -38,14 +39,17 @@ export function MobileNav() {
           <Drawer.Title className="sr-only">Site menu</Drawer.Title>
           <div className="flex items-center justify-between">
             <span className="text-eyebrow text-d-muted">Menu</span>
-            <Drawer.Close
-              aria-label="Close menu"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/12 text-d-muted"
-            >
-              <span aria-hidden="true" className="text-lg leading-none">
-                &times;
-              </span>
-            </Drawer.Close>
+            <div className="flex items-center gap-1">
+              <SoundToggle className="text-d-muted hover:bg-white/10 hover:text-d-text" />
+              <Drawer.Close
+                aria-label="Close menu"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/12 text-d-muted"
+              >
+                <span aria-hidden="true" className="text-lg leading-none">
+                  &times;
+                </span>
+              </Drawer.Close>
+            </div>
           </div>
 
           <nav aria-label="Mobile" className="mt-8 flex flex-col">

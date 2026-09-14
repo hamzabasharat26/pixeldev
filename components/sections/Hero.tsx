@@ -29,6 +29,12 @@ const CAPABILITIES: { label: string; Icon: LucideIcon }[] = [
 
 const ROBOT_MASK = "linear-gradient(to top, transparent 0%, #000 16%, #000 100%)";
 
+/** The headline, split so each word can rise on its own. Server-rendered: the
+ *  intro used to be a GSAP timeline that ran on hydration, which measured at
+ *  1.8s on a fast machine, after its own 1.2s "skip the replay" guard. It never
+ *  played for anyone. In CSS it starts at first paint. */
+const HEADLINE = "Production AI, not proof of concept.".split(" ");
+
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-paper">
@@ -39,7 +45,8 @@ export function Hero() {
           <div>
             <p
               data-hero-step
-              className="flex items-center gap-2.5 text-[0.92rem] font-medium text-amber-600"
+              className="hero-step flex items-center gap-2.5 text-[0.92rem] font-medium text-amber-600"
+              style={{ animationDelay: "0.05s" }}
             >
               <span
                 aria-hidden="true"
@@ -48,17 +55,24 @@ export function Hero() {
               {site.tagline}
             </p>
 
-            <h1
-              data-hero-step
-              data-hero-headline
-              className="headline mt-5 max-w-[13ch] text-ink"
-            >
-              Production AI, not proof of concept.
+            <h1 data-hero-headline className="headline mt-5 max-w-[13ch] text-ink">
+              {HEADLINE.map((word, i) => (
+                <span key={word + i} className="hero-word-clip">
+                  <span
+                    className="hero-word"
+                    style={{ animationDelay: `${(i * 0.055).toFixed(3)}s` }}
+                  >
+                    {word}
+                  </span>
+                  {i < HEADLINE.length - 1 ? " " : null}
+                </span>
+              ))}
             </h1>
 
             <p
               data-hero-step
-              className="mt-6 max-w-xl text-lg leading-relaxed text-muted"
+              className="hero-step mt-6 max-w-xl text-lg leading-relaxed text-muted"
+              style={{ animationDelay: "0.3s" }}
             >
               {site.positioning} We build the vision and AI systems, then the
               web, mobile and cloud work that puts them in front of the people
@@ -68,7 +82,8 @@ export function Hero() {
             <ul
               data-hero-step
               aria-label="What we build"
-              className="mt-6 flex max-w-xl flex-wrap gap-2"
+              className="hero-step mt-6 flex max-w-xl flex-wrap gap-2"
+              style={{ animationDelay: "0.38s" }}
             >
               {CAPABILITIES.map(({ label, Icon }) => (
                 <li
@@ -81,7 +96,11 @@ export function Hero() {
               ))}
             </ul>
 
-            <div data-hero-step className="mt-8 flex flex-wrap gap-3">
+            <div
+              data-hero-step
+              className="hero-step mt-8 flex flex-wrap gap-3"
+              style={{ animationDelay: "0.46s" }}
+            >
               <Magnetic>
                 <LinkButton href="/contact" size="lg">
                   Start a project
@@ -145,7 +164,8 @@ export function Hero() {
 
         <dl
           data-hero-step
-          className="glass-paper mt-16 grid grid-cols-2 overflow-hidden rounded-2xl shadow-e1 sm:grid-cols-4 md:mt-20"
+          className="hero-step glass-paper mt-16 grid grid-cols-2 overflow-hidden rounded-2xl shadow-e1 sm:grid-cols-4 md:mt-20"
+          style={{ animationDelay: "0.6s" }}
         >
           {site.stats.map((s, i) => (
             <div

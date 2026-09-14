@@ -7,6 +7,7 @@ import { primaryNav } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { LinkButton } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
+import { SoundToggle } from "@/components/ui/SoundToggle";
 import { MobileNav } from "./MobileNav";
 
 function isActive(pathname: string, href: string, exact?: boolean) {
@@ -67,6 +68,7 @@ export function Header() {
         </nav>
 
         <div className="relative z-10 flex items-center gap-1">
+          <SoundToggle />
           <div className="hidden lg:block">
             <LinkButton href="/contact" size="sm">
               Start a project

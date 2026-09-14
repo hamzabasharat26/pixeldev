@@ -113,7 +113,7 @@ export default function AboutPage() {
                 <span className="showcase-img absolute inset-[-5%]">
                   <Image
                     src="/work/dock-vision-ai/cover.webp"
-                    alt="Dock Vision AI detecting a truck and a forklift on a live loading bay"
+                    alt="Dock Vision AI detecting a truck and a forklift at a loading bay"
                     fill
                     unoptimized
                     sizes="(min-width: 1024px) 560px, 100vw"
@@ -123,8 +123,8 @@ export default function AboutPage() {
               </span>
               <figcaption className="border-t border-d-line px-5 py-4 text-sm text-d-muted">
                 <span className="font-medium text-d-text">Dock Vision AI.</span>{" "}
-                First place at an IEEE Hackathon, then into production on a
-                real loading bay.
+                First place at an IEEE Hackathon, then delivered as a
+                commercial product to an international client.
               </figcaption>
             </figure>
           </Reveal>
