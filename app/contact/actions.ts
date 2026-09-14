@@ -109,12 +109,16 @@ export async function submitContact(
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL || site.email;
+  // Resend's shared test sender only delivers to the account owner and hurts
+  // deliverability. Set CONTACT_FROM_EMAIL to an address on a domain verified
+  // in Resend once DNS is in place.
+  const from = process.env.CONTACT_FROM_EMAIL || "Pixel Dev Solutions <onboarding@resend.dev>";
 
   if (apiKey) {
     try {
       const resend = new Resend(apiKey);
       const { error } = await resend.emails.send({
-        from: "Pixel Dev Solutions <onboarding@resend.dev>",
+        from,
         to,
         replyTo: email,
         subject: `New project enquiry from ${name}`,

@@ -97,7 +97,8 @@ Vercel under Settings, Environment Variables.
 | `NEXT_PUBLIC_SITE_URL` | Production | Canonical URLs, sitemap, share tags. Defaults to the domain in `content/site.ts` |
 | `RESEND_API_KEY` | To deliver email | Without it, enquiries are logged on the server instead of emailed |
 | `CONTACT_TO_EMAIL` | Optional | Where enquiries go. Defaults to the address in `content/site.ts` |
-| `FORM_TOKEN_SECRET` | Recommended | Signs the contact form token. 32+ random characters. Generate with `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"` |
+| `CONTACT_FROM_EMAIL` | To deliver email | Sender address, on a domain verified in Resend. Without it the shared test sender is used, which only reaches the Resend account owner |
+| `FORM_TOKEN_SECRET` | **Required in production** | Signs the contact form token. Without it tokens are unsigned, so anyone can mint one and the form's spam protection is down to timing alone. 32+ random characters. Generate with `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"` |
 
 ---
 
@@ -340,7 +341,8 @@ invented. Anything unconfirmed is marked `TODO(owner)`.
 ## Deploy to Vercel
 
 1. Push to GitHub and import the repository in Vercel. The framework is detected.
-2. Add the environment variables above, including a `FORM_TOKEN_SECRET`.
+2. Add the environment variables above. `FORM_TOKEN_SECRET` is required, and
+   `CONTACT_FROM_EMAIL` once a sending domain is verified in Resend.
 3. Settings, Domains: add `pixeldevsolution.tech` and `www.pixeldevsolution.tech`.
    The spelling is singular: the plural is a different, unregistered domain.
 4. At the registrar: point the apex `@` A record and the `www` CNAME at the
